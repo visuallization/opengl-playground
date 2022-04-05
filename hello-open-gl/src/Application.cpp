@@ -102,10 +102,14 @@ int main(void)
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
-    float positions[6] = {
+    float positions[] = {
         -0.5f, -0.5f,
-         0.0f,  0.5f,
-         0.5f, -0.5f
+         0.5f, -0.5f,
+         0.5f,  0.5f,
+
+         0.5f,  0.5f,
+        -0.5f,  0.5f,
+        -0.5f, -0.5f,
     };
 
     unsigned int buffer;
@@ -114,7 +118,7 @@ int main(void)
     // Select the generated buffer to work on it
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     // Feed the buffer with data
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
     // Enable vertex attribute (in this case position). If enabled, the values in the generic vertex attribute array will be accessed & used for rendering when calling OpenGL render functions.
     glEnableVertexAttribArray(0);
     // Define the layout of the data (you only have to call it once if you have only one atttribute e.g. position in your vertex)
@@ -130,7 +134,7 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
