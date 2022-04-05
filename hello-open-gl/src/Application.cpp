@@ -103,26 +103,38 @@ int main(void)
     std::cout << glGetString(GL_VERSION) << std::endl;
 
     float positions[] = {
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-         0.5f,  0.5f,
+        -0.5f, -0.5f, // 0
+         0.5f, -0.5f, // 1
+         0.5f,  0.5f, // 2
+        -0.5f,  0.5f, // 3
+    };
 
-         0.5f,  0.5f,
-        -0.5f,  0.5f,
-        -0.5f, -0.5f,
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0,
     };
 
     unsigned int buffer;
-    // Generate buffer and assign id to variable buffer
+    // Generate vertex buffer and assign id to variable buffer
     glGenBuffers(1, &buffer);
     // Select the generated buffer to work on it
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     // Feed the buffer with data
     glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
+
     // Enable vertex attribute (in this case position). If enabled, the values in the generic vertex attribute array will be accessed & used for rendering when calling OpenGL render functions.
     glEnableVertexAttribArray(0);
     // Define the layout of the data (you only have to call it once if you have only one atttribute e.g. position in your vertex)
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+
+    // index buffer object
+    unsigned int ibo;
+    // Generate index buffer and assign id to variable buffer
+    glGenBuffers(1, &ibo);
+    // Select the generated buffer to work on it
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    // Feed the buffer with data
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
     ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
@@ -134,7 +146,7 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
