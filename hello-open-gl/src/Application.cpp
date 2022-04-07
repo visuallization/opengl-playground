@@ -106,6 +106,11 @@ int main(void)
     if (!glfwInit())
         return -1;
 
+    // Set the OpenGL version explicitly
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window)
@@ -138,17 +143,25 @@ int main(void)
         2, 3, 0,
     };
 
+    // you definitely need one explicit vertex array object for opengl core profile (compat mode is providing one per default)
+    unsigned int vao;
+    // generate vertex array object
+    GLCall(glGenVertexArrays(1, &vao));
+    // Select the generated vertex array object to work on it
+    GLCall(glBindVertexArray(vao));
+
     unsigned int buffer;
     // Generate vertex buffer and assign id to variable buffer
     GLCall(glGenBuffers(1, &buffer));
     // Select the generated buffer to work on it
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
     // Feed the buffer with data
-    GLCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+    GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
     // Enable vertex attribute (in this case position). If enabled, the values in the generic vertex attribute array will be accessed & used for rendering when calling OpenGL render functions.
     GLCall(glEnableVertexAttribArray(0));
     // Define the layout of the data (you only have to call it once if you have only one atttribute e.g. position in your vertex)
+    // This line also links the buffer with the vao.
     GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
 
     // index buffer object
@@ -171,6 +184,11 @@ int main(void)
     // set uniforms of the shader after it has been activated (glUseProgram)
     GLCall(glUniform4f(location, 0, 0, 1, 1));
 
+    GLCall(glBindVertexArray(0));
+    GLCall(glUseProgram(0));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
     float red = 0.0f;
     float increment = 0.05f;
 
@@ -180,8 +198,13 @@ int main(void)
         /* Render here */
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
+        GLCall(glUseProgram(shader));
         // set uniforms per draw (not individual vertices)
-        GLCall(glUniform4f(location, red, 0, 1, 1))
+        GLCall(glUniform4f(location, red, 0, 1, 1));
+
+        GLCall(glBindVertexArray(vao));
+        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
         if (red > 1.0f) {
