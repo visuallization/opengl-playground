@@ -117,6 +117,9 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    // synchronize with refresh rate
+    glfwSwapInterval(1);
+
     if (glewInit() != GLEW_OK)
         std::cout << "Error initializing GLEW!" << std::endl;
 
@@ -161,13 +164,34 @@ int main(void)
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
     GLCall(glUseProgram(shader));
 
+    // get the index/id of the uniform
+    GLCall(int location = glGetUniformLocation(shader, "u_Color"));
+    // check if the unifrom exists in the shader
+    ASSERT(location != -1);
+    // set uniforms of the shader after it has been activated (glUseProgram)
+    GLCall(glUniform4f(location, 0, 0, 1, 1));
+
+    float red = 0.0f;
+    float increment = 0.05f;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
+        // set uniforms per draw (not individual vertices)
+        GLCall(glUniform4f(location, red, 0, 1, 1))
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+        if (red > 1.0f) {
+            increment = -0.05f;
+        }
+        else if (red < 0.0f) {
+            increment = 0.05f;
+        }
+
+        red += increment;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
