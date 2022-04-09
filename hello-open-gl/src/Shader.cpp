@@ -6,6 +6,28 @@
 
 #include "Renderer.h"
 
+Shader::Shader(const std::string& filepath): m_Filepath(filepath), m_RendererID(0) {
+    ShaderProgramSource source = ParseShader(filepath);
+    m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
+}
+
+Shader::~Shader() {
+    GLCall(glDeleteProgram(m_RendererID));
+}
+
+void Shader::Bind() const {
+    GLCall(glUseProgram(m_RendererID));
+}
+
+void Shader::Unbind() const {
+    GLCall(glUseProgram(0));
+}
+
+void Shader::SetUniform4f(const std::string& name, float x, float y, float z, float w) {
+    // set uniforms of the shader after it has been activated (glUseProgram)
+    GLCall(glUniform4f(GetUniformLocation(name), x, y, z, w));
+}
+
 ShaderProgramSource Shader::ParseShader(const std::string& filepath) {
     std::ifstream stream(filepath);
 
@@ -73,28 +95,18 @@ int Shader::CreateShader(const std::string& vertexShader, const std::string& fra
     return program;
 }
 
-Shader::Shader(const std::string& filepath) {
-    m_Source = ParseShader(filepath);
-    m_RendererID = CreateShader(m_Source.VertexSource, m_Source.FragmentSource);
-}
+int Shader::GetUniformLocation(const std::string& name) {
+    if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end()) {
+        return m_UniformLocationCache[name];
+    }
 
-Shader::~Shader() {
-    GLCall(glDeleteProgram(m_RendererID));
-}
-
-void Shader::Bind() {
-    GLCall(glUseProgram(m_RendererID));
-}
-
-void Shader::Unbind() {
-    GLCall(glUseProgram(0));
-}
-
-void Shader::Set4f(const char* uniform, float x, float y, float z, float w) {
     // get the index/id of the uniform
-    GLCall(int location = glGetUniformLocation(m_RendererID, uniform));
+    GLCall(int location = glGetUniformLocation(m_RendererID, name.c_str()));
     // check if the uniform exists in the shader
-    ASSERT(location != -1);
-    // set uniforms of the shader after it has been activated (glUseProgram)
-    GLCall(glUniform4f(location, x, y, z, w));
+    if (location == -1) {
+        std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
+    }
+    m_UniformLocationCache[name] = location;
+
+    return location;
 }

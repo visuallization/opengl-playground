@@ -72,12 +72,12 @@ int main(void)
 
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
-        shader.Set4f("u_Color", 0, 0, 1, 1);
+        shader.SetUniform4f("u_Color", 0, 0, 1, 1);
 
-        shader.Unbind();
         va.Unbind();
         vb.Unbind();
         ib.Unbind();
+        shader.Unbind();
 
         float red = 0.0f;
         float increment = 0.05f;
@@ -90,7 +90,7 @@ int main(void)
 
             shader.Bind();
             // set uniforms per draw (not individual vertices)
-            shader.Set4f("u_Color", red, 0, 1, 1);
+            shader.SetUniform4f("u_Color", red, 0, 1, 1);
 
             va.Bind();
             ib.Bind();
