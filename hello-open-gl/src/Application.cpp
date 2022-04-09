@@ -7,6 +7,8 @@
 #include <sstream>
 
 #include "Renderer.h"
+#include "VertexBufferLayout.h"
+#include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
@@ -130,19 +132,12 @@ int main(void)
         };
 
         // you definitely need one explicit vertex array object for opengl core profile (compat mode is providing one per default)
-        unsigned int vao;
-        // generate vertex array object
-        GLCall(glGenVertexArrays(1, &vao));
-        // Select the generated vertex array object to work on it
-        GLCall(glBindVertexArray(vao));
-
+        VertexArray va;
         VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
-        // Enable vertex attribute (in this case position). If enabled, the values in the generic vertex attribute array will be accessed & used for rendering when calling OpenGL render functions.
-        GLCall(glEnableVertexAttribArray(0));
-        // Define the layout of the data (you only have to call it once if you have only one atttribute e.g. position in your vertex)
-        // This line also links the buffer with the vao.
-        GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
+        VertexBufferLayout layout;
+        layout.Push<float>(2);
+        va.AddBuffer(vb, layout);
 
         IndexBuffer ib(indices, 6);
 
@@ -175,7 +170,7 @@ int main(void)
             // set uniforms per draw (not individual vertices)
             GLCall(glUniform4f(location, red, 0, 1, 1));
 
-            GLCall(glBindVertexArray(vao));
+            va.Bind();
             ib.Bind();
 
             GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
