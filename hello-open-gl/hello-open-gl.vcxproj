@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -94,6 +95,7 @@
     <None Include="res\shaders\Basic.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Renderer.h" />
