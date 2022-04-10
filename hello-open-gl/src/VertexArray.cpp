@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "VertexArray.h"
+#include "VertexBufferLayout.h"
 
 VertexArray::VertexArray() {
     // generate vertex array object
@@ -10,9 +11,9 @@ VertexArray::~VertexArray() {
     GLCall(glDeleteVertexArrays(1, &m_RendererID));
 }
 
-void VertexArray::AddBuffer(const VertexBuffer& buffer, const VertexBufferLayout& layout) {
+void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) {
     Bind();
-    buffer.Bind();
+    vb.Bind();
 
     const auto& elements = layout.GetElements();
     unsigned int offset = 0;
