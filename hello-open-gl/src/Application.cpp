@@ -12,6 +12,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -47,11 +48,12 @@ int main(void)
 
     // scope everything so it everythings gets cleaned properly before running glfwTerminate
     {
+        // positions + texture coordinates
         float positions[] = {
-            -0.5f, -0.5f, // 0
-             0.5f, -0.5f, // 1
-             0.5f,  0.5f, // 2
-            -0.5f,  0.5f, // 3
+            -0.5f, -0.5f, 0.0f, 0.0f, // 0
+             0.5f, -0.5f, 1.0f, 0.0f, // 1
+             0.5f,  0.5f, 1.0f, 1.0f, // 2
+            -0.5f,  0.5f, 0.0f, 1.0f  // 3
         };
 
         // utilize indices to reuse vertices
@@ -59,12 +61,19 @@ int main(void)
             0, 1, 2,
             2, 3, 0,
         };
+        
+        // Handle transparent textures
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+        GLCall(glEnable(GL_BLEND));
 
         // you definitely need one explicit vertex array object for opengl core profile (compat mode is providing one per default)
         VertexArray va;
-        VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
         VertexBufferLayout layout;
+        // add positions
+        layout.Push<float>(2);
+        // add texture coordinates
         layout.Push<float>(2);
         va.AddBuffer(vb, layout);
 
@@ -73,6 +82,10 @@ int main(void)
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0, 0, 1, 1);
+
+        Texture texture("res/textures/emoji.png");
+        texture.Bind();
+        shader.SetUniform1i("u_Texture", 0);
 
         va.Unbind();
         vb.Unbind();
