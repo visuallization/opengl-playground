@@ -14,6 +14,9 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 int main(void)
 {
     GLFWwindow* window;
@@ -79,9 +82,13 @@ int main(void)
 
         IndexBuffer ib(indices, 6);
 
+        // projection matrix: left edge, right edge, bottom edge, top edge, near plane, far plane
+        glm::mat4 projection = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0, 0, 1, 1);
+        shader.SetUniformMat4f("u_ModelViewProjection", projection);
 
         Texture texture("res/textures/emoji.png");
         texture.Bind();

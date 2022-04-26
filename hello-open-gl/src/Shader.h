@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "glm/glm.hpp"
+
 struct ShaderProgramSource {
 	std::string VertexSource;
 	std::string FragmentSource;
@@ -21,10 +23,11 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	// Set uniforms
+	// Set uniforms of the shader (after it has been activated by glUseProgram)
 	void SetUniform1i(const std::string& name, int value);
 	void SetUniform1f(const std::string& name, float value);
 	void SetUniform4f(const std::string& name, float x, float y, float z, float w);
+	void SetUniformMat4f(const std::string& name, glm::mat4 matrix);
 
 private:
 	ShaderProgramSource ParseShader(const std::string& filepath);
