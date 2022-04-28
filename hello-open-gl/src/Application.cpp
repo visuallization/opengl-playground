@@ -60,10 +60,10 @@ int main(void)
     {
         // positions + texture coordinates
         float positions[] = {
-            100.0f, 100.0f, 0.0f, 0.0f, // 0
-            200.0f, 100.0f, 1.0f, 0.0f, // 1
-            200.0f, 200.0f, 1.0f, 1.0f, // 2
-            100.0f, 200.0f, 0.0f, 1.0f  // 3
+            0.0f,   0.0f, 0.0f, 0.0f, // 0
+            100.0f, 0.0f, 1.0f, 0.0f, // 1
+            100.0f, 100.0f, 1.0f, 1.0f, // 2
+            0.0f,   100.0f, 0.0f, 1.0f  // 3
         };
 
         // utilize indices to reuse vertices
@@ -93,7 +93,7 @@ int main(void)
         // projection: project model coordinates to normalized device space (-1.0f - 1.0f)
         glm::mat4 projection = glm::ortho(0.0f, (float)WINDOW_WIDTH, 0.0f, (float)WINDOW_HEIGHT, -1.0f, 1.0f);
         // view: this basically simulates the camera
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
@@ -154,8 +154,7 @@ int main(void)
                 static float f = 0.0f;
 
                 ImGui::Begin("Settings"); // Create a window called "Hello, world!" and append into it.
-                ImGui::SliderFloat("x", &translation.x, 0, WINDOW_WIDTH);
-                ImGui::SliderFloat("y", &translation.y, 0, WINDOW_HEIGHT);
+                ImGui::SliderFloat2("Translation", &translation.x, 0, WINDOW_WIDTH);
 
 
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
