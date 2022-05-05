@@ -60,10 +60,10 @@ int main(void)
     {
         // positions + texture coordinates
         float positions[] = {
-            0.0f,   0.0f, 0.0f, 0.0f, // 0
-            100.0f, 0.0f, 1.0f, 0.0f, // 1
-            100.0f, 100.0f, 1.0f, 1.0f, // 2
-            0.0f,   100.0f, 0.0f, 1.0f  // 3
+            -50.0f, -50.0f, 0.0f, 0.0f, // 0
+             50.0f, -50.0f, 1.0f, 0.0f, // 1
+             50.0f,  50.0f, 1.0f, 1.0f, // 2
+            -50.0f,  50.0f, 0.0f, 1.0f  // 3
         };
 
         // utilize indices to reuse vertices
@@ -97,7 +97,6 @@ int main(void)
 
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
-        shader.SetUniform4f("u_Color", 0, 0, 1, 1);
 
         Texture texture("res/textures/emoji.png");
         texture.Bind();
@@ -115,7 +114,8 @@ int main(void)
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init();
 
-        glm::vec3 translation(200, 200, 0);
+        glm::vec3 translationA(200, 200, 0);
+        glm::vec3 translationB(400, 200, 0);
 
         float red = 0.0f;
         float increment = 0.05f;
@@ -130,16 +130,25 @@ int main(void)
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            // model: this simulates the object's transforms
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-            glm::mat4 mvp = projection * view * model;
+            {
+                // model: this simulates the object's transforms
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
+                glm::mat4 mvp = projection * view * model;
 
-            shader.Bind();
-            // set uniforms per draw (not individual vertices)
-            shader.SetUniform4f("u_Color", red, 0, 1, 1);
-            shader.SetUniformMat4f("u_MVP", mvp);
+                shader.Bind();
+                // set uniforms per draw (not individual vertices)
+                shader.SetUniformMat4f("u_MVP", mvp);
+                renderer.Draw(va, ib, shader);
+            }
 
-            renderer.Draw(va, ib, shader);
+            {
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
+                glm::mat4 mvp = projection * view * model;
+
+                shader.Bind();
+                shader.SetUniformMat4f("u_MVP", mvp);
+                renderer.Draw(va, ib, shader);
+            }
 
             if (red > 1.0f) {
                 increment = -0.05f;
@@ -154,8 +163,8 @@ int main(void)
                 static float f = 0.0f;
 
                 ImGui::Begin("Settings"); // Create a window called "Hello, world!" and append into it.
-                ImGui::SliderFloat2("Translation", &translation.x, 0, WINDOW_WIDTH);
-
+                ImGui::SliderFloat2("TranslationA", &translationA.x, 0, WINDOW_WIDTH);
+                ImGui::SliderFloat2("TranslationB", &translationB.x, 0, WINDOW_WIDTH);
 
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
                 ImGui::End();
