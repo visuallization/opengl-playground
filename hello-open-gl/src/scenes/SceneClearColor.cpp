@@ -22,9 +22,7 @@ namespace scene {
 	}
 
 	void SceneClearColor::OnImGuiRender() {
-		ImGui::Begin("Settings"); // Create a window called "Hello, world!" and append into it.
 		ImGui::ColorEdit4("Clear Color", m_ClearColor);
-		ImGui::End();
 	}
 
 }

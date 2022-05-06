@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\scenes\Scene.cpp" />
     <ClCompile Include="src\scenes\SceneClearColor.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Application.cpp" />

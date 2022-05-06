@@ -71,22 +71,34 @@ int main(void)
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init();
 
-        scene::SceneClearColor scene;
+        scene::Scene* currentScene = nullptr;
+        scene::SceneMenu* menu = new scene::SceneMenu(currentScene);
+        currentScene = menu;
+
+        menu->RegisterScene<scene::SceneClearColor>("Clear Color");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
-            /* Render here */
+            renderer.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             renderer.Clear();
-
-            scene.OnUpdate(0.0f);
-            scene.OnRender();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            scene.OnImGuiRender();
+            if (currentScene) {
+                currentScene->OnUpdate(0);
+                currentScene->OnRender();
+
+                ImGui::Begin("Settings");
+                if (currentScene != menu && ImGui::Button("<-")) {
+                    delete currentScene;
+                    currentScene = menu;
+                }
+                currentScene->OnImGuiRender();
+                ImGui::End();
+            }
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -97,6 +109,12 @@ int main(void)
             /* Poll for and process events */
             glfwPollEvents();
         }
+
+        if (currentScene != menu) {
+            delete menu;
+        }
+        delete currentScene;
+
     }
 
     ImGui_ImplOpenGL3_Shutdown();
