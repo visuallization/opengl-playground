@@ -16,6 +16,7 @@
 #include "Renderer.h"
 
 #include "scenes/SceneClearColor.h";
+#include "scenes/SceneMarchingCubes.h";
 #include "scenes/SceneTexture2D.h";
 
 const unsigned int WINDOW_WIDTH = 960;
@@ -72,6 +73,7 @@ int main(void)
 
         menu->RegisterScene<scene::SceneClearColor>("Clear Color");
         menu->RegisterScene<scene::SceneTexture2D>("2D Texture");
+        menu->RegisterScene<scene::SceneMarchingCubes>("Marching Cubes");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
