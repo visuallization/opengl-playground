@@ -23,5 +23,5 @@ private:
 public:
     void Clear() const;
     void SetClearColor(float r, float g, float b, float a) const;
-    void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+    void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader, bool drawArrays = false, unsigned int size = 0) const;
 };
