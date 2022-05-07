@@ -10,6 +10,10 @@ namespace scene {
 		m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))),
 		m_TranslationA(200, 200, 0), m_TranslationB(400, 200, 0)
 	{
+		// Handle transparent textures
+		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+		GLCall(glEnable(GL_BLEND));
+
 		// positions + texture coordinates
 		float positions[] = {
 			-50.0f, -50.0f, 0.0f, 0.0f, // 0
@@ -45,7 +49,7 @@ namespace scene {
 	}
 
 	SceneTexture2D::~SceneTexture2D() {
-
+		GLCall(glDisable(GL_BLEND));
 	}
 
 	void SceneTexture2D::OnUpdate(float deltaTime) {

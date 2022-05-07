@@ -1,5 +1,7 @@
 #include "SceneMarchingCubes.h"
 
+#include <GLFW/glfw3.h>
+
 #include "glm/gtc/matrix_transform.hpp"
 #include "imgui/imgui.h"
 
@@ -10,6 +12,9 @@ namespace scene {
 		m_Projection(glm::mat4(1.0f)),
 		m_Color(1.0f, 0.0f, 0.0f, 1.0f), m_Translation(0, 0, 0)
 	{
+		// Enable depth testing
+		GLCall(glEnable(GL_DEPTH_TEST));
+
 		float vertices[] = {
 		-100.0f, -100.0f, -100.0f,
 		 100.0f, -100.0f, -100.0f,
@@ -79,7 +84,7 @@ namespace scene {
 	}
 
 	SceneMarchingCubes::~SceneMarchingCubes() {
-
+		GLCall(glDisable(GL_DEPTH_TEST));
 	}
 
 	void SceneMarchingCubes::OnUpdate(float deltaTime) {
@@ -89,7 +94,10 @@ namespace scene {
 	void SceneMarchingCubes::OnRender() {
 		Renderer renderer;
 
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -800));
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0, 0, -800));
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
 		m_View = glm::translate(glm::mat4(1.0f), m_Translation);
 		glm::mat4 mvp = m_Projection * m_View * model;
 

@@ -56,10 +56,6 @@ int main(void)
 
     // scope everything so it everythings gets cleaned properly before running glfwTerminate
     {        
-        // Handle transparent textures
-        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-        GLCall(glEnable(GL_BLEND));
-
         Renderer renderer;
 
         ImGui::CreateContext();
