@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\scenes\SceneTexture2D.cpp" />
     <ClCompile Include="src\scenes\Scene.cpp" />
     <ClCompile Include="src\scenes\SceneClearColor.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -243,6 +244,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\scenes\SceneTexture2D.h" />
     <ClInclude Include="src\scenes\SceneClearColor.h" />
     <ClInclude Include="src\scenes\Scene.h" />
     <ClInclude Include="src\Shader.h" />

@@ -6,14 +6,6 @@
 #include <string>
 #include <sstream>
 
-#include "Renderer.h"
-#include "VertexBufferLayout.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "Shader.h"
-#include "Texture.h"
-
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -21,7 +13,10 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "Renderer.h"
+
 #include "scenes/SceneClearColor.h";
+#include "scenes/SceneTexture2D.h";
 
 const unsigned int WINDOW_WIDTH = 960;
 const unsigned int WINDOW_HEIGHT = 540;
@@ -76,6 +71,7 @@ int main(void)
         currentScene = menu;
 
         menu->RegisterScene<scene::SceneClearColor>("Clear Color");
+        menu->RegisterScene<scene::SceneTexture2D>("2D Texture");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
@@ -92,7 +88,7 @@ int main(void)
                 currentScene->OnRender();
 
                 ImGui::Begin("Settings");
-                if (currentScene != menu && ImGui::Button("<-")) {
+                if (currentScene != menu && ImGui::Button("<")) {
                     delete currentScene;
                     currentScene = menu;
                 }
