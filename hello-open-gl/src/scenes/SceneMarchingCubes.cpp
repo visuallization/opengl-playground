@@ -92,7 +92,7 @@ namespace scene {
 		m_LightShader->SetUniformVec4f("u_Color", m_LightColor);
 		m_LightShader->Unbind();
 
-		m_Projection = glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, -1.f, 1.f);
+		m_Projection = glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, 1.f, -1.0f);
 	}
 
 	SceneMarchingCubes::~SceneMarchingCubes() {
@@ -139,7 +139,8 @@ namespace scene {
 
 	void SceneMarchingCubes::OnImGuiRender() {
 		ImGui::ColorEdit4("Color", &m_Color[0]);
-		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -800, m_Width);
+		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -1000, m_Width);
+		ImGui::SliderFloat3("Light", &m_LightPosition[0], -1000, m_Width);
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	}
 }
