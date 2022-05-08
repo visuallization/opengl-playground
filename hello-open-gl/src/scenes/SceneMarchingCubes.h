@@ -36,9 +36,11 @@ namespace scene {
 		std::unique_ptr<VertexBuffer> m_VBO;
 		std::unique_ptr<IndexBuffer> m_IBO;
 		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<Shader> m_LightShader;
 
 		glm::vec4 m_Color;
-		glm::vec3 m_Translation;
+		glm::vec4 m_LightColor;
+		glm::vec3 m_CameraTranslation;
 	};
 }
 

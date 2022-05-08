@@ -10,7 +10,7 @@ namespace scene {
 		m_Width(width), m_Height(height),
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
-		m_Color(1.0f, 0.0f, 0.0f, 1.0f), m_Translation(0, 0, 0)
+		m_Color(1.0f, 0.5f, 0.3f, 1.0f), m_LightColor(1.0f, 1.0f, 1.0f, 1.0f), m_CameraTranslation(0, 0, 0)
 	{
 		// Enable depth testing
 		GLCall(glEnable(GL_DEPTH_TEST));
@@ -79,6 +79,13 @@ namespace scene {
 		m_Shader = std::make_unique<Shader>("res/shaders/Marching.shader");
 		m_Shader->Bind();
 		m_Shader->SetUniformVec4f("u_Color", m_Color);
+		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
+		m_Shader->Unbind();
+
+		m_LightShader = std::make_unique<Shader>("res/shaders/Light.shader");
+		m_LightShader->Bind();
+		m_LightShader->SetUniformVec4f("u_Color", m_LightColor);
+		m_LightShader->Unbind();
 
 		m_Projection = glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, -1.f, 1.f);
 	}
@@ -94,23 +101,36 @@ namespace scene {
 	void SceneMarchingCubes::OnRender() {
 		Renderer renderer;
 
+		// cube
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0, 0, -800));
 		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
-		m_View = glm::translate(glm::mat4(1.0f), m_Translation);
+		m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
 		glm::mat4 mvp = m_Projection * m_View * model;
 
 		m_Shader->Bind();
-		m_Shader->SetUniformVec4f("u_Color", m_Color);
 		m_Shader->SetUniformMat4f("u_MVP", mvp);
-
+		m_Shader->SetUniformVec4f("u_Color", m_Color);
+		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
 		renderer.Draw(*m_VAO, *m_IBO, *m_Shader, true, 36);
+		m_Shader->Unbind();
+
+		// light
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(300, 200, -800));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		mvp = m_Projection * m_View * model;
+		m_LightShader->Bind();
+		m_LightShader->SetUniformMat4f("u_MVP", mvp);
+		m_LightShader->SetUniformVec4f("u_Color", m_LightColor);
+		renderer.Draw(*m_VAO, *m_IBO, *m_LightShader, true, 36);
+		m_LightShader->Unbind();
 	}
 
 	void SceneMarchingCubes::OnImGuiRender() {
 		ImGui::ColorEdit4("Color", &m_Color[0]);
-		ImGui::SliderFloat3("Camera", &m_Translation[0], -800, m_Width);
+		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -800, m_Width);
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	}
 }
