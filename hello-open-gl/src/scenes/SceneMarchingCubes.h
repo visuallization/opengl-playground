@@ -40,6 +40,7 @@ namespace scene {
 
 		glm::vec4 m_Color;
 		glm::vec4 m_LightColor;
+		glm::vec3 m_LightPosition;
 		float m_AmbientStrength;
 
 		glm::vec3 m_CameraTranslation;

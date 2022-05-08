@@ -10,7 +10,7 @@ namespace scene {
 		m_Width(width), m_Height(height),
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
-		m_Color(1.0f, 0.5f, 0.3f, 1.0f), m_LightColor(1.0f, 1.0f, 1.0f, 1.0f), m_AmbientStrength(0.1f),
+		m_Color(1.0f, 0.5f, 0.3f, 1.0f), m_LightColor(1.0f, 1.0f, 1.0f, 1.0f), m_LightPosition(300.0f, 200.0f, -800.0f), m_AmbientStrength(0.1f),
 		m_CameraTranslation(0, 0, 0)
 	{
 		// Enable depth testing
@@ -120,19 +120,20 @@ namespace scene {
 		m_Shader->SetUniformMat4f("u_Model", model);
 		m_Shader->SetUniformVec4f("u_Color", m_Color);
 		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
-		renderer.Draw(*m_VAO, *m_IBO, *m_Shader, true, 36);
+		m_Shader->SetUniformVec3f("u_LightPosition", m_LightPosition);
+		renderer.DrawArrays(*m_VAO, *m_Shader, 36);
 		m_Shader->Unbind();
 
 		// light
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(300, 200, -800));
+		model = glm::translate(model, m_LightPosition);
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 		m_LightShader->Bind();
 		m_LightShader->SetUniformMat4f("u_Projection", m_Projection);
 		m_LightShader->SetUniformMat4f("u_View", m_View);
 		m_LightShader->SetUniformMat4f("u_Model", model);
 		m_LightShader->SetUniformVec4f("u_Color", m_LightColor);
-		renderer.Draw(*m_VAO, *m_IBO, *m_LightShader, true, 36);
+		renderer.DrawArrays(*m_VAO, *m_LightShader, 36);
 		m_LightShader->Unbind();
 	}
 
