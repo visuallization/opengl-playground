@@ -10,7 +10,8 @@ namespace scene {
 		m_Width(width), m_Height(height),
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
-		m_Color(1.0f, 0.5f, 0.3f, 1.0f), m_LightColor(1.0f, 1.0f, 1.0f, 1.0f), m_CameraTranslation(0, 0, 0)
+		m_Color(1.0f, 0.5f, 0.3f, 1.0f), m_LightColor(1.0f, 1.0f, 1.0f, 1.0f), m_AmbientStrength(0.1f),
+		m_CameraTranslation(0, 0, 0)
 	{
 		// Enable depth testing
 		GLCall(glEnable(GL_DEPTH_TEST));
@@ -80,6 +81,7 @@ namespace scene {
 		m_Shader->Bind();
 		m_Shader->SetUniformVec4f("u_Color", m_Color);
 		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
+		m_Shader->SetUniform1f("u_AmbientStrength", m_AmbientStrength);
 		m_Shader->Unbind();
 
 		m_LightShader = std::make_unique<Shader>("res/shaders/Light.shader");
