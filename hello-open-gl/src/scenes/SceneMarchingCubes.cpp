@@ -16,48 +16,49 @@ namespace scene {
 		// Enable depth testing
 		GLCall(glEnable(GL_DEPTH_TEST));
 
+		// positions (3) + normals (3)
 		float vertices[] = {
-		-100.0f, -100.0f, -100.0f,
-		 100.0f, -100.0f, -100.0f,
-		 100.0f,  100.0f, -100.0f,
-		 100.0f,  100.0f, -100.0f,
-		-100.0f,  100.0f, -100.0f,
-		-100.0f, -100.0f, -100.0f,
+			-100.0f, -100.0f, -100.0f,  0.0f,  0.0f, -1.0f,
+			 100.0f, -100.0f, -100.0f,  0.0f,  0.0f, -1.0f,
+			 100.0f,  100.0f, -100.0f,  0.0f,  0.0f, -1.0f,
+			 100.0f,  100.0f, -100.0f,  0.0f,  0.0f, -1.0f,
+			-100.0f,  100.0f, -100.0f,  0.0f,  0.0f, -1.0f,
+			-100.0f, -100.0f, -100.0f,  0.0f,  0.0f, -1.0f,
 
-		-100.0f, -100.0f,  100.0f,
-		 100.0f, -100.0f,  100.0f,
-		 100.0f,  100.0f,  100.0f,
-		 100.0f,  100.0f,  100.0f,
-		-100.0f,  100.0f,  100.0f,
-		-100.0f, -100.0f,  100.0f,
+			-100.0f, -100.0f,  100.0f,  0.0f,  0.0f, 1.0f,
+			 100.0f, -100.0f,  100.0f,  0.0f,  0.0f, 1.0f,
+			 100.0f,  100.0f,  100.0f,  0.0f,  0.0f, 1.0f,
+			 100.0f,  100.0f,  100.0f,  0.0f,  0.0f, 1.0f,
+			-100.0f,  100.0f,  100.0f,  0.0f,  0.0f, 1.0f,
+			-100.0f, -100.0f,  100.0f,  0.0f,  0.0f, 1.0f,
 
-		-100.0f,  100.0f,  100.0f,
-		-100.0f,  100.0f, -100.0f,
-		-100.0f, -100.0f, -100.0f,
-		-100.0f, -100.0f, -100.0f,
-		-100.0f, -100.0f,  100.0f,
-		-100.0f,  100.0f,  100.0f,
+			-100.0f,  100.0f,  100.0f, -1.0f,  0.0f,  0.0f,
+			-100.0f,  100.0f, -100.0f, -1.0f,  0.0f,  0.0f,
+			-100.0f, -100.0f, -100.0f, -1.0f,  0.0f,  0.0f,
+			-100.0f, -100.0f, -100.0f, -1.0f,  0.0f,  0.0f,
+			-100.0f, -100.0f,  100.0f, -1.0f,  0.0f,  0.0f,
+			-100.0f,  100.0f,  100.0f, -1.0f,  0.0f,  0.0f,
 
-		 100.0f,  100.0f,  100.0f,
-		 100.0f,  100.0f, -100.0f,
-		 100.0f, -100.0f, -100.0f,
-		 100.0f, -100.0f, -100.0f,
-		 100.0f, -100.0f,  100.0f,
-		 100.0f,  100.0f,  100.0f,
+			 100.0f,  100.0f,  100.0f,  1.0f,  0.0f,  0.0f,
+			 100.0f,  100.0f, -100.0f,  1.0f,  0.0f,  0.0f,
+			 100.0f, -100.0f, -100.0f,  1.0f,  0.0f,  0.0f,
+			 100.0f, -100.0f, -100.0f,  1.0f,  0.0f,  0.0f,
+			 100.0f, -100.0f,  100.0f,  1.0f,  0.0f,  0.0f,
+			 100.0f,  100.0f,  100.0f,  1.0f,  0.0f,  0.0f,
 
-		-100.0f, -100.0f, -100.0f,
-		 100.0f, -100.0f, -100.0f,
-		 100.0f, -100.0f,  100.0f,
-		 100.0f, -100.0f,  100.0f,
-		-100.0f, -100.0f,  100.0f,
-		-100.0f, -100.0f, -100.0f,
+			-100.0f, -100.0f, -100.0f,  0.0f, -1.0f,  0.0f,
+			 100.0f, -100.0f, -100.0f,  0.0f, -1.0f,  0.0f,
+			 100.0f, -100.0f,  100.0f,  0.0f, -1.0f,  0.0f,
+			 100.0f, -100.0f,  100.0f,  0.0f, -1.0f,  0.0f,
+			-100.0f, -100.0f,  100.0f,  0.0f, -1.0f,  0.0f,
+			-100.0f, -100.0f, -100.0f,  0.0f, -1.0f,  0.0f,
 
-		-100.0f,  100.0f, -100.0f,
-		 100.0f,  100.0f, -100.0f,
-		 100.0f,  100.0f,  100.0f,
-		 100.0f,  100.0f,  100.0f,
-		-100.0f,  100.0f,  100.0f,
-		-100.0f,  100.0f, -100.0f,
+			-100.0f,  100.0f, -100.0f,  0.0f,  1.0f,  0.0f,
+			 100.0f,  100.0f, -100.0f,  0.0f,  1.0f,  0.0f,
+			 100.0f,  100.0f,  100.0f,  0.0f,  1.0f,  0.0f,
+			 100.0f,  100.0f,  100.0f,  0.0f,  1.0f,  0.0f,
+			-100.0f,  100.0f,  100.0f,  0.0f,  1.0f,  0.0f,
+			-100.0f,  100.0f, -100.0f,  0.0f,  1.0f,  0.0f
 		};
 
 		// utilize indices to reuse vertices
@@ -72,6 +73,8 @@ namespace scene {
 
 		VertexBufferLayout layout;
 		// add positions
+		layout.Push<float>(3);
+		// add normals
 		layout.Push<float>(3);
 		m_VAO->AddBuffer(*m_VBO, layout);
 
@@ -103,16 +106,18 @@ namespace scene {
 	void SceneMarchingCubes::OnRender() {
 		Renderer renderer;
 
+		// camera
+		m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
+
 		// cube
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0, 0, -800));
 		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
-		m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
-		glm::mat4 mvp = m_Projection * m_View * model;
-
 		m_Shader->Bind();
-		m_Shader->SetUniformMat4f("u_MVP", mvp);
+		m_Shader->SetUniformMat4f("u_Projection", m_Projection);
+		m_Shader->SetUniformMat4f("u_View", m_View);
+		m_Shader->SetUniformMat4f("u_Model", model);
 		m_Shader->SetUniformVec4f("u_Color", m_Color);
 		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
 		renderer.Draw(*m_VAO, *m_IBO, *m_Shader, true, 36);
@@ -122,9 +127,10 @@ namespace scene {
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(300, 200, -800));
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		mvp = m_Projection * m_View * model;
 		m_LightShader->Bind();
-		m_LightShader->SetUniformMat4f("u_MVP", mvp);
+		m_LightShader->SetUniformMat4f("u_Projection", m_Projection);
+		m_LightShader->SetUniformMat4f("u_View", m_View);
+		m_LightShader->SetUniformMat4f("u_Model", model);
 		m_LightShader->SetUniformVec4f("u_Color", m_LightColor);
 		renderer.Draw(*m_VAO, *m_IBO, *m_LightShader, true, 36);
 		m_LightShader->Unbind();
