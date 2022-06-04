@@ -17,10 +17,10 @@ namespace scene {
 
 		// vertex position + vertex color
 		float vertices[] = {
-			-100.0f, -100.0f, -100.0f,
-			100.0f, -100.0f, -100.0f,
-			100.0f,  100.0f, -100.0f,
-			-100.0f,  100.0f, -100.0f
+			-100.0f, -100.0f, -100.0f,	1.0f, 0.0f, 0.0f,
+			100.0f, -100.0f, -100.0f,	0.0f, 1.0f, 0.0f,
+			100.0f,  100.0f, -100.0f,	0.0f, 0.0f, 1.0f,
+			-100.0f,  100.0f, -100.0f,	1.0f, 1.0f, 1.0f
 		};
 
 		m_VAO = std::make_unique<VertexArray>();
@@ -28,6 +28,8 @@ namespace scene {
 
 		VertexBufferLayout layout;
 		// add positions
+		layout.Push<float>(3);
+		// add color
 		layout.Push<float>(3);
 
 		m_VAO->AddBuffer(*m_VBO, layout);

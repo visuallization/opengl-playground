@@ -2,6 +2,9 @@
 #version 330 core
 
 layout(location = 0) in vec4 position;
+layout(location = 1) in vec4 color;
+
+out vec4 Color;
 
 uniform mat4 u_View;
 uniform mat4 u_Projection;
@@ -10,12 +13,15 @@ uniform float u_PointSize;
 void main() {
 	gl_Position = u_Projection * u_View * position;
 	gl_PointSize = u_PointSize;
+	Color = color;
 };
 
 #shader fragment
 #version 330 core
 
 layout(location = 0) out vec4 color;
+
+in vec4 Color;
 
 void main() {
 	// draw points
@@ -24,5 +30,5 @@ void main() {
 		discard;
 	}
 
-	color = vec4(1, 0, 0, 1);
+	color = Color;
 };
