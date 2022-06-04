@@ -15,10 +15,10 @@
 #include "VertexBufferLayout.h"
 
 namespace scene {
-	class SceneMarchingCubes: public Scene {
+	class SceneCube: public Scene {
 	public:
-		SceneMarchingCubes(const unsigned int width = 960, const unsigned int height = 540);
-		~SceneMarchingCubes() override;
+		SceneCube(const unsigned int width = 960, const unsigned int height = 540);
+		~SceneCube() override;
 
 		void OnUpdate(float deltaTime) override;
 		void OnRender() override;

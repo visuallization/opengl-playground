@@ -84,7 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\scenes\SceneMarchingCubes.cpp" />
+    <ClCompile Include="src\scenes\SceneCube.cpp" />
     <ClCompile Include="src\scenes\SceneTexture2D.cpp" />
     <ClCompile Include="src\scenes\Scene.cpp" />
     <ClCompile Include="src\scenes\SceneClearColor.cpp" />
@@ -108,7 +108,7 @@
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
     <None Include="res\shaders\Light.shader" />
-    <None Include="res\shaders\Marching.shader" />
+    <None Include="res\shaders\Cube.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
     <None Include="src\vendor\glm\detail\func_exponential.inl" />
@@ -247,7 +247,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\scenes\SceneMarchingCubes.h" />
+    <ClInclude Include="src\scenes\SceneCube.h" />
     <ClInclude Include="src\scenes\SceneTexture2D.h" />
     <ClInclude Include="src\scenes\SceneClearColor.h" />
     <ClInclude Include="src\scenes\Scene.h" />

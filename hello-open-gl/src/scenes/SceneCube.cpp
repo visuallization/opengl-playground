@@ -1,4 +1,4 @@
-#include "SceneMarchingCubes.h"
+#include "SceneCube.h"
 
 #include <GLFW/glfw3.h>
 
@@ -6,7 +6,7 @@
 #include "imgui/imgui.h"
 
 namespace scene {
-	SceneMarchingCubes::SceneMarchingCubes(const unsigned int width, const unsigned int height) :
+	SceneCube::SceneCube(const unsigned int width, const unsigned int height) :
 		m_Width(width), m_Height(height),
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
@@ -80,7 +80,7 @@ namespace scene {
 
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
-		m_Shader = std::make_unique<Shader>("res/shaders/Marching.shader");
+		m_Shader = std::make_unique<Shader>("res/shaders/Cube.shader");
 		m_Shader->Bind();
 		m_Shader->SetUniformVec4f("u_Color", m_Color);
 		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
@@ -95,15 +95,15 @@ namespace scene {
 		m_Projection = glm::perspective(glm::radians(45.0f), (float)m_Width / (float)m_Height, 1.f, -1.0f);
 	}
 
-	SceneMarchingCubes::~SceneMarchingCubes() {
+	SceneCube::~SceneCube() {
 		GLCall(glDisable(GL_DEPTH_TEST));
 	}
 
-	void SceneMarchingCubes::OnUpdate(float deltaTime) {
+	void SceneCube::OnUpdate(float deltaTime) {
 
 	}
 
-	void SceneMarchingCubes::OnRender() {
+	void SceneCube::OnRender() {
 		Renderer renderer;
 
 		// camera
@@ -137,7 +137,7 @@ namespace scene {
 		m_LightShader->Unbind();
 	}
 
-	void SceneMarchingCubes::OnImGuiRender() {
+	void SceneCube::OnImGuiRender() {
 		ImGui::ColorEdit4("Color", &m_Color[0]);
 		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -1000, m_Width);
 		ImGui::SliderFloat3("Light", &m_LightPosition[0], -1000, m_Width);

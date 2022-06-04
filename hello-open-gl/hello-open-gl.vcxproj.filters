@@ -72,7 +72,7 @@
     <ClCompile Include="src\scenes\SceneTexture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\scenes\SceneMarchingCubes.cpp">
+    <ClCompile Include="src\scenes\SceneCube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -486,7 +486,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="res\shaders\Marching.shader" />
+    <None Include="res\shaders\Cube.shader" />
     <None Include="res\shaders\Light.shader" />
   </ItemGroup>
   <ItemGroup>
@@ -1396,7 +1396,7 @@
     <ClInclude Include="src\scenes\SceneTexture2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scenes\SceneMarchingCubes.h">
+    <ClInclude Include="src\scenes\SceneCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
