@@ -11,6 +11,9 @@ namespace scene {
 		m_Projection(glm::mat4(1.0f)),
 		m_CameraTranslation(0, 0, 0) 
 	{
+		// Enable point sprite
+		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
+
 		// vertex position + vertex color
 		float vertices[] = {
 			-100.0f, -100.0f, -100.0f,
@@ -37,7 +40,9 @@ namespace scene {
 		m_Projection = glm::perspective(glm::radians(45.f), width / height, 1.f, -1.0f);
 	}
 
-	ScenePoint::~ScenePoint() {}
+	ScenePoint::~ScenePoint() {
+		GLCall(glDisable(GL_VERTEX_PROGRAM_POINT_SIZE));
+	}
 
 	void ScenePoint::OnUpdate(float deltaTime) {}
 
