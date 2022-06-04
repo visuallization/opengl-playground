@@ -1,5 +1,9 @@
 #include "ScenePoint.h"
 
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
 #include "glm/gtc/matrix_transform.hpp"
 #include "imgui/imgui.h"
 
@@ -16,15 +20,10 @@ namespace scene {
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
 
 		// vertex position + vertex color
-		float vertices[] = {
-			-100.0f, -100.0f, -100.0f,	1.0f, 0.0f, 0.0f,
-			100.0f, -100.0f, -100.0f,	0.0f, 1.0f, 0.0f,
-			100.0f,  100.0f, -100.0f,	0.0f, 0.0f, 1.0f,
-			-100.0f,  100.0f, -100.0f,	1.0f, 1.0f, 1.0f
-		};
+		m_Vertices = ParsePTS("res/models/model.pts");
 
 		m_VAO = std::make_unique<VertexArray>();
-		m_VBO = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
+		m_VBO = std::make_unique<VertexBuffer>(&m_Vertices[0], m_Vertices.size() * sizeof(float));
 
 		VertexBufferLayout layout;
 		// add positions
@@ -59,12 +58,50 @@ namespace scene {
 		m_Shader->SetUniformMat4f("u_Projection", m_Projection);
 		m_Shader->SetUniformMat4f("u_View", m_View);
 		m_Shader->SetUniform1f("u_PointSize", m_PointSize);
-		renderer.DrawPoints(*m_VAO, *m_Shader, 4);
+		renderer.DrawPoints(*m_VAO, *m_Shader, m_Vertices.size() / 6);
 		m_Shader->Unbind();
 	}
 
 	void ScenePoint::OnImGuiRender() {
 		ImGui::SliderFloat("Point Size", &m_PointSize, 0, 100);
-		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -1000, 1000);
+		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -100, 100);
+	}
+
+	std::vector<float> scene::ScenePoint::ParsePTS(const std::string& filePath) const
+	{
+		std::vector<float> vertices;
+
+		std::ifstream stream(filePath);
+		std::string line;
+		std::stringstream ss;
+
+		while (getline(stream, line))
+		{
+			int i = 0;
+			int start = 0;
+			int end = line.find(" ");
+			while (end != -1) {
+				float value = std::stof(line.substr(start, end - start));
+
+				// map colors between 0 - 1
+				if (i > 2) {
+					value = value / 255.0f;
+				}
+
+				vertices.push_back(value);
+
+				start = end + 1;
+				end = line.find(" ", start);
+
+				i++;
+			}
+
+			float value = std::stof(line.substr(start, end - start));
+			// map colors between 0 - 1
+			value = value / 255.0f;
+			vertices.push_back(value);
+		}
+
+		return vertices;
 	}
 }

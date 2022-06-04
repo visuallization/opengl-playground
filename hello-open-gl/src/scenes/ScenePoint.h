@@ -18,6 +18,8 @@ namespace scene {
 		void OnImGuiRender() override;
 
 	private:
+		std::vector<float> ParsePTS(const std::string& filePath) const;
+
 		std::unique_ptr<Shader> m_Shader;
 
 		std::unique_ptr<VertexArray> m_VAO;
@@ -25,6 +27,8 @@ namespace scene {
 
 		glm::mat4 m_View;
 		glm::mat4 m_Projection;
+
+		std::vector<float> m_Vertices;
 
 		glm::vec3 m_CameraTranslation;
 		float m_PointSize;

@@ -492,6 +492,7 @@
     <None Include="res\shaders\Cube.shader" />
     <None Include="res\shaders\Light.shader" />
     <None Include="res\shaders\Point.shader" />
+    <None Include="..\..\notes\model-for-project\model.pts" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
