@@ -9,7 +9,8 @@ namespace scene {
 	ScenePoint::ScenePoint() :
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
-		m_CameraTranslation(0, 0, 0) 
+		m_CameraTranslation(0, 0, 0),
+		m_PointSize(32.0f)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -55,11 +56,13 @@ namespace scene {
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4f("u_Projection", m_Projection);
 		m_Shader->SetUniformMat4f("u_View", m_View);
+		m_Shader->SetUniform1f("u_PointSize", m_PointSize);
 		renderer.DrawPoints(*m_VAO, *m_Shader, 4);
 		m_Shader->Unbind();
 	}
 
 	void ScenePoint::OnImGuiRender() {
+		ImGui::SliderFloat("Point Size", &m_PointSize, 0, 100);
 		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], -1000, 1000);
 	}
 }

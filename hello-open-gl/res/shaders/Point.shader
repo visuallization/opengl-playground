@@ -5,12 +5,12 @@ layout(location = 0) in vec4 position;
 
 uniform mat4 u_View;
 uniform mat4 u_Projection;
+uniform float u_PointSize;
 
 void main() {
 	gl_Position = u_Projection * u_View * position;
-	//gl_Position = position;
 
-	gl_PointSize = 64.0;
+	gl_PointSize = u_PointSize;
 };
 
 #shader fragment

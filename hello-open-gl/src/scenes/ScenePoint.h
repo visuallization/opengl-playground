@@ -27,5 +27,6 @@ namespace scene {
 		glm::mat4 m_Projection;
 
 		glm::vec3 m_CameraTranslation;
+		float m_PointSize;
 	};
 }
