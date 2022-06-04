@@ -61,14 +61,7 @@ namespace scene {
 			-100.0f,  100.0f, -100.0f,  0.0f,  1.0f,  0.0f
 		};
 
-		// utilize indices to reuse vertices
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0,
-		};
-
 		m_VAO = std::make_unique<VertexArray>();
-
 		m_VBO = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
 
 		VertexBufferLayout layout;
@@ -77,8 +70,6 @@ namespace scene {
 		// add normals
 		layout.Push<float>(3);
 		m_VAO->AddBuffer(*m_VBO, layout);
-
-		m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
 		m_Shader = std::make_unique<Shader>("res/shaders/Cube.shader");
 		m_Shader->Bind();

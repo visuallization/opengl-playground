@@ -27,7 +27,7 @@ void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& 
     shader.Bind();
     va.Bind();
     ib.Bind();
-    GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
+    GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr))
 }
 
 
@@ -35,4 +35,10 @@ void Renderer::DrawArrays(const VertexArray & va, const Shader & shader, unsigne
     shader.Bind();
     va.Bind();
     GLCall(glDrawArrays(GL_TRIANGLES, 0, size));
+}
+
+void Renderer::DrawPoints(const VertexArray& va, const Shader& shader, unsigned int size) const {
+    shader.Bind();
+    va.Bind();
+    GLCall(glDrawArrays(GL_POINTS, 0, size));
 }

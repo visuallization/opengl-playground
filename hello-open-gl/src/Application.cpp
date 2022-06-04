@@ -17,6 +17,7 @@
 
 #include "scenes/SceneClearColor.h";
 #include "scenes/SceneCube.h";
+#include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
 
 const unsigned int WINDOW_WIDTH = 960;
@@ -70,6 +71,7 @@ int main(void)
         menu->RegisterScene<scene::SceneClearColor>("Clear Color");
         menu->RegisterScene<scene::SceneTexture2D>("2D Texture");
         menu->RegisterScene<scene::SceneCube>("3D Cube");
+        menu->RegisterScene<scene::ScenePoint>("Point Rendering");
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
