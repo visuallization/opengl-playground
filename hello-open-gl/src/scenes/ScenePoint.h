@@ -25,12 +25,14 @@ namespace scene {
 		std::unique_ptr<VertexArray> m_VAO;
 		std::unique_ptr<VertexBuffer> m_VBO;
 
+		glm::mat4 m_Model;
 		glm::mat4 m_View;
 		glm::mat4 m_Projection;
 
 		std::vector<float> m_Vertices;
 
 		glm::vec3 m_CameraTranslation;
+		glm::vec3 m_Rotation;
 		float m_PointSize;
 	};
 }

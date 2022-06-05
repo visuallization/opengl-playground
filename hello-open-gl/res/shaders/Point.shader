@@ -6,12 +6,13 @@ layout(location = 1) in vec4 color;
 
 out vec4 Color;
 
+uniform mat4 u_Model;
 uniform mat4 u_View;
 uniform mat4 u_Projection;
 uniform float u_PointSize;
 
 void main() {
-	gl_Position = u_Projection * u_View * position;
+	gl_Position = u_Projection * u_View * u_Model * position;
 	gl_PointSize = u_PointSize;
 	Color = color;
 };
