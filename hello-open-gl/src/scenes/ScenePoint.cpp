@@ -14,7 +14,7 @@ namespace scene {
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
 		m_CameraTranslation(0, 0, 0),
-		m_PointSize(32.0f)
+		m_PointSize(1.0f)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -73,33 +73,23 @@ namespace scene {
 
 		std::ifstream stream(filePath);
 		std::string line;
-		std::stringstream ss;
 
 		while (getline(stream, line))
 		{
-			int i = 0;
-			int start = 0;
-			int end = line.find(" ");
-			while (end != -1) {
-				float value = std::stof(line.substr(start, end - start));
+			std::stringstream ss(line);
+			std::string value;
+			int i = 1;
 
-				// map colors between 0 - 1
-				if (i > 2) {
-					value = value / 255.0f;
+			while (ss >> value) {
+				float number = std::stof(value);
+
+				if (i > 3) {
+					number = number / 255.0f;
 				}
 
-				vertices.push_back(value);
-
-				start = end + 1;
-				end = line.find(" ", start);
-
+				vertices.push_back(number);
 				i++;
 			}
-
-			float value = std::stof(line.substr(start, end - start));
-			// map colors between 0 - 1
-			value = value / 255.0f;
-			vertices.push_back(value);
 		}
 
 		return vertices;
