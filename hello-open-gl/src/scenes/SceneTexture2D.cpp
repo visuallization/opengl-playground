@@ -4,9 +4,9 @@
 #include "imgui/imgui.h"
 
 namespace scene {
-	SceneTexture2D::SceneTexture2D(const unsigned int width, const unsigned int height):
-		m_Width(width), m_Height(height),
-		m_Projection(glm::ortho(0.0f, (float)width, 0.0f, (float)height, -1.0f, 1.0f)),
+	SceneTexture2D::SceneTexture2D(GLFWwindow*& window):
+		Scene::Scene(window),
+		m_Projection(glm::ortho(0.0f, (float)m_Width, 0.0f, (float)m_Height, -1.0f, 1.0f)),
 		m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))),
 		m_TranslationA(200, 200, 0), m_TranslationB(400, 200, 0)
 	{

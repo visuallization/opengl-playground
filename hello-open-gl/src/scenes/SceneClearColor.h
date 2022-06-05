@@ -5,7 +5,7 @@
 namespace scene {
 	class SceneClearColor : public Scene {
 	public:
-		SceneClearColor();
+		SceneClearColor(GLFWwindow*& window);
 		~SceneClearColor();
 
 		void OnUpdate(float deltaTime) override;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
 
 #include "Scene.h"
@@ -10,7 +11,7 @@
 namespace scene {
 	class ScenePoint : public Scene {
 	public:
-		ScenePoint();
+		ScenePoint(GLFWwindow*& window);
 		~ScenePoint();
 
 		void OnUpdate(float deltaTime) override;
@@ -19,6 +20,7 @@ namespace scene {
 
 	private:
 		std::vector<float> ParsePTS(const std::string& filePath) const;
+		void ProcessInput(GLFWwindow* window);
 
 		std::unique_ptr<Shader> m_Shader;
 
@@ -31,8 +33,12 @@ namespace scene {
 
 		std::vector<float> m_Vertices;
 
-		glm::vec3 m_CameraTranslation;
 		glm::vec3 m_Rotation;
 		float m_PointSize;
+
+		glm::vec3 m_CameraPosition;
+		glm::vec3 m_CameraFront;
+		glm::vec3 m_CameraUp;
+		float m_CameraSpeed;
 	};
 }

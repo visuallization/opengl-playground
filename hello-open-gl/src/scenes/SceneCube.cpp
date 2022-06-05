@@ -6,8 +6,8 @@
 #include "imgui/imgui.h"
 
 namespace scene {
-	SceneCube::SceneCube(const unsigned int width, const unsigned int height) :
-		m_Width(width), m_Height(height),
+	SceneCube::SceneCube(GLFWwindow*& window) :
+		Scene::Scene(window),
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
 		m_Color(1.0f, 0.5f, 0.3f, 1.0f), m_LightColor(1.0f, 1.0f, 1.0f, 1.0f), m_LightPosition(300.0f, 200.0f, -800.0f), m_AmbientStrength(0.1f),

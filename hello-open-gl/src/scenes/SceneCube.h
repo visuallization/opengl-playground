@@ -17,7 +17,7 @@
 namespace scene {
 	class SceneCube: public Scene {
 	public:
-		SceneCube(const unsigned int width = 960, const unsigned int height = 540);
+		SceneCube(GLFWwindow*& window);
 		~SceneCube() override;
 
 		void OnUpdate(float deltaTime) override;
@@ -26,9 +26,6 @@ namespace scene {
 
 
 	private:
-		unsigned int m_Width;
-		unsigned int m_Height;
-
 		glm::mat4 m_Projection;
 		glm::mat4 m_View;
 

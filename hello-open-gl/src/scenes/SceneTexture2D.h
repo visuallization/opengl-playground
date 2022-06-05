@@ -17,7 +17,7 @@
 namespace scene {
 	class SceneTexture2D: public Scene {
 	public:
-		SceneTexture2D(const unsigned int width = 960, const unsigned int height = 540);
+		SceneTexture2D(GLFWwindow*& window);
 		~SceneTexture2D() override;
 
 		void OnUpdate(float deltaTime) override;
@@ -26,9 +26,6 @@ namespace scene {
 
 
 	private:
-		unsigned int m_Width;
-		unsigned int m_Height;
-
 		glm::vec3 m_TranslationA;
 		glm::vec3 m_TranslationB;
 

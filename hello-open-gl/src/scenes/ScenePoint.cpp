@@ -1,5 +1,3 @@
-#include "ScenePoint.h"
-
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -9,23 +7,26 @@
 
 #include "VertexBufferLayout.h"
 
-#include <GLFW/glfw3.h>
+#include "ScenePoint.h"
 
 
 namespace scene {
-	ScenePoint::ScenePoint() :
+	ScenePoint::ScenePoint(GLFWwindow*& window) :
+		Scene::Scene(window),
 		m_Model(glm::mat4(1.0f)),
 		m_View(glm::mat4(1.0f)),
 		m_Projection(glm::mat4(1.0f)),
-		m_Rotation(282, 360, 130),
-		m_CameraTranslation(14, 20, 35),
-		m_PointSize(1.0f)
+		m_Rotation(0, 0, 0),
+		m_PointSize(1.0f),
+		m_CameraPosition(0.0f, 0.0f, 50.0f),
+		m_CameraFront(0.0f, 0.0f, -1.0f),
+		m_CameraUp(0.0f, 1.0f, 0.0f),
+		m_CameraSpeed(0.5f)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
-
 		// vertex position + vertex color
-		m_Vertices = ParsePTS("res/models/model.pts");
+		m_Vertices = ParsePTS("res/models/test.pts");
 
 		m_VAO = std::make_unique<VertexArray>();
 		m_VBO = std::make_unique<VertexBuffer>(&m_Vertices[0], m_Vertices.size() * sizeof(float));
@@ -56,12 +57,14 @@ namespace scene {
 	void ScenePoint::OnRender() {
 		Renderer renderer;
 
+		ProcessInput(m_Window);
 		// camera
-		m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
+		//m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
+		m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
 
 		// model
 		m_Model = glm::mat4(1.0f);
-		m_Model = glm::translate(m_Model, glm::vec3(0, -20, -50));
+		m_Model = glm::translate(m_Model, glm::vec3(0, -15, 0));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -78,10 +81,9 @@ namespace scene {
 	void ScenePoint::OnImGuiRender() {
 		ImGui::SliderFloat("Point Size", &m_PointSize, 1, 64);
 		ImGui::SliderFloat3("Rotation", &m_Rotation[0], 0, 360);
-		ImGui::SliderFloat3("Camera", &m_CameraTranslation[0], 0, 50);
 	}
 
-	std::vector<float> scene::ScenePoint::ParsePTS(const std::string& filePath) const
+	std::vector<float> ScenePoint::ParsePTS(const std::string& filePath) const
 	{
 		std::vector<float> vertices;
 
@@ -110,5 +112,23 @@ namespace scene {
 		}
 
 		return vertices;
+	}
+
+	void ScenePoint::ProcessInput(GLFWwindow* window)
+	{
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+			m_CameraPosition += m_CameraSpeed * m_CameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+			m_CameraPosition -= m_CameraSpeed * m_CameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+			// normalize to get a consistent movement speed independent of the camera's orientation
+			m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+			// normalize to get a consistent movement speed independent of the camera's orientation
+			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraSpeed;
+		}
 	}
 }

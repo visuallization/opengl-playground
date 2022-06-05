@@ -4,8 +4,10 @@
 #include "Renderer.h"
 
 namespace scene {
-	SceneClearColor::SceneClearColor() : m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f } {
-	
+	SceneClearColor::SceneClearColor(GLFWwindow*& window) : 
+		Scene::Scene(window),
+		m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f } 
+	{
 	}
 
 	SceneClearColor::~SceneClearColor() {
