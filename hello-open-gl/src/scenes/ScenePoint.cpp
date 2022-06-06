@@ -10,21 +10,6 @@
 #include "ScenePoint.h"
 
 namespace scene {
-	void OnScroll(GLFWwindow* window, double xOffset, double yOffset) {
-		ScenePoint* scene = reinterpret_cast<ScenePoint*>(glfwGetWindowUserPointer(window));
-
-		// zooming
-		if (scene) {
-			scene->fieldOfView -= (float)yOffset;
-			if (scene->fieldOfView < 1.0f) {
-				scene->fieldOfView = 1.0f;
-			}
-			if (scene->fieldOfView > 45.0f) {
-				scene->fieldOfView = 45.0f;
-			}
-		}
-	}
-
 	ScenePoint::ScenePoint(GLFWwindow*& window) :
 		Scene::Scene(window),
 		m_Model(glm::mat4(1.0f)),
@@ -32,15 +17,7 @@ namespace scene {
 		m_Projection(glm::mat4(1.0f)),
 		m_Rotation(0, 0, 0),
 		m_PointSize(1.0f),
-		m_CameraPosition(0.0f, 0.0f, 50.0f),
-		m_CameraFront(0.0f, 0.0f, -1.0f),
-		m_CameraUp(0.0f, 1.0f, 0.0f),
-		m_CameraSpeed(20.0f),
-		m_CameraYaw(-90.0f),
-		m_CameraPitch(0.0f),
-		m_LastX(m_Width / 2), m_LastY(m_Height / 2),
-		m_IsMousePressed(false),
-		fieldOfView(45.0f)
+		m_Camera(window)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -61,9 +38,6 @@ namespace scene {
 		m_Shader = std::make_unique<Shader>("res/shaders/Point.shader");
 		m_Shader->Bind();
 		m_Shader->Unbind();
-
-		glfwSetWindowUserPointer(m_Window, reinterpret_cast<void *>(this));
-		glfwSetScrollCallback(m_Window, OnScroll);
 	}
 
 	ScenePoint::~ScenePoint() {
@@ -71,15 +45,14 @@ namespace scene {
 	}
 
 	void ScenePoint::OnUpdate(float deltaTime) {
-		HandleKeyboardInput(m_Window, deltaTime);
-		HandleMouseInput(m_Window);
+		m_Camera.OnUpdate(deltaTime);
 	}
 
 	void ScenePoint::OnRender() {
 		Renderer renderer;
 
 		// camera
-		m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
+		m_View = m_Camera.GetViewMatrix();
 
 		// model
 		m_Model = glm::mat4(1.0f);
@@ -89,7 +62,7 @@ namespace scene {
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		// projection
-		m_Projection = glm::perspective(glm::radians(fieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);
+		m_Projection = glm::perspective(glm::radians(m_Camera.FieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);
 
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4f("u_Model", m_Model);
@@ -133,73 +106,5 @@ namespace scene {
 		}
 
 		return vertices;
-	}
-
-	void ScenePoint::HandleKeyboardInput(GLFWwindow* window, float deltaTime) {
-		float speed = m_CameraSpeed * deltaTime;
-
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			m_CameraPosition += speed * m_CameraFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			m_CameraPosition -= speed * m_CameraFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			// normalize to get a consistent movement speed independent of the camera's orientation
-			m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
-		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			// normalize to get a consistent movement speed independent of the camera's orientation
-			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
-		}
-	}
-
-	void ScenePoint::HandleMouseInput(GLFWwindow* window) {
-		// handle mouse buttons
-		if (!m_IsMousePressed && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			m_IsMousePressed = true;
-
-			double xPos, yPos;
-			glfwGetCursorPos(window, &xPos, &yPos);
-
-			m_LastX = xPos;
-			m_LastY = yPos;
-		}
-		if (m_IsMousePressed && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			m_IsMousePressed = false;
-		}
-
-		// handle mouse movement
-		if (m_IsMousePressed) {
-			double xPos, yPos;
-			glfwGetCursorPos(window, &xPos, &yPos);
-
-			float xOffset = xPos - m_LastX;
-			float yOffset = m_LastY - yPos;
-			m_LastX = xPos;
-			m_LastY = yPos;
-
-			float sensitivity = 0.1f;
-			xOffset *= sensitivity;
-			yOffset *= sensitivity;
-
-			m_CameraYaw += xOffset;
-			m_CameraPitch += yOffset;
-
-			if (m_CameraPitch > 89.0f) {
-				m_CameraPitch = 89.0f;
-			}
-			if (m_CameraPitch < -89.0f) {
-				m_CameraPitch = -89.0f;
-			}
-
-			glm::vec3 direction;
-			direction.x = cos(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
-			direction.y = sin(glm::radians(m_CameraPitch));
-			direction.z = sin(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
-			m_CameraFront = glm::normalize(direction);
-		}
 	}
 }

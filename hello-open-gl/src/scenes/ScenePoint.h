@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
 
+#include "Camera.h"
 #include "Scene.h"
 #include "Shader.h"
 #include "VertexArray.h"
@@ -18,12 +19,8 @@ namespace scene {
 		void OnRender() override;
 		void OnImGuiRender() override;
 
-		float fieldOfView;
-
 	private:
 		std::vector<float> ParsePTS(const std::string& filePath) const;
-		void HandleKeyboardInput(GLFWwindow* window, float deltaTime);
-		void HandleMouseInput(GLFWwindow* window);
 
 		std::unique_ptr<Shader> m_Shader;
 
@@ -39,16 +36,6 @@ namespace scene {
 		glm::vec3 m_Rotation;
 		float m_PointSize;
 
-		glm::vec3 m_CameraPosition;
-		glm::vec3 m_CameraFront;
-		glm::vec3 m_CameraUp;
-		float m_CameraSpeed;
-		float m_CameraYaw;
-		float m_CameraPitch;
-
-		float m_LastX;
-		float m_LastY;
-
-		bool m_IsMousePressed;
+		Camera m_Camera;
 	};
 }

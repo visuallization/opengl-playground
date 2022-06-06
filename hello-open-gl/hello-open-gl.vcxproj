@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\scenes\SceneCube.cpp" />
     <ClCompile Include="src\scenes\ScenePoint.cpp" />
     <ClCompile Include="src\scenes\SceneTexture2D.cpp" />
@@ -250,6 +251,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\scenes\SceneCube.h" />
     <ClInclude Include="src\scenes\ScenePoint.h" />
     <ClInclude Include="src\scenes\SceneTexture2D.h" />
