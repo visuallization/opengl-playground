@@ -10,6 +10,20 @@
 #include "ScenePoint.h"
 
 namespace scene {
+	void OnScroll(GLFWwindow* window, double xOffset, double yOffset) {
+		ScenePoint* scene = reinterpret_cast<ScenePoint*>(glfwGetWindowUserPointer(window));
+
+		if (scene) {
+			scene->fieldOfView -= (float)yOffset;
+			if (scene->fieldOfView < 1.0f) {
+				scene->fieldOfView = 1.0f;
+			}
+			if (scene->fieldOfView > 45.0f) {
+				scene->fieldOfView = 45.0f;
+			}
+		}
+	}
+
 	ScenePoint::ScenePoint(GLFWwindow*& window) :
 		Scene::Scene(window),
 		m_Model(glm::mat4(1.0f)),
@@ -24,7 +38,8 @@ namespace scene {
 		m_CameraYaw(-90.0f),
 		m_CameraPitch(0.0f),
 		m_LastX(m_Width / 2), m_LastY(m_Height / 2),
-		m_IsMousePressed(false)
+		m_IsMousePressed(false),
+		fieldOfView(45.0f)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -46,7 +61,8 @@ namespace scene {
 		m_Shader->Bind();
 		m_Shader->Unbind();
 
-		m_Projection = glm::perspective(glm::radians(45.f), (float)m_Width / (float)m_Height, 1.f, -1.0f);
+		glfwSetWindowUserPointer(m_Window, reinterpret_cast<void *>(this));
+		glfwSetScrollCallback(m_Window, OnScroll);
 	}
 
 	ScenePoint::~ScenePoint() {
@@ -132,6 +148,9 @@ namespace scene {
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		// projection
+		m_Projection = glm::perspective(glm::radians(fieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);
 
 		m_Shader->Bind();
 		m_Shader->SetUniformMat4f("u_Model", m_Model);

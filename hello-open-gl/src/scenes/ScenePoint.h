@@ -18,6 +18,8 @@ namespace scene {
 		void OnRender() override;
 		void OnImGuiRender() override;
 
+		float fieldOfView;
+
 	private:
 		std::vector<float> ParsePTS(const std::string& filePath) const;
 
