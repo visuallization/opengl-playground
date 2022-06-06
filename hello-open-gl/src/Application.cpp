@@ -23,6 +23,12 @@
 const unsigned int WINDOW_WIDTH = 960;
 const unsigned int WINDOW_HEIGHT = 540;
 
+void HandleKeyboardInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -105,6 +111,9 @@ int main(void)
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+            // Handle keyboard input
+            HandleKeyboardInput(window);
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
