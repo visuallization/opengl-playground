@@ -9,7 +9,6 @@
 
 #include "ScenePoint.h"
 
-
 namespace scene {
 	ScenePoint::ScenePoint(GLFWwindow*& window) :
 		Scene::Scene(window),
@@ -21,7 +20,11 @@ namespace scene {
 		m_CameraPosition(0.0f, 0.0f, 50.0f),
 		m_CameraFront(0.0f, 0.0f, -1.0f),
 		m_CameraUp(0.0f, 1.0f, 0.0f),
-		m_CameraSpeed(20.0f)
+		m_CameraSpeed(20.0f),
+		m_CameraYaw(-90.0f),
+		m_CameraPitch(0.0f),
+		m_LastX(m_Width / 2), m_LastY(m_Height / 2),
+		m_IsMousePressed(false)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -43,9 +46,7 @@ namespace scene {
 		m_Shader->Bind();
 		m_Shader->Unbind();
 
-		float width = 960.0f;
-		float height = 540.0f;
-		m_Projection = glm::perspective(glm::radians(45.f), width / height, 1.f, -1.0f);
+		m_Projection = glm::perspective(glm::radians(45.f), (float)m_Width / (float)m_Height, 1.f, -1.0f);
 	}
 
 	ScenePoint::~ScenePoint() {
@@ -53,6 +54,7 @@ namespace scene {
 	}
 
 	void ScenePoint::OnUpdate(float deltaTime) {
+		// handle keyboard input
 		float speed = m_CameraSpeed * deltaTime;
 
 		if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS) {
@@ -69,13 +71,59 @@ namespace scene {
 			// normalize to get a consistent movement speed independent of the camera's orientation
 			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
 		}
+
+		// handle mouse input
+		if (!m_IsMousePressed && glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			m_IsMousePressed = true;
+
+			double xPos, yPos;
+			glfwGetCursorPos(m_Window, &xPos, &yPos);
+
+			m_LastX = xPos;
+			m_LastY = yPos;
+		}
+		if (m_IsMousePressed && glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE) {
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			m_IsMousePressed = false;
+		}
+		
+		// handle mouse movement
+		if (m_IsMousePressed) {
+			double xPos, yPos;
+			glfwGetCursorPos(m_Window, &xPos, &yPos);
+
+			float xOffset = xPos - m_LastX;
+			float yOffset = m_LastY - yPos;
+			m_LastX = xPos;
+			m_LastY = yPos;
+
+			float sensitivity = 0.1f;
+			xOffset *= sensitivity;
+			yOffset *= sensitivity;
+
+			m_CameraYaw += xOffset;
+			m_CameraPitch += yOffset;
+
+			if (m_CameraPitch > 89.0f) {
+				m_CameraPitch = 89.0f;
+			}
+			if (m_CameraPitch < -89.0f) {
+				m_CameraPitch = -89.0f;
+			}
+
+			glm::vec3 direction;
+			direction.x = cos(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
+			direction.y = sin(glm::radians(m_CameraPitch));
+			direction.z = sin(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
+			m_CameraFront = glm::normalize(direction);
+		}
 	}
 
 	void ScenePoint::OnRender() {
 		Renderer renderer;
 
 		// camera
-		//m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
 		m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
 
 		// model
@@ -99,8 +147,7 @@ namespace scene {
 		ImGui::SliderFloat3("Rotation", &m_Rotation[0], 0, 360);
 	}
 
-	std::vector<float> ScenePoint::ParsePTS(const std::string& filePath) const
-	{
+	std::vector<float> ScenePoint::ParsePTS(const std::string& filePath) const {
 		std::vector<float> vertices;
 
 		std::ifstream stream(filePath);

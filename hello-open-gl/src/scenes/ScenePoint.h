@@ -39,5 +39,12 @@ namespace scene {
 		glm::vec3 m_CameraFront;
 		glm::vec3 m_CameraUp;
 		float m_CameraSpeed;
+		float m_CameraYaw;
+		float m_CameraPitch;
+
+		float m_LastX;
+		float m_LastY;
+
+		bool m_IsMousePressed;
 	};
 }
