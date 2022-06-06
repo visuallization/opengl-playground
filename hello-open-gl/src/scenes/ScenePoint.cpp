@@ -21,7 +21,7 @@ namespace scene {
 		m_CameraPosition(0.0f, 0.0f, 50.0f),
 		m_CameraFront(0.0f, 0.0f, -1.0f),
 		m_CameraUp(0.0f, 1.0f, 0.0f),
-		m_CameraSpeed(0.5f)
+		m_CameraSpeed(20.0f)
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
@@ -52,12 +52,28 @@ namespace scene {
 		GLCall(glDisable(GL_VERTEX_PROGRAM_POINT_SIZE));
 	}
 
-	void ScenePoint::OnUpdate(float deltaTime) {}
+	void ScenePoint::OnUpdate(float deltaTime) {
+		float speed = m_CameraSpeed * deltaTime;
+
+		if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS) {
+			m_CameraPosition += speed * m_CameraFront;
+		}
+		if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS) {
+			m_CameraPosition -= speed * m_CameraFront;
+		}
+		if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS) {
+			// normalize to get a consistent movement speed independent of the camera's orientation
+			m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
+		}
+		if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS) {
+			// normalize to get a consistent movement speed independent of the camera's orientation
+			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
+		}
+	}
 
 	void ScenePoint::OnRender() {
 		Renderer renderer;
 
-		ProcessInput(m_Window);
 		// camera
 		//m_View = glm::translate(glm::mat4(1.0f), m_CameraTranslation);
 		m_View = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraFront, m_CameraUp);
@@ -112,23 +128,5 @@ namespace scene {
 		}
 
 		return vertices;
-	}
-
-	void ScenePoint::ProcessInput(GLFWwindow* window)
-	{
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			m_CameraPosition += m_CameraSpeed * m_CameraFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			m_CameraPosition -= m_CameraSpeed * m_CameraFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			// normalize to get a consistent movement speed independent of the camera's orientation
-			m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraSpeed;
-		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			// normalize to get a consistent movement speed independent of the camera's orientation
-			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * m_CameraSpeed;
-		}
 	}
 }

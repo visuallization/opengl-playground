@@ -20,7 +20,6 @@ namespace scene {
 
 	private:
 		std::vector<float> ParsePTS(const std::string& filePath) const;
-		void ProcessInput(GLFWwindow* window);
 
 		std::unique_ptr<Shader> m_Shader;
 

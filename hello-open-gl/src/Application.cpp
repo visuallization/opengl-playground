@@ -73,9 +73,16 @@ int main(void)
         menu->RegisterScene<scene::SceneCube>("3D Cube", window);
         menu->RegisterScene<scene::ScenePoint>("Point Rendering", window);
 
+        float deltaTime = 0.0f;
+        float lastFrame = 0.0f;
+
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
         {
+            float currentFrame = glfwGetTime();
+            deltaTime = currentFrame - lastFrame;
+            lastFrame = currentFrame;
+
             renderer.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             renderer.Clear();
 
@@ -84,7 +91,7 @@ int main(void)
             ImGui::NewFrame();
 
             if (currentScene) {
-                currentScene->OnUpdate(0);
+                currentScene->OnUpdate(deltaTime);
                 currentScene->OnRender();
 
                 ImGui::Begin("Settings");
