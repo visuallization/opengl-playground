@@ -13,6 +13,7 @@ namespace scene {
 	void OnScroll(GLFWwindow* window, double xOffset, double yOffset) {
 		ScenePoint* scene = reinterpret_cast<ScenePoint*>(glfwGetWindowUserPointer(window));
 
+		// zooming
 		if (scene) {
 			scene->fieldOfView -= (float)yOffset;
 			if (scene->fieldOfView < 1.0f) {
@@ -70,70 +71,8 @@ namespace scene {
 	}
 
 	void ScenePoint::OnUpdate(float deltaTime) {
-		// handle keyboard input
-		float speed = m_CameraSpeed * deltaTime;
-
-		if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS) {
-			m_CameraPosition += speed * m_CameraFront;
-		}
-		if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS) {
-			m_CameraPosition -= speed * m_CameraFront;
-		}
-		if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS) {
-			// normalize to get a consistent movement speed independent of the camera's orientation
-			m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
-		}
-		if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS) {
-			// normalize to get a consistent movement speed independent of the camera's orientation
-			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
-		}
-
-		// handle mouse input
-		if (!m_IsMousePressed && glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
-			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-			m_IsMousePressed = true;
-
-			double xPos, yPos;
-			glfwGetCursorPos(m_Window, &xPos, &yPos);
-
-			m_LastX = xPos;
-			m_LastY = yPos;
-		}
-		if (m_IsMousePressed && glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE) {
-			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			m_IsMousePressed = false;
-		}
-		
-		// handle mouse movement
-		if (m_IsMousePressed) {
-			double xPos, yPos;
-			glfwGetCursorPos(m_Window, &xPos, &yPos);
-
-			float xOffset = xPos - m_LastX;
-			float yOffset = m_LastY - yPos;
-			m_LastX = xPos;
-			m_LastY = yPos;
-
-			float sensitivity = 0.1f;
-			xOffset *= sensitivity;
-			yOffset *= sensitivity;
-
-			m_CameraYaw += xOffset;
-			m_CameraPitch += yOffset;
-
-			if (m_CameraPitch > 89.0f) {
-				m_CameraPitch = 89.0f;
-			}
-			if (m_CameraPitch < -89.0f) {
-				m_CameraPitch = -89.0f;
-			}
-
-			glm::vec3 direction;
-			direction.x = cos(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
-			direction.y = sin(glm::radians(m_CameraPitch));
-			direction.z = sin(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
-			m_CameraFront = glm::normalize(direction);
-		}
+		HandleKeyboardInput(m_Window, deltaTime);
+		HandleMouseInput(m_Window);
 	}
 
 	void ScenePoint::OnRender() {
@@ -194,5 +133,73 @@ namespace scene {
 		}
 
 		return vertices;
+	}
+
+	void ScenePoint::HandleKeyboardInput(GLFWwindow* window, float deltaTime) {
+		float speed = m_CameraSpeed * deltaTime;
+
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+			m_CameraPosition += speed * m_CameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+			m_CameraPosition -= speed * m_CameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+			// normalize to get a consistent movement speed independent of the camera's orientation
+			m_CameraPosition -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+			// normalize to get a consistent movement speed independent of the camera's orientation
+			m_CameraPosition += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * speed;
+		}
+	}
+
+	void ScenePoint::HandleMouseInput(GLFWwindow* window) {
+		// handle mouse buttons
+		if (!m_IsMousePressed && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			m_IsMousePressed = true;
+
+			double xPos, yPos;
+			glfwGetCursorPos(window, &xPos, &yPos);
+
+			m_LastX = xPos;
+			m_LastY = yPos;
+		}
+		if (m_IsMousePressed && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			m_IsMousePressed = false;
+		}
+
+		// handle mouse movement
+		if (m_IsMousePressed) {
+			double xPos, yPos;
+			glfwGetCursorPos(window, &xPos, &yPos);
+
+			float xOffset = xPos - m_LastX;
+			float yOffset = m_LastY - yPos;
+			m_LastX = xPos;
+			m_LastY = yPos;
+
+			float sensitivity = 0.1f;
+			xOffset *= sensitivity;
+			yOffset *= sensitivity;
+
+			m_CameraYaw += xOffset;
+			m_CameraPitch += yOffset;
+
+			if (m_CameraPitch > 89.0f) {
+				m_CameraPitch = 89.0f;
+			}
+			if (m_CameraPitch < -89.0f) {
+				m_CameraPitch = -89.0f;
+			}
+
+			glm::vec3 direction;
+			direction.x = cos(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
+			direction.y = sin(glm::radians(m_CameraPitch));
+			direction.z = sin(glm::radians(m_CameraYaw)) * cos(glm::radians(m_CameraPitch));
+			m_CameraFront = glm::normalize(direction);
+		}
 	}
 }

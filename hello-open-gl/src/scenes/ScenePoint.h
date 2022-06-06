@@ -22,6 +22,8 @@ namespace scene {
 
 	private:
 		std::vector<float> ParsePTS(const std::string& filePath) const;
+		void HandleKeyboardInput(GLFWwindow* window, float deltaTime);
+		void HandleMouseInput(GLFWwindow* window);
 
 		std::unique_ptr<Shader> m_Shader;
 
