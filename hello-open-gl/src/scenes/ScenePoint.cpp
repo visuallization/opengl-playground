@@ -21,6 +21,9 @@ namespace scene {
 	{
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
+		// Enable depth testing
+		GLCall(glEnable(GL_DEPTH_TEST));
+
 		// vertex position + vertex color
 		m_Vertices = ParsePTS("res/models/model.pts");
 
@@ -42,6 +45,7 @@ namespace scene {
 
 	ScenePoint::~ScenePoint() {
 		GLCall(glDisable(GL_VERTEX_PROGRAM_POINT_SIZE));
+		GLCall(glDisable(GL_DEPTH_TEST));
 	}
 
 	void ScenePoint::OnUpdate(float deltaTime) {
