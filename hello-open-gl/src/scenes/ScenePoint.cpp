@@ -22,7 +22,7 @@ namespace scene {
 		// Enable point sprite
 		GLCall(glEnable(GL_VERTEX_PROGRAM_POINT_SIZE));
 		// vertex position + vertex color
-		m_Vertices = ParsePTS("res/models/test.pts");
+		m_Vertices = ParsePTS("res/models/model.pts");
 
 		m_VAO = std::make_unique<VertexArray>();
 		m_VBO = std::make_unique<VertexBuffer>(&m_Vertices[0], m_Vertices.size() * sizeof(float));
@@ -56,10 +56,11 @@ namespace scene {
 
 		// model
 		m_Model = glm::mat4(1.0f);
-		m_Model = glm::translate(m_Model, glm::vec3(0, -15, 0));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 		m_Model = glm::rotate(m_Model, glm::radians(m_Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+		m_Model = glm::translate(m_Model, glm::vec3(0, -15, 0));
+
 
 		// projection
 		m_Projection = glm::perspective(glm::radians(m_Camera.FieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);

@@ -1,2 +1,2 @@
 # OpenGL Playground
-This project is my playground to learn and experiment with OpenGL. It is based on ["The Chernos: OpenGL Series"](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=1).
+This project is my playground to learn and experiment with OpenGL. The basic setup is based on ["The Chernos: OpenGL Series"](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2&index=1).
