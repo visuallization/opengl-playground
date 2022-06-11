@@ -39,8 +39,6 @@ namespace scene {
 		m_VAO->AddBuffer(*m_VBO, layout);
 
 		m_Shader = std::make_unique<Shader>("res/shaders/Point.shader");
-		m_Shader->Bind();
-		m_Shader->Unbind();
 	}
 
 	ScenePoint::~ScenePoint() {

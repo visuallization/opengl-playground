@@ -17,6 +17,7 @@
 
 #include "scenes/SceneClearColor.h";
 #include "scenes/SceneCube.h";
+#include "scenes/SceneMarchingCube.h";
 #include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
 
@@ -78,6 +79,7 @@ int main(void)
         menu->RegisterScene<scene::SceneTexture2D>("2D Texture",  window);
         menu->RegisterScene<scene::SceneCube>("3D Cube", window);
         menu->RegisterScene<scene::ScenePoint>("Point Rendering", window);
+        menu->RegisterScene<scene::SceneMarchingCube>("Marching Cube", window);
 
         float deltaTime = 0.0f;
         float lastFrame = 0.0f;

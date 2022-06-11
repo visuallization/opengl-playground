@@ -81,6 +81,9 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\SceneMarchingCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
@@ -496,6 +499,7 @@
     <None Include="res\shaders\Light.shader" />
     <None Include="res\shaders\Point.shader" />
     <None Include="..\..\notes\model-for-project\model.pts" />
+    <None Include="res\shaders\MarchingCube.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1411,6 +1415,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\SceneMarchingCube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
