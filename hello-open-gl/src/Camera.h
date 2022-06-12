@@ -7,8 +7,7 @@
 
 class Camera {
 public:
-	Camera();
-	Camera(GLFWwindow*& window);
+	Camera(GLFWwindow*& window, glm::vec3 postion = glm::vec3(0.0f, 0.0f, 50.0f));
 	~Camera();
 
 	void OnUpdate(float deltaTime);

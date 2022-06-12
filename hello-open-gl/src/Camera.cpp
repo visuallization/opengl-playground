@@ -17,9 +17,9 @@ void OnScroll(GLFWwindow* window, double xOffset, double yOffset) {
 	}
 }
 
-Camera::Camera(GLFWwindow*& window) : 
+Camera::Camera(GLFWwindow*& window, glm::vec3 postion) :
 	m_Window(window),
-	m_Position(0.0f, 0.0f, 50.0f),
+	m_Position(postion),
 	m_Front(0.0f, 0.0f, -1.0f),
 	m_Up(0.0f, 1.0f, 0.0f),
 	m_Speed(20.0f),

@@ -6,7 +6,7 @@ namespace scene {
 	SceneMarchingCube::SceneMarchingCube(GLFWwindow*& window) :
 		Scene(window),
 		m_Model(glm::mat4(1.0f)), m_View(glm::mat4(1.0f)), m_Projection(glm::mat4(1.0f)),
-		m_Camera(window)
+		m_Camera(window, glm::vec3(0.0f, 0.0f, 10.0f))
 	{
 		m_Vertices = { 
 			-0.5f, -0.5f, 0.0f,
@@ -48,7 +48,7 @@ namespace scene {
 		m_Shader->SetUniformMat4f("u_Model", m_Model);
 		m_Shader->SetUniformMat4f("u_View", m_View);
 		m_Shader->SetUniformMat4f("u_Projection", m_Projection);
-		renderer.DrawArrays(*m_VAO, *m_Shader, m_Vertices.size() / 3);
+		renderer.DrawPoints(*m_VAO, *m_Shader, m_Vertices.size() / 3);
 		m_Shader->Unbind();
 	}
 
