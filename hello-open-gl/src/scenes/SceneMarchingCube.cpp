@@ -8,10 +8,12 @@ namespace scene {
 		m_Model(glm::mat4(1.0f)), m_View(glm::mat4(1.0f)), m_Projection(glm::mat4(1.0f)),
 		m_Camera(window, glm::vec3(0.0f, 0.0f, 10.0f))
 	{
+
+		// position + color
 		m_Vertices = { 
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.0f,  0.5f, 0.0f
+			-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
+			 0.0f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
 		};
 
 		m_VAO = std::make_unique<VertexArray>();
@@ -19,6 +21,8 @@ namespace scene {
 
 		VertexBufferLayout layout;
 		// add positions
+		layout.Push<float>(3);
+		// add colors
 		layout.Push<float>(3);
 
 		m_VAO->AddBuffer(*m_VBO, layout);
@@ -48,7 +52,7 @@ namespace scene {
 		m_Shader->SetUniformMat4f("u_Model", m_Model);
 		m_Shader->SetUniformMat4f("u_View", m_View);
 		m_Shader->SetUniformMat4f("u_Projection", m_Projection);
-		renderer.DrawPoints(*m_VAO, *m_Shader, m_Vertices.size() / 3);
+		renderer.DrawPoints(*m_VAO, *m_Shader, m_Vertices.size() / 6);
 		m_Shader->Unbind();
 	}
 
