@@ -36,13 +36,18 @@ void build_house(vec4 position) {
 
 	gl_Position = position + vec4(-0.2, -0.2, 0.0, 0.0); // bottom-left
 	EmitVertex();
+
 	gl_Position = position + vec4( 0.2, -0.2, 0.0, 0.0); // bottom-right
 	EmitVertex();
+
 	gl_Position = position + vec4(-0.2,  0.2, 0.0, 0.0); // top-left
 	EmitVertex();
+
 	gl_Position = position + vec4( 0.2,  0.2, 0.0, 0.0); // top-right
 	EmitVertex();
+
 	gl_Position = position + vec4( 0.0,  0.4, 0.0, 0.0); // top
+	geometryOutput.color = vec4(1.0, 1.0, 1.0, 1.0); // add snow on top ;)
 	EmitVertex();
 
 	EndPrimitive();
