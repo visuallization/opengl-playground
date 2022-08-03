@@ -18,8 +18,6 @@ void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
 
 class Renderer {
-private:
-
 public:
     void Clear() const;
     void SetClearColor(float r, float g, float b, float a) const;
