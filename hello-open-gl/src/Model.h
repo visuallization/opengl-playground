@@ -17,9 +17,10 @@ public:
 
 private:
 	std::string m_Directory;
+	std::vector<MeshTexture> m_LoadedTextures;
 
 	void loadModel(const std::string& path);
 	void processNode(const aiNode* node, const aiScene* scene);
 	Mesh processMesh(const aiMesh* mesh, const aiScene* scene);
-	std::vector<std::shared_ptr<Texture>> loadMaterialTextures(const aiMaterial* material, const aiTextureType& type, const std::string& typeName);
+	std::vector<MeshTexture> loadMaterialTextures(const aiMaterial* material, const aiTextureType& type, const std::string& typeName);
 };

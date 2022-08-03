@@ -37,7 +37,7 @@ void Model::processNode(const aiNode* node, const aiScene* scene) {
 Mesh Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
 	std::vector<MeshVertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<std::shared_ptr<Texture>> textures;
+	std::vector<MeshTexture> textures;
 
 	// process vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -72,25 +72,41 @@ Mesh Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
 	if (mesh->mMaterialIndex >= 0) {
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-		std::vector<std::shared_ptr<Texture>> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		std::vector<MeshTexture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-		std::vector<std::shared_ptr<Texture>> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		std::vector<MeshTexture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
 	return Mesh(vertices, indices, textures);
 }
 
-std::vector<std::shared_ptr<Texture>> Model::loadMaterialTextures(const aiMaterial* material, const aiTextureType& type, const std::string& typeName) {
-	std::vector<std::shared_ptr<Texture>> textures;
+std::vector<MeshTexture> Model::loadMaterialTextures(const aiMaterial* material, const aiTextureType& type, const std::string& typeName) {
+	std::vector<MeshTexture> textures;
 
 	for (unsigned int i = 0; i < material->GetTextureCount(type); i++) {
 		aiString path;
 		material->GetTexture(type, i, &path);
+		bool createNewTexture = true;
 
-		std::shared_ptr<Texture> texture = std::make_shared<Texture>(m_Directory + path.C_Str());
-		textures.push_back(texture);
+		for (unsigned int j = 0; j < m_LoadedTextures.size(); j++) {
+			if (std::strcmp(m_LoadedTextures[j].Path.data(), path.C_Str()) == 0) {
+				textures.push_back(m_LoadedTextures[j]);
+				
+				createNewTexture = false;
+				break;
+			}
+		}
+
+		if (createNewTexture) {
+			MeshTexture texture;
+			texture.Texture = std::make_shared<Texture>(m_Directory + path.C_Str());
+			texture.Path = path.C_Str();
+
+			textures.push_back(texture);
+			m_LoadedTextures.push_back(texture);
+		}
 	}
 
 	return textures;

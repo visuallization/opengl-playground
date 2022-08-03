@@ -45,7 +45,7 @@ namespace scene {
 
 			if (mesh.Textures.size() > 0) {
 				m_Shader->SetUniform1i("u_Texture", 0);
-				mesh.Textures[0]->Bind();
+				mesh.Textures[0].Texture->Bind();
 			}
 
 			m_Shader->SetUniformMat4f("u_Model", m_Model);
