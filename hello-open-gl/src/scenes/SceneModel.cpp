@@ -37,12 +37,23 @@ namespace scene {
 		// projection
 		m_Projection = glm::perspective(glm::radians(m_Camera.FieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);
 
+		// mesh
 		for (int i = 0; i < m_3DModel->Meshes.size(); i++) {
 			m_Shader->Bind();
+
+			Mesh& mesh = m_3DModel->Meshes[i];
+
+			if (mesh.Textures.size() > 0) {
+				m_Shader->SetUniform1i("u_Texture", 0);
+				mesh.Textures[0]->Bind();
+			}
+
 			m_Shader->SetUniformMat4f("u_Model", m_Model);
 			m_Shader->SetUniformMat4f("u_View", m_View);
 			m_Shader->SetUniformMat4f("u_Projection", m_Projection);
-			renderer.Draw(*m_3DModel->Meshes[i].VAO, *m_3DModel->Meshes[i].IBO, *m_Shader);
+
+			renderer.Draw(*mesh.VAO, *mesh.IBO, *m_Shader);
+
 			m_Shader->Unbind();
 		}
 	}

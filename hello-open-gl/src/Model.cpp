@@ -1,13 +1,14 @@
 #include "Model.h"
 
 #include <iostream>
-#include "stb_image/stb_image.h"
 
 Model::Model(const char* path) {
 	loadModel(path);
 }
 
 void Model::loadModel(const std::string& path) {
+	std::cout << "Loading Model..." << std::endl;
+
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -15,7 +16,7 @@ void Model::loadModel(const std::string& path) {
 		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 	}
 
-	m_Directory = path.substr(0, path.find_last_of('/'));
+	m_Directory = path.substr(0, path.find_last_of('/')) + "/";
 
 	processNode(scene->mRootNode, scene);
 }
@@ -36,7 +37,7 @@ void Model::processNode(const aiNode* node, const aiScene* scene) {
 Mesh Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
 	std::vector<MeshVertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<MeshTexture> textures;
+	std::vector<std::shared_ptr<Texture>> textures;
 
 	// process vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
@@ -71,25 +72,26 @@ Mesh Model::processMesh(const aiMesh* mesh, const aiScene* scene) {
 	if (mesh->mMaterialIndex >= 0) {
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-		std::vector<MeshTexture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+		std::vector<std::shared_ptr<Texture>> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-		std::vector<MeshTexture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+		std::vector<std::shared_ptr<Texture>> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
 	return Mesh(vertices, indices, textures);
 }
 
-std::vector<MeshTexture> Model::loadMaterialTextures(const aiMaterial* material, const aiTextureType& type, const std::string& typeName) {
-	std::vector<MeshTexture> textures;
+std::vector<std::shared_ptr<Texture>> Model::loadMaterialTextures(const aiMaterial* material, const aiTextureType& type, const std::string& typeName) {
+	std::vector<std::shared_ptr<Texture>> textures;
 
-	//for (unsigned int i = 0; i < material->GetTextureCount(type); i++) {
-	//	aiString path;
-	//	material->GetTexture(type, i, &path);
+	for (unsigned int i = 0; i < material->GetTextureCount(type); i++) {
+		aiString path;
+		material->GetTexture(type, i, &path);
 
-	//	MeshTexture texture();
-	//}
+		std::shared_ptr<Texture> texture = std::make_shared<Texture>(m_Directory + path.C_Str());
+		textures.push_back(texture);
+	}
 
 	return textures;
 }

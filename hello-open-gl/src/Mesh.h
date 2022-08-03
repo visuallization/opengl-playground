@@ -18,20 +18,15 @@ struct MeshVertex {
 	glm::vec2 TexCoords;
 };
 
-struct MeshTexture {
-	unsigned int Id;
-	std::string Type;
-};
-
 class Mesh {
 public:
 	std::vector<MeshVertex> Vertices;
 	std::vector<unsigned int> Indices;
-	std::vector<MeshTexture> Textures;
+	std::vector<std::shared_ptr<Texture>> Textures;
 
 	std::unique_ptr<VertexArray> VAO;
 	std::unique_ptr<VertexBuffer> VBO;
 	std::unique_ptr<IndexBuffer> IBO;
 
-	Mesh(const std::vector<MeshVertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<MeshTexture>& textures);
+	Mesh(const std::vector<MeshVertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<std::shared_ptr<Texture>>& textures);
 };
