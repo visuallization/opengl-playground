@@ -16,7 +16,10 @@ namespace scene {
 		void OnImGuiRender() override;
 
 	private:
-		std::unique_ptr<Shader> m_Shader;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<Shader> m_ShaderModel;
+		std::shared_ptr<Shader> m_ShaderExplosion;
+
 		std::unique_ptr<Model> m_3DModel;
 
 		glm::mat4 m_Model;
@@ -24,6 +27,8 @@ namespace scene {
 		glm::mat4 m_Projection;
 
 		Camera m_Camera;
+
+		bool m_Explode;
 	};
 }
 

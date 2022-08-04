@@ -510,6 +510,7 @@
     <None Include="..\..\notes\model-for-project\model.pts" />
     <None Include="res\shaders\GeometryDemo.shader" />
     <None Include="res\shaders\Model.shader" />
+    <None Include="res\shaders\Explosion.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">

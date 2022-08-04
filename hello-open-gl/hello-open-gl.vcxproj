@@ -120,6 +120,7 @@
   <ItemGroup>
     <None Include="..\..\notes\model-for-project\model.pts" />
     <None Include="res\shaders\Basic.shader" />
+    <None Include="res\shaders\Explosion.shader" />
     <None Include="res\shaders\Light.shader" />
     <None Include="res\shaders\Cube.shader" />
     <None Include="res\shaders\GeometryDemo.shader" />
