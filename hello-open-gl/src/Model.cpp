@@ -2,11 +2,14 @@
 
 #include <iostream>
 
+#include "utils/Timer.h"
+
 Model::Model(const char* path) {
 	loadModel(path);
 }
 
 void Model::loadModel(const std::string& path) {
+	Timer timer;
 	std::cout << "Loading Model..." << std::endl;
 
 	Assimp::Importer importer;

@@ -5,6 +5,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "imgui/imgui.h"
 
+#include "utils/Timer.h";
 #include "VertexBufferLayout.h"
 
 #include "ScenePoint.h"
@@ -82,6 +83,8 @@ namespace scene {
 	}
 
 	std::vector<float> ScenePoint::ParsePTS(const std::string& filePath) const {
+		Timer timer;
+		std::cout << "Parsing Point Data Set..." << std::endl;
 		std::vector<float> vertices;
 
 		std::ifstream stream(filePath);
