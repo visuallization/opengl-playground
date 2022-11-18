@@ -1,5 +1,5 @@
 #shader vertex
-#version 330 core
+#version 430 core
 
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aNormal;
@@ -21,7 +21,7 @@ void main()
 
 
 #shader geometry
-#version 330 core
+#version 430 core
 
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
@@ -68,7 +68,7 @@ void main() {
 
 
 #shader fragment
-#version 330 core
+#version 430 core
 
 out vec4 FragColor;
 

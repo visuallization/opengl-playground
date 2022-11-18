@@ -1,5 +1,5 @@
 #shader vertex
-#version 330 core
+#version 430 core
 
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec4 color;
@@ -18,7 +18,7 @@ void main() {
 };
 
 #shader geometry
-#version 330 core
+#version 430 core
 
 layout(points) in;
 layout(triangle_strip, max_vertices = 5) out;
@@ -58,7 +58,7 @@ void main() {
 };
 
 #shader fragment
-#version 330 core
+#version 430 core
 
 layout(location = 0) out vec4 color;
 
