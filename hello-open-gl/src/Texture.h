@@ -10,6 +10,7 @@ private:
 	int m_Width, m_Height, m_BitsPerPixel;
 
 public:
+	Texture(const unsigned int width, const unsigned int height);
 	Texture(const std::string& path);
 	~Texture();
 
