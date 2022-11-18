@@ -38,9 +38,25 @@ namespace scene {
 
         m_Shader = std::make_unique<Shader>("res/shaders/Basic.shader");
         m_Shader->Bind();
+        m_Shader->Unbind();
 
-        m_Texture = std::make_unique<Texture>("res/textures/emoji.png");
-        m_Shader->SetUniform1i("u_Texture", 0);
+        m_ComputeShader = std::make_unique<Shader>("res/shaders/Compute.shader");
+        m_ComputeShader->Bind();
+        m_ComputeShader->Unbind();
+
+        //m_Texture = std::make_unique<Texture>("res/textures/emoji.png");
+
+        glGenTextures(1, &m_TextureID);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_TextureID);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, 512, 512, 0, GL_RGBA,
+            GL_FLOAT, NULL);
+
+        glBindImageTexture(0, m_TextureID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F);
     }
 
     SceneComputeDemo::~SceneComputeDemo() {
@@ -53,14 +69,24 @@ namespace scene {
 
     void SceneComputeDemo::OnRender() {
         Renderer renderer;
-        m_Texture->Bind();
+        //m_Texture->Bind();
 
         glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
         glm::mat4 mvp = m_Projection * m_View * model;
 
+        m_ComputeShader->Bind();
+        glDispatchCompute((unsigned int)512, (unsigned int)512, 1);
+        glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+        m_ComputeShader->Unbind();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_Shader->Bind();
         m_Shader->SetUniformMat4f("u_MVP", mvp);
+        m_Shader->SetUniform1i("u_Texture", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_TextureID);
         renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
+        m_Shader->Unbind();
     }
 
     void SceneComputeDemo::OnImGuiRender() {
