@@ -16,9 +16,10 @@
 #include "Renderer.h"
 
 #include "scenes/SceneClearColor.h";
+#include "scenes/SceneComputeDemo.h"
 #include "scenes/SceneCube.h";
-#include "scenes/SceneModel.h";
 #include "scenes/SceneGeometryDemo.h";
+#include "scenes/SceneModel.h";
 #include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
 
@@ -82,6 +83,7 @@ int main(void)
         menu->RegisterScene<scene::SceneModel>("Model", window);
         menu->RegisterScene<scene::ScenePoint>("Point Rendering", window);
         menu->RegisterScene<scene::SceneGeometryDemo>("Geometry Demo", window);
+        menu->RegisterScene<scene::SceneComputeDemo>("Compute Demo", window);
 
         float deltaTime = 0.0f;
         float lastFrame = 0.0f;
