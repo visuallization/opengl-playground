@@ -96,6 +96,9 @@
     <ClCompile Include="src\scenes\SceneComputeDemo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\SceneComputeDemoOptimized.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
@@ -516,6 +519,7 @@
     <None Include="res\shaders\Explosion.shader" />
     <None Include="res\shaders\Compute.shader" />
     <None Include="res\shaders\Simple.shader" />
+    <None Include="res\shaders\ComputeOptimized.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1449,6 +1453,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\SceneComputeDemo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\SceneComputeDemoOptimized.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

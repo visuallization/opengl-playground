@@ -19,6 +19,7 @@
 #include "scenes/SceneComputeDemo.h"
 #include "scenes/SceneCube.h";
 #include "scenes/SceneGeometryDemo.h";
+#include "scenes/SceneComputeDemoOptimized.h";
 #include "scenes/SceneModel.h";
 #include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
@@ -57,7 +58,8 @@ int main(void)
     glfwMakeContextCurrent(window);
 
     // synchronize with refresh rate
-    glfwSwapInterval(1);
+    // 0 == uncapped fps, 1 == capped fps (60 fps)
+    glfwSwapInterval(0);
 
     if (glewInit() != GLEW_OK)
         std::cout << "Error initializing GLEW!" << std::endl;
@@ -84,6 +86,7 @@ int main(void)
         menu->RegisterScene<scene::ScenePoint>("Point Rendering", window);
         menu->RegisterScene<scene::SceneGeometryDemo>("Geometry Demo", window);
         menu->RegisterScene<scene::SceneComputeDemo>("Compute Demo", window);
+        menu->RegisterScene<scene::SceneComputeDemoOptimized>("Compute Demo Optimized", window);
 
         float deltaTime = 0.0f;
         float lastFrame = 0.0f;

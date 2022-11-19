@@ -93,6 +93,7 @@
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\scenes\SceneComputeDemo.cpp" />
+    <ClCompile Include="src\scenes\SceneComputeDemoOptimized.cpp" />
     <ClCompile Include="src\scenes\SceneModel.cpp" />
     <ClCompile Include="src\scenes\SceneGeometryDemo.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -122,6 +123,7 @@
     <None Include="..\..\notes\model-for-project\model.pts" />
     <None Include="res\shaders\Basic.shader" />
     <None Include="res\shaders\Compute.shader" />
+    <None Include="res\shaders\ComputeOptimized.shader" />
     <None Include="res\shaders\Explosion.shader" />
     <None Include="res\shaders\Light.shader" />
     <None Include="res\shaders\Cube.shader" />
@@ -270,6 +272,7 @@
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\scenes\SceneComputeDemo.h" />
+    <ClInclude Include="src\scenes\SceneComputeDemoOptimized.h" />
     <ClInclude Include="src\scenes\SceneModel.h" />
     <ClInclude Include="src\scenes\SceneGeometryDemo.h" />
     <ClInclude Include="src\Camera.h" />
