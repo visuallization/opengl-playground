@@ -1,7 +1,5 @@
 #pragma once
 
-#include "glm/glm.hpp"
-
 #include "Scene.h"
 
 #include "Shader.h"
@@ -23,9 +21,6 @@ namespace scene {
         void OnImGuiRender() override;
 
     private:
-        glm::mat4 m_Projection;
-        glm::mat4 m_View;
-
         std::unique_ptr<VertexArray> m_VAO;
         std::unique_ptr<VertexBuffer> m_VBO;
         std::unique_ptr<IndexBuffer> m_IBO;

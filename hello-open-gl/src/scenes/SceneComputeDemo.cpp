@@ -6,15 +6,13 @@
 namespace scene {
     SceneComputeDemo::SceneComputeDemo(GLFWwindow*& window)
         : Scene::Scene(window)
-        , m_Projection(glm::ortho(0.0f, (float)m_Width, 0.0f, (float)m_Height, -1.0f, 1.0f))
-        , m_View(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)))
     {
         // positios + texture coordinates
         float positions[] = {
-			-50.0f, -50.0f, 0.0f, 0.0f, // 0
-			 50.0f, -50.0f, 1.0f, 0.0f, // 1
-			 50.0f,  50.0f, 1.0f, 1.0f, // 2
-			-50.0f,  50.0f, 0.0f, 1.0f  // 3
+			-1.0f, -1.0f, 0.0f, 0.0f, // 0
+			 1.0f, -1.0f, 1.0f, 0.0f, // 1
+			 1.0f,  1.0f, 1.0f, 1.0f, // 2
+			-1.0f,  1.0f, 0.0f, 1.0f  // 3
 		};
 
         // utilize indices to reuse vertices
@@ -36,7 +34,7 @@ namespace scene {
         
         m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
-        m_Shader = std::make_unique<Shader>("res/shaders/Basic.shader");
+        m_Shader = std::make_unique<Shader>("res/shaders/Simple.shader");
 
         m_ComputeShader = std::make_unique<Shader>("res/shaders/Compute.shader");
 
@@ -53,9 +51,6 @@ namespace scene {
 
     void SceneComputeDemo::OnRender() {
         Renderer renderer;
-        
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(200, 200, 0));
-        glm::mat4 mvp = m_Projection * m_View * model;
 
         m_ComputeShader->Bind();
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
@@ -64,7 +59,6 @@ namespace scene {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_Shader->Bind();
-        m_Shader->SetUniformMat4f("u_MVP", mvp);
         m_Shader->SetUniform1i("u_Texture", 0);
         m_Texture->Bind();
         renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
