@@ -17,9 +17,10 @@
 
 #include "scenes/SceneClearColor.h";
 #include "scenes/SceneComputeDemo.h"
-#include "scenes/SceneCube.h";
-#include "scenes/SceneGeometryDemo.h";
 #include "scenes/SceneComputeDemoOptimized.h";
+#include "scenes/SceneCube.h";
+#include "scenes/SceneForestFire.h"
+#include "scenes/SceneGeometryDemo.h";
 #include "scenes/SceneModel.h";
 #include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
@@ -59,7 +60,7 @@ int main(void)
 
     // synchronize with refresh rate
     // 0 == uncapped fps, 1 == capped fps (60 fps)
-    glfwSwapInterval(0);
+    glfwSwapInterval(1);
 
     if (glewInit() != GLEW_OK)
         std::cout << "Error initializing GLEW!" << std::endl;
@@ -87,6 +88,7 @@ int main(void)
         menu->RegisterScene<scene::SceneGeometryDemo>("Geometry Demo", window);
         menu->RegisterScene<scene::SceneComputeDemo>("Compute Demo", window);
         menu->RegisterScene<scene::SceneComputeDemoOptimized>("Compute Demo Optimized", window);
+        menu->RegisterScene<scene::SceneForestFire>("Forest Fire", window);
 
         float deltaTime = 0.0f;
         float lastFrame = 0.0f;

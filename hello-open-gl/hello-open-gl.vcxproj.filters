@@ -99,6 +99,9 @@
     <ClCompile Include="src\scenes\SceneComputeDemoOptimized.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scenes\SceneForestFire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\Basic.shader" />
@@ -520,6 +523,7 @@
     <None Include="res\shaders\Compute.shader" />
     <None Include="res\shaders\Simple.shader" />
     <None Include="res\shaders\ComputeOptimized.shader" />
+    <None Include="res\shaders\ForestFire.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1456,6 +1460,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\scenes\SceneComputeDemoOptimized.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\SceneForestFire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
