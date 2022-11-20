@@ -15,7 +15,6 @@ public:
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;
-	void BindImage(unsigned int slot = 0, unsigned int unit = 0) const;
 	void Unbind() const;
 
 	inline int GetWidth() const { return m_Width; }

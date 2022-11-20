@@ -53,8 +53,8 @@ namespace scene {
 
     void SceneForestFire::OnRender() {
         Renderer renderer;
-        m_Texture1->BindImage(0, 0);
-        m_Texture2->BindImage(1, 1);
+        m_Texture1->Bind(0);
+        m_Texture2->Bind(1);
 
         m_ComputeShader->Bind();
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
