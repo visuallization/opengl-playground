@@ -51,6 +51,7 @@ namespace scene {
 
     void SceneComputeDemo::OnRender() {
         Renderer renderer;
+        m_Texture->Bind();
 
         m_ComputeShader->Bind();
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
@@ -60,7 +61,6 @@ namespace scene {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_Shader->Bind();
         m_Shader->SetUniform1i("u_Texture", 0);
-        m_Texture->Bind();
         renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
         m_Shader->Unbind();
     }

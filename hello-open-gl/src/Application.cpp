@@ -67,7 +67,7 @@ int main(void)
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
-    // scope everything so it everythings gets cleaned properly before running glfwTerminate
+    // scope everything so it everything gets cleaned properly before running glfwTerminate
     {        
         Renderer renderer;
 
