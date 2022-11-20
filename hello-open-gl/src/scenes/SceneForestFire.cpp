@@ -38,7 +38,8 @@ namespace scene {
 
         m_ComputeShader = std::make_unique<Shader>("res/shaders/ForestFire.shader");
 
-        m_Texture = std::make_unique<Texture>(m_Width, m_Height);
+		m_Texture1 = std::make_unique<Texture>(m_Width, m_Height);
+        m_Texture2 = std::make_unique<Texture>(m_Width, m_Height);
     }
 
     SceneForestFire::~SceneForestFire() {
@@ -51,7 +52,8 @@ namespace scene {
 
     void SceneForestFire::OnRender() {
         Renderer renderer;
-        m_Texture->Bind();
+        m_Texture1->BindImage();
+        //m_Texture2->BindImage();
 
         m_ComputeShader->Bind();
         GLCall(glDispatchCompute(m_Width, m_Height, 1));

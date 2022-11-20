@@ -10,7 +10,7 @@ Texture::Texture(const unsigned int width, const unsigned int height)
 
 	// The texture minifying function is used whenever the level-of-detail function determines that the texture should be minified
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-	// The texture magnification function is used whenever the level-of-detail function determines that the texture should be magified
+	// The texture magnification function is used whenever the level-of-detail function determines that the texture should be magnified
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 	// Clamp texture horizontally
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
@@ -35,14 +35,14 @@ Texture::Texture(const std::string& path)
 
 	// The texture minifying function is used whenever the level-of-detail function determines that the texture should be minified
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-	// The texture magnification function is used whenever the level-of-detail function determines that the texture should be magified
+	// The texture magnification function is used whenever the level-of-detail function determines that the texture should be magnified
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 	// Clamp texture horizontally
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
 	// Clamp texture vertically
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
-	// Send image buffer data to opengl/the gpu
+	// Send image buffer data to OPENGL/the GPU
 	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer));
 	Unbind();
 
@@ -61,6 +61,12 @@ void Texture::Bind(unsigned int slot) const {
 	GLCall(glActiveTexture(GL_TEXTURE0 + slot));
 	// Bind the texture
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
+}
+
+void Texture::BindImage(unsigned int slot) const {
+	Bind(slot);
+	// Bind the texture
+	GLCall(glBindImageTexture(0, m_RendererID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
 }
 
 void Texture::Unbind() const {
