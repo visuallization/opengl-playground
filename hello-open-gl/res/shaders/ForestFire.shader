@@ -8,21 +8,15 @@ layout(rgba32f, binding = 1) uniform image2D imgOutput2;
 void main() {
     vec4 value = vec4(0.0, 0.0, 0.0, 1.0);
     ivec2 texelCoord = ivec2(gl_GlobalInvocationID.xy);
-    vec4 texColor = imageLoad(imgOutput1, ivec2(0, 0));
+    vec4 texColor1 = imageLoad(imgOutput1, texelCoord);
+    vec4 texColor2 = imageLoad(imgOutput2, texelCoord);
 
-    if (texColor.x == 0) {
-        value.x = 1;
-    }
-    else {
-        value.x = 0.1;
-    }
+    texColor1.x = 0.1;
+    texColor1.y = 1;
 
-    if (texColor.y == 0) {
-        value.y = 1;
-    }
-    else {
-        value.y = 1;
-    }
+    texColor2.x = 1;
+    texColor2.y = 0.1;
 
-    imageStore(imgOutput1, texelCoord, value);
+    imageStore(imgOutput1, texelCoord, texColor1);
+    imageStore(imgOutput2, texelCoord, texColor2);
 }

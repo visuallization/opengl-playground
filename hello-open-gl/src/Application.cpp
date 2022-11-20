@@ -59,7 +59,7 @@ int main(void)
     glfwMakeContextCurrent(window);
 
     // synchronize with refresh rate
-    // 0 == uncapped fps, 1 == capped fps (60 fps)
+    // uncapped fps = 0, capped fps (60 fps) = 1
     glfwSwapInterval(1);
 
     if (glewInit() != GLEW_OK)

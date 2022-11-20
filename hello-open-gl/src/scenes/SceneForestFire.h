@@ -30,5 +30,7 @@ namespace scene {
 
         std::unique_ptr<Texture> m_Texture1;
         std::unique_ptr<Texture> m_Texture2;
+
+        bool m_SwitchTexture;
     };
 }

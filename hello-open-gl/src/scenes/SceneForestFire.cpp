@@ -6,6 +6,7 @@
 namespace scene {
     SceneForestFire::SceneForestFire(GLFWwindow*& window)
         : Scene::Scene(window)
+        , m_SwitchTexture(false)
     {
         // positions + texture coordinates
         float positions[] = {
@@ -62,12 +63,13 @@ namespace scene {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_Shader->Bind();
-        m_Shader->SetUniform1i("u_Texture", 0);
+        m_Shader->SetUniform1i("u_Texture", m_SwitchTexture);
         renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
         m_Shader->Unbind();
     }
 
     void SceneForestFire::OnImGuiRender() {
+        ImGui::Checkbox("Switch Texture", &m_SwitchTexture);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     }
 }
