@@ -38,9 +38,27 @@ namespace scene {
 
         m_ComputeShader = std::make_unique<Shader>("res/shaders/ForestFire.shader");
 
-		m_Texture1 = std::make_unique<Texture>(m_Width, m_Height);
-        m_Texture2 = std::make_unique<Texture>(m_Width, m_Height);
-    }
+		/*m_Texture1 = std::make_unique<Texture>(m_Width, m_Height);
+		m_Texture2 = std::make_unique<Texture>(m_Width, m_Height);*/
+
+		GLCall(glGenTextures(2, m_Textures));
+        for (int i = 0; i < 2; i++) {
+			GLCall(glBindTexture(GL_TEXTURE_2D, m_Textures[i]));
+
+			// The texture minifying function is used whenever the level-of-detail function determines that the texture should be minified
+			GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+			// The texture magnification function is used whenever the level-of-detail function determines that the texture should be magnified
+			GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+			// Clamp texture horizontally
+			GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+			// Clamp texture vertically
+			GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+
+			GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL));
+
+			GLCall(glBindImageTexture(i, m_Textures[i], 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
+        }
+	}
 
     SceneForestFire::~SceneForestFire() {
 
@@ -52,7 +70,10 @@ namespace scene {
 
     void SceneForestFire::OnRender() {
         Renderer renderer;
-        m_Texture1->BindImage();
+		GLCall(glActiveTexture(GL_TEXTURE0 + 0));
+		GLCall(glBindTexture(GL_TEXTURE_2D, m_Textures[1]));
+		GLCall(glBindImageTexture(1, m_Textures[1], 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F))
+        //m_Texture1->BindImage();
         //m_Texture2->BindImage();
 
         m_ComputeShader->Bind();

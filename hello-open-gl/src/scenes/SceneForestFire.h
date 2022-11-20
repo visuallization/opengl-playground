@@ -28,6 +28,7 @@ namespace scene {
         std::unique_ptr<Shader> m_Shader;
         std::unique_ptr<Shader> m_ComputeShader;
 
+        GLuint m_Textures[2];
         std::unique_ptr<Texture> m_Texture1;
         std::unique_ptr<Texture> m_Texture2;
     };
