@@ -57,6 +57,7 @@ namespace scene {
         m_Texture2->Bind(1);
 
         m_ComputeShader->Bind();
+        m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
         GLCall(glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT));
         m_ComputeShader->Unbind();
