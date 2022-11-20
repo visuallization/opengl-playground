@@ -2,7 +2,7 @@
 
 #include "stb_image/stb_image.h"
 
-Texture::Texture(const unsigned int width, const unsigned int height)
+Texture::Texture(const unsigned int width, const unsigned int height, unsigned int unit)
 	: m_RendererID(0), m_FilePath(""), m_LocalBuffer(nullptr), m_Width(width), m_Height(height), m_BitsPerPixel(0)
 {
 	GLCall(glGenTextures(1, &m_RendererID));
@@ -19,7 +19,7 @@ Texture::Texture(const unsigned int width, const unsigned int height)
 
 	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL));
 
-	GLCall(glBindImageTexture(0, m_RendererID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
+	GLCall(glBindImageTexture(unit, m_RendererID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
 
 	Unbind();
 }
@@ -63,10 +63,10 @@ void Texture::Bind(unsigned int slot) const {
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 }
 
-void Texture::BindImage(unsigned int slot) const {
+void Texture::BindImage(unsigned int slot, unsigned int unit) const {
 	Bind(slot);
 	// Bind the texture
-	GLCall(glBindImageTexture(0, m_RendererID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
+	GLCall(glBindImageTexture(unit, m_RendererID, 0, GL_FALSE, 0, GL_READ_WRITE, GL_RGBA32F));
 }
 
 void Texture::Unbind() const {

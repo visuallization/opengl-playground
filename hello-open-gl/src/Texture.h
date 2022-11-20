@@ -10,12 +10,12 @@ private:
 	int m_Width, m_Height, m_BitsPerPixel;
 
 public:
-	Texture(const unsigned int width, const unsigned int height);
+	Texture(const unsigned int width, const unsigned int height, unsigned int unit = 0);
 	Texture(const std::string& path);
 	~Texture();
 
 	void Bind(unsigned int slot = 0) const;
-	void BindImage(unsigned int slot = 0) const;
+	void BindImage(unsigned int slot = 0, unsigned int unit = 0) const;
 	void Unbind() const;
 
 	inline int GetWidth() const { return m_Width; }
