@@ -7,6 +7,8 @@ namespace scene {
     SceneForestFire::SceneForestFire(GLFWwindow*& window)
         : Scene::Scene(window)
         , m_SwitchTexture(false)
+        , m_FireProbability(0.0f)
+        , m_GrowthProbability(0.0f)
     {
         // positions + texture coordinates
         float positions[] = {
@@ -58,6 +60,8 @@ namespace scene {
 
         m_ComputeShader->Bind();
         m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
+        m_ComputeShader->SetUniform1f("u_FireProbability", m_FireProbability);
+        m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
         GLCall(glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT));
         m_ComputeShader->Unbind();
@@ -71,6 +75,8 @@ namespace scene {
 
     void SceneForestFire::OnImGuiRender() {
         ImGui::Checkbox("Switch Texture", &m_SwitchTexture);
+        ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
+        ImGui::SliderFloat("Grow Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     }
 }

@@ -32,5 +32,8 @@ namespace scene {
         std::unique_ptr<Texture> m_Texture2;
 
         bool m_SwitchTexture;
+
+        float m_FireProbability;
+        float m_GrowthProbability;
     };
 }
