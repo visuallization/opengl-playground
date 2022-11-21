@@ -71,24 +71,38 @@ float random(vec3 p3) {
 }
 
 void main() {
-    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
     ivec2 bounds = imageSize(u_ImgOutput1);
 
-    vec4 currentCell = loadCell(position, bounds);
-
+    vec4 currentCell = loadCell(pos, bounds);
+    
     if (isEmpty(currentCell)) {
-        if (random(vec3(position.x, position.y, u_Time)) < u_GrowthProbability) {
+        if (random(vec3(pos.x, pos.y, u_Time)) < u_GrowthProbability) {
             currentCell = tree();
         }
     }
     else if (isTree(currentCell)) {
-        if (random(vec3(position.x, position.y, u_Time)) < u_FireProbability) {
+        if (random(vec3(pos.x, pos.y, u_Time)) < u_FireProbability) {
             currentCell = fire();
         }
+        else {
+            // Check if a neighbour is on fire (Von Neumann Neighborhood)
+            // If so the current cell will also catch fire
+            vec4 n1 = loadCell(ivec2(pos.x - 1, pos.y), bounds);
+            vec4 n2 = loadCell(ivec2(pos.x, pos.y + 1), bounds);
+            vec4 n3 = loadCell(ivec2(pos.x + 1, pos.y), bounds);
+            vec4 n4 = loadCell(ivec2(pos.x, pos.y - 1), bounds);
+
+            if (isFire(n1) || isFire(n2) || isFire(n3) || isFire(n4)) {
+                currentCell = fire();
+            }
+        }
+
     }
     else if (isFire(currentCell)) {
         currentCell = empty();
     }
 
-    saveCell(position, currentCell);
+
+    saveCell(pos, currentCell);
 }

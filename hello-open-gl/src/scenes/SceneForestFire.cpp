@@ -9,6 +9,8 @@ namespace scene {
         , m_SwitchTexture(false)
         , m_FireProbability(0.0f)
         , m_GrowthProbability(0.0f)
+        , m_IsMousePressed(false)
+        , m_MousePosition(-1, -1)
     {
         // positions + texture coordinates
         float positions[] = {
@@ -50,7 +52,18 @@ namespace scene {
     }
 
     void SceneForestFire::OnUpdate(float deltaTime) {
-
+        if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+            m_IsMousePressed = true;
+            double xPos, yPos;
+			glfwGetCursorPos(m_Window, &xPos, &yPos);
+            m_MousePosition.x = float(xPos);
+            m_MousePosition.y = float(yPos);
+        }
+        else if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
+            m_IsMousePressed = false;
+            m_MousePosition.x = -1;
+            m_MousePosition.y = -1;
+        }
     }
 
     void SceneForestFire::OnRender() {
@@ -81,5 +94,6 @@ namespace scene {
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
         ImGui::SliderFloat("Growth Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Text("Mouse Pos: x: %.3f y: %.3f", m_MousePosition.x, m_MousePosition.y);
     }
 }

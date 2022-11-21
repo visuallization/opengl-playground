@@ -36,7 +36,7 @@ namespace scene {
 
 		template <typename T>
 		void RegisterScene(const std::string& name, GLFWwindow*& window) {
-			std::cout << "Regsitering Scene: " << name << std::endl;
+			std::cout << "Registering Scene: " << name << std::endl;
 			m_Scenes.push_back(std::make_pair(name, [&]() { return new T(window); }));
 		}
 
