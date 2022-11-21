@@ -39,6 +39,31 @@ vec4 fire() {
     return vec4(1, 0, 0, 2);
 }
 
+// loading + saving cell
+vec4 loadCell(ivec2 pos, ivec2 bounds) {
+    // boundary condition: periodic
+    if (int(pos.x) >= int(bounds.x)) {
+        pos.x = 0;
+    }
+    else if (pos.x < 0) {
+        pos.x = bounds.x - 1;
+    }
+
+    if (int(pos.y) >= int(bounds.y)) {
+        pos.y = 0;
+    }
+    else if (pos.y < 0) {
+        pos.y = bounds.y - 1;
+    }
+
+    return imageLoad(u_SwitchTexture ? u_ImgOutput1 : u_ImgOutput2, pos);
+}
+
+void saveCell(ivec2 pos, vec4 cell) {
+    imageStore(u_SwitchTexture ? u_ImgOutput2 : u_ImgOutput1, pos, cell);
+}
+
+// util
 float random(vec3 p3) {
     p3 = fract(p3 * .1031);
     p3 += dot(p3, p3.zyx + 31.32);
@@ -46,21 +71,24 @@ float random(vec3 p3) {
 }
 
 void main() {
-    ivec2 texelCoord = ivec2(gl_GlobalInvocationID.xy);
-    vec4 currentCell = imageLoad(u_SwitchTexture ? u_ImgOutput1 : u_ImgOutput2, texelCoord);
+    ivec2 position = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 bounds = imageSize(u_ImgOutput1);
+
+    vec4 currentCell = loadCell(position, bounds);
 
     if (isEmpty(currentCell)) {
-        if (random(vec3(texelCoord.x, texelCoord.y, u_Time)) < u_GrowthProbability) {
+        if (random(vec3(position.x, position.y, u_Time)) < u_GrowthProbability) {
             currentCell = tree();
         }
     }
     else if (isTree(currentCell)) {
-        if (random(vec3(texelCoord.x, texelCoord.y, u_Time)) < u_FireProbability) {
+        if (random(vec3(position.x, position.y, u_Time)) < u_FireProbability) {
             currentCell = fire();
         }
     }
     else if (isFire(currentCell)) {
         currentCell = empty();
     }
-    imageStore(u_SwitchTexture ? u_ImgOutput2 : u_ImgOutput1, texelCoord, currentCell);
+
+    saveCell(position, currentCell);
 }
