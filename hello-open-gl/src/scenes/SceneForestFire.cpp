@@ -71,10 +71,12 @@ namespace scene {
         m_Shader->SetUniform1i("u_Texture", m_SwitchTexture);
         renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
         m_Shader->Unbind();
+
+        m_SwitchTexture = !m_SwitchTexture;
     }
 
     void SceneForestFire::OnImGuiRender() {
-        ImGui::Checkbox("Switch Texture", &m_SwitchTexture);
+        //ImGui::Checkbox("Switch Texture", &m_SwitchTexture);
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
         ImGui::SliderFloat("Grow Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
