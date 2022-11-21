@@ -9,6 +9,7 @@ layout(rgba32f, binding = 1) uniform image2D u_ImgOutput2;
 uniform bool u_SwitchTexture;
 uniform float u_FireProbability;
 uniform float u_GrowthProbability;
+uniform float u_Time;
 
 // the alpha channel (a) is used to classify the cell
 // 0 = empty, 1 = tree, 2 = fire
@@ -38,8 +39,7 @@ vec4 fire() {
     return vec4(1, 0, 0, 2);
 }
 
-// random function
-float hash13(vec3 p3) {
+float random(vec3 p3) {
     p3 = fract(p3 * .1031);
     p3 += dot(p3, p3.zyx + 31.32);
     return fract((p3.x + p3.y) * p3.z);
@@ -49,12 +49,18 @@ void main() {
     ivec2 texelCoord = ivec2(gl_GlobalInvocationID.xy);
     vec4 currentCell = imageLoad(u_SwitchTexture ? u_ImgOutput1 : u_ImgOutput2, texelCoord);
 
-    if (hash13(vec3(texelCoord.x, texelCoord.y, 0.1)) < u_GrowthProbability) {
-        currentCell = tree();
+    if (isEmpty(currentCell)) {
+        if (random(vec3(texelCoord.x, texelCoord.y, u_Time)) < u_GrowthProbability) {
+            currentCell = tree();
+        }
     }
-    else {
+    else if (isTree(currentCell)) {
+        if (random(vec3(texelCoord.x, texelCoord.y, u_Time)) < u_FireProbability) {
+            currentCell = fire();
+        }
+    }
+    else if (isFire(currentCell)) {
         currentCell = empty();
     }
-
     imageStore(u_SwitchTexture ? u_ImgOutput2 : u_ImgOutput1, texelCoord, currentCell);
 }

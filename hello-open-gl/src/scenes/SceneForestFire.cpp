@@ -62,6 +62,7 @@ namespace scene {
         m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
         m_ComputeShader->SetUniform1f("u_FireProbability", m_FireProbability);
         m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
+        m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
         GLCall(glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT));
         m_ComputeShader->Unbind();
@@ -78,7 +79,7 @@ namespace scene {
     void SceneForestFire::OnImGuiRender() {
         //ImGui::Checkbox("Switch Texture", &m_SwitchTexture);
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
-        ImGui::SliderFloat("Grow Probability", &m_GrowthProbability, 0, 1);
+        ImGui::SliderFloat("Growth Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     }
 }
