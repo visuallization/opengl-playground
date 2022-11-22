@@ -37,6 +37,6 @@ namespace scene {
         float m_GrowthProbability;
 
         bool m_IsMousePressed;
-        glm::vec2 m_MousePosition;
+        glm::ivec2 m_MousePosition;
     };
 }

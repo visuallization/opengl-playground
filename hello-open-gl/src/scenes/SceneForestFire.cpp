@@ -56,8 +56,8 @@ namespace scene {
             m_IsMousePressed = true;
             double xPos, yPos;
 			glfwGetCursorPos(m_Window, &xPos, &yPos);
-            m_MousePosition.x = float(xPos);
-            m_MousePosition.y = float(yPos);
+            m_MousePosition.x = xPos;
+            m_MousePosition.y = yPos;
         }
         else if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
             m_IsMousePressed = false;
@@ -94,6 +94,6 @@ namespace scene {
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
         ImGui::SliderFloat("Growth Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::Text("Mouse Pos: x: %.3f y: %.3f", m_MousePosition.x, m_MousePosition.y);
+        ImGui::Text("Mouse Pos: x: %d y: %d", m_MousePosition.x, m_MousePosition.y);
     }
 }
