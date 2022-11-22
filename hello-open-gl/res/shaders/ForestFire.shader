@@ -33,11 +33,11 @@ vec4 empty() {
 }
 
 vec4 tree() {
-    return vec4(0, 1, 0, 1);
+    return vec4(0, 0.36, 0.45, 1);
 }
 
 vec4 fire() {
-    return vec4(1, 0, 0, 2);
+    return vec4(0.95, 0.4, 0.54, 2);
 }
 
 // loading + saving cell
