@@ -23,6 +23,14 @@ void Shader::Unbind() const {
     GLCall(glUseProgram(0));
 }
 
+void Shader::Dispatch(unsigned int x,unsigned int y,unsigned int z) const {
+	GLCall(glDispatchCompute(x, y, z));
+}
+
+void Shader::SetMemoryBarrier(unsigned int barriers) const {
+	GLCall(glMemoryBarrier(barriers));
+}
+
 void Shader::SetUniform1i(const std::string& name, int value) {
     GLCall(glUniform1i(GetUniformLocation(name), value));
 }

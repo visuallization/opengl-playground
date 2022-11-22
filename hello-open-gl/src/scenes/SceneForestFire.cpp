@@ -57,9 +57,9 @@ namespace scene {
             double xPos, yPos;
 			glfwGetCursorPos(m_Window, &xPos, &yPos);
             m_MousePosition.x = xPos;
-            // inverse y:
+            // inverse y because:
             // glfwGetCursor (0,0) is at the top left corner, 
-            // in the shader (0,0) is at the bottom left corner
+            // image2d in the shader (0,0) is at the bottom left corner
             m_MousePosition.y = m_Height - yPos;
         }
         else if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
@@ -80,11 +80,10 @@ namespace scene {
 		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
         m_ComputeShader->SetUniform1f("u_FireProbability", m_FireProbability);
         m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
-        GLCall(glDispatchCompute(m_Width, m_Height, 1));
-        GLCall(glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT));
+        m_ComputeShader->Dispatch(m_Width, m_Height);
+        m_ComputeShader->SetMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
         m_ComputeShader->Unbind();
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_Shader->Bind();
         m_Shader->SetUniform1i("u_Texture", m_SwitchTexture);
         renderer.Draw(*m_VAO, *m_IBO, *m_Shader);

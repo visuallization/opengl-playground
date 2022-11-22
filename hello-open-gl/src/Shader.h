@@ -24,6 +24,8 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+	void Dispatch(unsigned int x = 1, unsigned int y = 1, unsigned int z = 1) const;
+	void SetMemoryBarrier(unsigned int barriers) const;
 
 	// Set uniforms of the shader (after it has been activated by glUseProgram)
 	void SetUniform1i(const std::string& name, int value);
