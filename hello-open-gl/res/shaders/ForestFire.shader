@@ -10,6 +10,7 @@ uniform bool u_SwitchTexture;
 uniform float u_FireProbability;
 uniform float u_GrowthProbability;
 uniform float u_Time;
+uniform ivec2 u_MousePosition;
 
 // the alpha channel (a) is used to classify the cell
 // 0 = empty, 1 = tree, 2 = fire
@@ -76,7 +77,10 @@ void main() {
 
     vec4 currentCell = loadCell(pos, bounds);
     
-    if (isEmpty(currentCell)) {
+    if (u_MousePosition.x != -1 && u_MousePosition.y != -1 && pos.x == u_MousePosition.x && pos.y == u_MousePosition.y) {
+        currentCell = fire();
+    }
+    else if (isEmpty(currentCell)) {
         if (random(vec3(pos.x, pos.y, u_Time)) < u_GrowthProbability) {
             currentCell = tree();
         }

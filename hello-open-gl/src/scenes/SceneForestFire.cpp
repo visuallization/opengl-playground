@@ -57,7 +57,10 @@ namespace scene {
             double xPos, yPos;
 			glfwGetCursorPos(m_Window, &xPos, &yPos);
             m_MousePosition.x = xPos;
-            m_MousePosition.y = yPos;
+            // inverse y:
+            // glfwGetCursor (0,0) is at the top left corner, 
+            // in the shader (0,0) is at the bottom left corner
+            m_MousePosition.y = m_Height - yPos;
         }
         else if (glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
             m_IsMousePressed = false;
@@ -72,10 +75,11 @@ namespace scene {
         m_Texture2->Bind(1);
 
         m_ComputeShader->Bind();
-        m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
+		m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
+		m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
+		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
         m_ComputeShader->SetUniform1f("u_FireProbability", m_FireProbability);
         m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
-        m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
         GLCall(glDispatchCompute(m_Width, m_Height, 1));
         GLCall(glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT));
         m_ComputeShader->Unbind();
