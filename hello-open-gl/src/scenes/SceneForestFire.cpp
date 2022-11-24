@@ -4,10 +4,16 @@
 #include "imgui/imgui.h"
 
 namespace scene {
+    enum BoundaryCondtion {
+        ASSIGNED,
+        PERIODIC
+    };
+
     SceneForestFire::SceneForestFire(GLFWwindow*& window)
         : Scene::Scene(window)
         , m_SwitchTexture(false)
         , m_UseMooreNeighborhood(false)
+        , m_BoundaryCondition(BoundaryCondtion::ASSIGNED)
         , m_FireProbability(0.0f)
         , m_GrowthProbability(0.0f)
         , m_IsMousePressed(false)
@@ -76,9 +82,10 @@ namespace scene {
         m_Texture2->Bind(1);
 
         m_ComputeShader->Bind();
+		m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
 		m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
         m_ComputeShader->SetUniform1i("u_UseMooreNeighborhood", m_UseMooreNeighborhood);
-		m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
+        m_ComputeShader->SetUniform1i("u_BoundaryCondition", m_BoundaryCondition);
 		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
         m_ComputeShader->SetUniform1f("u_FireProbability", m_FireProbability);
         m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
@@ -96,6 +103,8 @@ namespace scene {
 
     void SceneForestFire::OnImGuiRender() {
         ImGui::Checkbox("Use Moore Neighborhood", &m_UseMooreNeighborhood);
+        ImGui::SliderInt("Boundary Condition", &m_BoundaryCondition, BoundaryCondtion::ASSIGNED, BoundaryCondtion::PERIODIC);
+		ImGui::Text("Selected Condition: %s", m_BoundaryCondition == BoundaryCondtion::ASSIGNED ? "Assigned" : "Periodic");
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
         ImGui::SliderFloat("Growth Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

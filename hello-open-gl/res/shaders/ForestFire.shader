@@ -8,6 +8,7 @@ layout(rgba32f, binding = 1) uniform image2D u_ImgOutput2;
 
 uniform bool u_SwitchTexture;
 uniform bool u_UseMooreNeighborhood;
+uniform int u_BoundaryCondition;
 uniform float u_FireProbability;
 uniform float u_GrowthProbability;
 uniform float u_Time;
@@ -41,21 +42,31 @@ vec4 fire() {
     return vec4(0.95, 0.4, 0.54, 2);
 }
 
+// boundary condition check
+// 0 = assigned, 1 = periodic
+bool isAssigned(int condition) {
+    return condition == 0;
+}
+
+bool isPeriodic(int condition) {
+    return condition == 1;
+}
+
 // loading + saving cell
 vec4 loadCell(ivec2 pos, ivec2 bounds) {
-    // boundary condition: periodic
+    // boundary conditions
     if (int(pos.x) >= int(bounds.x)) {
-        pos.x = 0;
+        pos.x = isPeriodic(u_BoundaryCondition) ? 0 : bounds.x - 1;
     }
     else if (pos.x < 0) {
-        pos.x = bounds.x - 1;
+        pos.x = isPeriodic(u_BoundaryCondition) ? bounds.x - 1 : 0;
     }
 
     if (int(pos.y) >= int(bounds.y)) {
-        pos.y = 0;
+        pos.y = isPeriodic(u_BoundaryCondition) ? 0 : bounds.y - 1;
     }
     else if (pos.y < 0) {
-        pos.y = bounds.y - 1;
+        pos.y = isPeriodic(u_BoundaryCondition) ? bounds.y - 1 : 0;
     }
 
     return imageLoad(u_SwitchTexture ? u_ImgOutput1 : u_ImgOutput2, pos);
