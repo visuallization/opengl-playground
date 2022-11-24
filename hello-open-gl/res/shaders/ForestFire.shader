@@ -7,6 +7,7 @@ layout(rgba32f, binding = 0) uniform image2D u_ImgOutput1;
 layout(rgba32f, binding = 1) uniform image2D u_ImgOutput2;
 
 uniform bool u_SwitchTexture;
+uniform bool u_UseMooreNeighborhood;
 uniform float u_FireProbability;
 uniform float u_GrowthProbability;
 uniform float u_Time;
@@ -90,14 +91,29 @@ void main() {
             currentCell = fire();
         }
         else {
-            // Check if a neighbour is on fire (Von Neumann Neighborhood)
+            // Check if a neighbour is on fire
             // If so the current cell will also catch fire
+            bool isANeighborOnFire = false;
+
+            // (Von Neumann Neighborhood)
             vec4 n1 = loadCell(ivec2(pos.x - 1, pos.y), bounds);
             vec4 n2 = loadCell(ivec2(pos.x, pos.y + 1), bounds);
             vec4 n3 = loadCell(ivec2(pos.x + 1, pos.y), bounds);
             vec4 n4 = loadCell(ivec2(pos.x, pos.y - 1), bounds);
 
-            if (isFire(n1) || isFire(n2) || isFire(n3) || isFire(n4)) {
+            isANeighborOnFire = isFire(n1) || isFire(n2) || isFire(n3) || isFire(n4);
+
+            // (Moore Neighborhood)
+            if (!isANeighborOnFire && u_UseMooreNeighborhood) {
+                vec4 n5 = loadCell(ivec2(pos.x - 1, pos.y + 1), bounds);
+                vec4 n6 = loadCell(ivec2(pos.x + 1, pos.y + 1), bounds);
+                vec4 n7 = loadCell(ivec2(pos.x + 1, pos.y - 1), bounds);
+                vec4 n8 = loadCell(ivec2(pos.x - 1, pos.y - 1), bounds);
+
+                isANeighborOnFire = isFire(n5) || isFire(n6) || isFire(n7) || isFire(n8);
+            }
+
+            if (isANeighborOnFire) {
                 currentCell = fire();
             }
         }

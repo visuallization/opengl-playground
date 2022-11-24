@@ -25,8 +25,8 @@
 #include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
 
-const unsigned int WINDOW_WIDTH = 960;
-const unsigned int WINDOW_HEIGHT = 540;
+const unsigned int WINDOW_WIDTH = 1000;
+const unsigned int WINDOW_HEIGHT = 1000;
 
 void HandleKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {

@@ -36,6 +36,8 @@ namespace scene {
         float m_FireProbability;
         float m_GrowthProbability;
 
+        bool m_UseMooreNeighborhood;
+
         bool m_IsMousePressed;
         glm::ivec2 m_MousePosition;
     };
