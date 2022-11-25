@@ -100,7 +100,9 @@ namespace scene {
 		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
 
         m_ComputeShader->Dispatch(m_Width, m_Height);
+        // make sure writing is completely finished
         m_ComputeShader->SetMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
         m_ComputeShader->Unbind();
 
         m_Shader->Bind();

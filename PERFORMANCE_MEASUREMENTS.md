@@ -3,7 +3,7 @@ Measuring the time (in ms) of the forest fire algorithm for calculating 1, 10, 1
 
 ## Performance
 
-**400 fps**
+**400 fps** (1000x1000 workgroups | 1x1 invocations per workgroup)
 ```
 1       1.4514 ms  
 10      16.5787 ms  
@@ -12,7 +12,7 @@ Measuring the time (in ms) of the forest fire algorithm for calculating 1, 10, 1
 10000   23323.4 ms  
 ```
 
-**1500 fps**
+**1500 fps** (100x100 workgroups | 10x10 invocations per workgroup)
 ```
 1       1.7427 ms  
 10      7.4755 ms  
