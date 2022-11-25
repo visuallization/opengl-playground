@@ -7,12 +7,23 @@ layout(rgba32f, binding = 0) uniform image2D u_ImgOutput1;
 layout(rgba32f, binding = 1) uniform image2D u_ImgOutput2;
 
 uniform bool u_SwitchTexture;
-uniform bool u_UseMooreNeighborhood;
+
 uniform int u_BoundaryCondition;
+uniform int u_NeighborhoodCondition;
+
 uniform float u_FireProbability;
 uniform float u_GrowthProbability;
 uniform float u_Time;
+
 uniform ivec2 u_MousePosition;
+
+// neighborhood condition constants
+const uint NEUMANN = 0;
+const uint MOORE = 1;
+
+// boundary condition constants
+const uint ASSIGNED = 0;
+const uint PERIODIC = 1;
 
 // the alpha channel (a) is used to classify the cell
 // 0 = empty, 1 = tree, 2 = fire
@@ -43,13 +54,21 @@ vec4 fire() {
 }
 
 // boundary condition check
-// 0 = assigned, 1 = periodic
 bool isAssigned(int condition) {
-    return condition == 0;
+    return condition == ASSIGNED;
 }
 
 bool isPeriodic(int condition) {
-    return condition == 1;
+    return condition == PERIODIC;
+}
+
+// neighborhood condition check
+bool isVonNeumann(int condition) {
+    return condition == NEUMANN;
+}
+
+bool isMoore(int condition) {
+    return condition == MOORE;
 }
 
 // loading + saving cell
@@ -115,7 +134,7 @@ void main() {
             isANeighborOnFire = isFire(n1) || isFire(n2) || isFire(n3) || isFire(n4);
 
             // (Moore Neighborhood)
-            if (!isANeighborOnFire && u_UseMooreNeighborhood) {
+            if (!isANeighborOnFire && isMoore(u_NeighborhoodCondition)) {
                 vec4 n5 = loadCell(ivec2(pos.x - 1, pos.y + 1), bounds);
                 vec4 n6 = loadCell(ivec2(pos.x + 1, pos.y + 1), bounds);
                 vec4 n7 = loadCell(ivec2(pos.x + 1, pos.y - 1), bounds);

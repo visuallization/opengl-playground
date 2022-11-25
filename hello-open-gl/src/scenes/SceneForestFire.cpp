@@ -9,11 +9,17 @@ namespace scene {
         PERIODIC
     };
 
+    enum NeighborhoodCondition
+    {
+        NEUMANN,
+        MOORE
+    };
+
     SceneForestFire::SceneForestFire(GLFWwindow*& window)
         : Scene::Scene(window)
         , m_SwitchTexture(false)
-        , m_UseMooreNeighborhood(false)
-        , m_BoundaryCondition(BoundaryCondtion::ASSIGNED)
+		, m_BoundaryCondition(BoundaryCondtion::ASSIGNED)
+        , m_NeighborhoodCondition(NeighborhoodCondition::NEUMANN)
         , m_FireProbability(0.0f)
         , m_GrowthProbability(0.0f)
         , m_IsMousePressed(false)
@@ -82,13 +88,17 @@ namespace scene {
         m_Texture2->Bind(1);
 
         m_ComputeShader->Bind();
-		m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
 		m_ComputeShader->SetUniform1i("u_SwitchTexture", m_SwitchTexture);
-        m_ComputeShader->SetUniform1i("u_UseMooreNeighborhood", m_UseMooreNeighborhood);
+
         m_ComputeShader->SetUniform1i("u_BoundaryCondition", m_BoundaryCondition);
-		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
+        m_ComputeShader->SetUniform1i("u_NeighborhoodCondition", m_NeighborhoodCondition);
+
         m_ComputeShader->SetUniform1f("u_FireProbability", m_FireProbability);
         m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
+		m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
+
+		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
+
         m_ComputeShader->Dispatch(m_Width, m_Height);
         m_ComputeShader->SetMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
         m_ComputeShader->Unbind();
@@ -102,9 +112,14 @@ namespace scene {
     }
 
     void SceneForestFire::OnImGuiRender() {
-        ImGui::Checkbox("Use Moore Neighborhood", &m_UseMooreNeighborhood);
-        ImGui::SliderInt("Boundary Condition", &m_BoundaryCondition, BoundaryCondtion::ASSIGNED, BoundaryCondtion::PERIODIC);
-		ImGui::Text("Selected Condition: %s", m_BoundaryCondition == BoundaryCondtion::ASSIGNED ? "Assigned" : "Periodic");
+		ImGui::Text("Neighborhood Condition: "); ImGui::SameLine();
+		if (ImGui::RadioButton("Von Neumann", m_NeighborhoodCondition == NeighborhoodCondition::NEUMANN)) { m_NeighborhoodCondition = NeighborhoodCondition::NEUMANN; } ImGui::SameLine();
+		if (ImGui::RadioButton("Moore", m_NeighborhoodCondition == NeighborhoodCondition::MOORE)) { m_NeighborhoodCondition = NeighborhoodCondition::MOORE; }
+
+        ImGui::Text("Boundary Condition: "); ImGui::SameLine();
+        if (ImGui::RadioButton("Assigned", m_BoundaryCondition == BoundaryCondtion::ASSIGNED)) { m_BoundaryCondition = BoundaryCondtion::ASSIGNED; } ImGui::SameLine();
+        if (ImGui::RadioButton("Periodic", m_BoundaryCondition == BoundaryCondtion::PERIODIC)) { m_BoundaryCondition = BoundaryCondtion::PERIODIC; }
+
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
         ImGui::SliderFloat("Growth Probability", &m_GrowthProbability, 0, 1);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
