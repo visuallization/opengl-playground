@@ -5,9 +5,20 @@
 
 class Timer {
 public:
-	Timer(): m_Start(std::chrono::high_resolution_clock::now()) {}
+	Timer()
+		: m_Start(std::chrono::high_resolution_clock::now())
+		, m_Duration(0.0f)
+	{}
 
 	~Timer() {
+		Stop();
+	}
+
+	void Start() {
+		m_Start = std::chrono::high_resolution_clock::now();
+	}
+
+	void Stop() {
 		m_End = std::chrono::high_resolution_clock::now();
 		m_Duration = m_End - m_Start;
 
