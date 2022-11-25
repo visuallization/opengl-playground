@@ -46,11 +46,11 @@ vec4 empty() {
 }
 
 vec4 tree() {
-    return vec4(0, 0.36, 0.45, 1);
+    return vec4(0.3, 0.17, 0.35, 1);
 }
 
 vec4 fire() {
-    return vec4(0.95, 0.4, 0.54, 2);
+    return vec4(0.95, 0.46, 0.46, 2);
 }
 
 // boundary condition check
