@@ -1,5 +1,5 @@
 # Forest Fire
-![Forest Fire Demo](https://i.imgur.com/fqZKqiV.mp4)
+[Imgur](https://imgur.com/fqZKqiV)
 
 Implementation of the forest fire algorithm.  
 
