@@ -95,6 +95,7 @@
     <ClCompile Include="src\scenes\SceneComputeDemo.cpp" />
     <ClCompile Include="src\scenes\SceneComputeDemoOptimized.cpp" />
     <ClCompile Include="src\scenes\SceneForestFire.cpp" />
+    <ClCompile Include="src\scenes\SceneImGuiDemo.cpp" />
     <ClCompile Include="src\scenes\SceneModel.cpp" />
     <ClCompile Include="src\scenes\SceneGeometryDemo.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -276,6 +277,7 @@
     <ClInclude Include="src\scenes\SceneComputeDemo.h" />
     <ClInclude Include="src\scenes\SceneComputeDemoOptimized.h" />
     <ClInclude Include="src\scenes\SceneForestFire.h" />
+    <ClInclude Include="src\scenes\SceneImGuiDemo.h" />
     <ClInclude Include="src\scenes\SceneModel.h" />
     <ClInclude Include="src\scenes\SceneGeometryDemo.h" />
     <ClInclude Include="src\Camera.h" />

@@ -21,6 +21,7 @@
 #include "scenes/SceneCube.h";
 #include "scenes/SceneForestFire.h"
 #include "scenes/SceneGeometryDemo.h";
+#include "scenes/SceneImGuiDemo.h"
 #include "scenes/SceneModel.h";
 #include "scenes/ScenePoint.h";
 #include "scenes/SceneTexture2D.h";
@@ -83,6 +84,7 @@ int main(void)
         menu->RegisterScene<scene::SceneClearColor>("Clear Color", window);
         menu->RegisterScene<scene::SceneTexture2D>("2D Texture",  window);
         menu->RegisterScene<scene::SceneCube>("3D Cube", window);
+        menu->RegisterScene<scene::SceneImGuiDemo>("ImGui Demo", window);
         menu->RegisterScene<scene::SceneModel>("Model", window);
         menu->RegisterScene<scene::ScenePoint>("Point Rendering", window);
         menu->RegisterScene<scene::SceneGeometryDemo>("Geometry Demo", window);

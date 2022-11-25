@@ -21,7 +21,7 @@ namespace scene {
 		, m_BoundaryCondition(BoundaryCondtion::ASSIGNED)
         , m_NeighborhoodCondition(NeighborhoodCondition::NEUMANN)
         , m_FireProbability(0.0f)
-        , m_GrowthProbability(0.0f)
+        , m_GrowthProbability(0.01f)
         , m_IsMousePressed(false)
         , m_MousePosition(-1, -1)
     {
