@@ -1,6 +1,6 @@
 # Forest Fire
 
-https://i.imgur.com/fqZKqiV.mp4
+Watch video here: https://i.imgur.com/fqZKqiV.mp4
 
 Implementation of the forest fire algorithm.  
 
