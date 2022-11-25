@@ -1,4 +1,6 @@
 # Forest Fire
+![Forest Fire Demo](https://i.imgur.com/fqZKqiV.mp4)
+
 Implementation of the forest fire algorithm.  
 
 The project uses my custom render framework which I started in the second semester and continue to improve upon ever since.  
@@ -13,10 +15,18 @@ The texure itself is being fed to a vertex and fragment shader, which renders th
 
 ## Performance
 
-The compute shader instances 1000x1000 workgroups and 1x1 invocations per workgroup. Since the window size is 1000x1000, 
-this basically means the compute shader is running a workgroup for every pixel. This configuration is running with around 400 FPS on my notebook.
+<img src="forest_fire_60_fps.png" alt="drawing" width="400"/>
 
-One can improve this further by only instancing 100x100 workgroups and increasing to 10x10 invocations per workgroup. In other words we split the texture into batches of a certain size and run over each of this batches per workgroup. This configuration is running with around 1500 FPS on my notebook. Which is around 3 times faster than the per pixel configuration.
+By default the application caps the rendering to **60 FPS**. You can uncap this though. If you do so, you get the following results with certain settings:
+
+<img src="forest_fire_400_fps.png" alt="drawing" width="400"/>
+
+The compute shader instances 1000x1000 workgroups and 1x1 invocations per workgroup. Since the window size is 1000x1000, 
+this basically means the compute shader is running a workgroup for every pixel. This configuration is running with around **400 FPS** on my notebook.
+
+<img src="forest_fire_1500_fps.png" alt="drawing" width="400"/>
+
+One can improve this further by only instancing 100x100 workgroups and increasing to 10x10 invocations per workgroup. In other words we split the texture into batches of a certain size and run over each of this batches per workgroup. This configuration is running with around **1500 FPS** on my notebook. Which is around 3 times faster than the per pixel configuration.
 
 Following are some measurements which are measuring the time (in ms) of the forest fire algorithm for calculating 1, 10, 100, 1000 and 10000 steps.
 
