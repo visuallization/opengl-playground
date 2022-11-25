@@ -15,6 +15,9 @@ uniform float u_FireProbability;
 uniform float u_GrowthProbability;
 uniform float u_Time;
 
+uniform vec3 u_TreeColor;
+uniform vec3 u_FireColor;
+
 uniform ivec2 u_MousePosition;
 
 // neighborhood condition constants
@@ -46,11 +49,11 @@ vec4 empty() {
 }
 
 vec4 tree() {
-    return vec4(0.3, 0.17, 0.35, 1);
+    return vec4(u_TreeColor.r, u_TreeColor.g, u_TreeColor.b, 1);
 }
 
 vec4 fire() {
-    return vec4(0.95, 0.46, 0.46, 2);
+    return vec4(u_FireColor.r, u_FireColor.g, u_FireColor.b, 2);
 }
 
 // boundary condition check

@@ -24,6 +24,8 @@ namespace scene {
         , m_GrowthProbability(0.01f)
         , m_IsMousePressed(false)
         , m_MousePosition(-1, -1)
+        , m_TreeColor(0.3f, 0.17f, 0.35f)
+        , m_FireColor(0.95f, 0.46f, 0.46f)
     {
         // positions + texture coordinates
         float positions[] = {
@@ -97,12 +99,14 @@ namespace scene {
         m_ComputeShader->SetUniform1f("u_GrowthProbability", m_GrowthProbability);
 		m_ComputeShader->SetUniform1f("u_Time", glfwGetTime());
 
+        m_ComputeShader->SetUniformVec3f("u_TreeColor", m_TreeColor);
+        m_ComputeShader->SetUniformVec3f("u_FireColor", m_FireColor);
+
 		m_ComputeShader->SetUniformVec2i("u_MousePosition", m_MousePosition);
 
         m_ComputeShader->Dispatch(m_Width, m_Height);
         // make sure writing is completely finished
         m_ComputeShader->SetMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
-
         m_ComputeShader->Unbind();
 
         m_Shader->Bind();
@@ -124,6 +128,10 @@ namespace scene {
 
         ImGui::SliderFloat("Fire Probability", &m_FireProbability, 0, 1);
         ImGui::SliderFloat("Growth Probability", &m_GrowthProbability, 0, 1);
+
+		ImGui::ColorEdit3("Tree Color", &m_TreeColor[0]);
+		ImGui::ColorEdit3("Fire Color", &m_FireColor[0]);
+
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::Text("Mouse Pos: x: %d y: %d", m_MousePosition.x, m_MousePosition.y);
     }

@@ -41,5 +41,8 @@ namespace scene {
 
         bool m_IsMousePressed;
         glm::ivec2 m_MousePosition;
+
+        glm::vec3 m_TreeColor;
+        glm::vec3 m_FireColor;
     };
 }
