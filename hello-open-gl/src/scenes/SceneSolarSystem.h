@@ -6,6 +6,13 @@
 #include "Shader.h"
 
 namespace scene {
+	struct Planet {
+		glm::vec3 position;
+		float scale;
+		float weight;
+		glm::vec4 color;
+	};
+
 	class SceneSolarSystem : public Scene {
 	public:
 		SceneSolarSystem(GLFWwindow*& window);
@@ -25,7 +32,7 @@ namespace scene {
 
 		Camera m_Camera;
 
-		void RenderPlanet(const Renderer& renderer, const glm::vec3& translation, const float scale, const glm::vec4& color);
+		void RenderPlanet(const Renderer& renderer, const Planet& planet);
 	};
 }
 
