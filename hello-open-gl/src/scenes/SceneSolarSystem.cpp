@@ -6,6 +6,8 @@
 #include "Model.h"
 
 namespace scene {
+	const float GRAVITY = 100;
+
 	SceneSolarSystem::SceneSolarSystem(GLFWwindow*& window) :
 		Scene(window),
 		m_Model(glm::mat4(1.0f)), m_View(glm::mat4(1.0f)), m_Projection(glm::mat4(1.0f)),
@@ -16,6 +18,29 @@ namespace scene {
 
 		m_Shader = std::make_shared<Shader>("res/shaders/Model.shader");
 		m_3DModel = std::make_unique<Model>("res/models/world/world.obj");
+
+		float positionScale = 1.1f;
+		float sizeScale = 2.f;
+		float massScale = 0.0001f;
+
+		// Sun
+		m_Sun = {
+			glm::vec3(0, 0, 0),
+			1.f,
+			333000.f * massScale,
+			glm::vec4(1, 1, 0.6, 1)
+		};
+
+		// Earth
+		m_Earth = {
+			glm::vec3(1.5f * positionScale, 0, 0),
+			0.01f * sizeScale,
+			1.f * massScale,
+			glm::vec4(0, 0.6, 1, 1)
+		};
+
+		float r = glm::distance(m_Earth.position, m_Sun.position);
+		m_Earth.velocity += (glm::vec3(0, 1, 0) * 0.01f) * glm::sqrt((GRAVITY * m_Sun.mass) / r);
 	}
 
 	SceneSolarSystem::~SceneSolarSystem() {
@@ -24,97 +49,96 @@ namespace scene {
 
 	void SceneSolarSystem::OnUpdate(float deltaTime) {
 		m_Camera.OnUpdate(deltaTime);
+
+		//glm::vec3 force = glm::vec3(0, m_Earth.mass * gravity, 0);
+		//m_Earth.acceleration = glm::vec3(force.x / m_Earth.mass, force.y / m_Earth.mass, force.z / m_Earth.mass);
+		float r = glm::distance(m_Earth.position, m_Sun.position);
+		glm::vec3 force = glm::normalize(m_Sun.position - m_Earth.position) * (GRAVITY * (m_Earth.mass * m_Sun.mass) / (r * r));
+		m_Earth.acceleration = force;
+
+		m_Earth.velocity += m_Earth.acceleration * deltaTime;
+		m_Earth.position += m_Earth.velocity * deltaTime;
+
+		//earth.acceleration = gravity * ((sun.mass * earth.mass) / (earth.position * earth.position));
+		//earth.velocity = (gravity * sun.mass) / (earth.position);
 	}
 
 	void SceneSolarSystem::OnRender() {
 		Renderer renderer;
-		float positionScale = 1.1f;
-		float sizeScale = 2.f;
-		float weightScale = 1.f;
 
-		// Sun
-		Planet sun = { 
-			glm::vec3(0, 0, 0),
-			1.f,
-			333000.f * weightScale,
-			glm::vec4(1, 1, 0.6, 1)
-		};
-		RenderPlanet(renderer, sun);
+		RenderPlanet(renderer, m_Sun);
+		RenderPlanet(renderer, m_Earth);
 
-		// Mercury
-		Planet mercury = { 
-			glm::vec3(0.6f + 0.4f * positionScale, 0, 0),
-			0.003f * sizeScale,
-			0.05f * weightScale,
-			glm::vec4(1, 0.6, 0.3, 1)
-		};
-		RenderPlanet(renderer, mercury);
 
-		// Venus
-		Planet venus = { 
-			glm::vec3(1.1f * positionScale, 0, 0), 
-			0.01f * sizeScale,
-			0.8f * weightScale, 
-			glm::vec4(0.9, 0.6, 0.2, 1)
-		};
-		RenderPlanet(renderer, venus);
 
-		// Earth
-		Planet earth = {
-			glm::vec3(1.5f * positionScale, 0, 0),
-			0.01f * sizeScale,
-			1.f * weightScale,
-			glm::vec4(0, 0.6, 1, 1)
-		};
-		RenderPlanet(renderer, earth);
+		//// Mercury
+		//Planet mercury = { 
+		//	glm::vec3(0.6f + 0.4f * positionScale, 0, 0),
+		//	0.003f * sizeScale,
+		//	0.05f * weightScale,
+		//	glm::vec4(1, 0.6, 0.3, 1)
+		//};
+		//RenderPlanet(renderer, mercury);
 
-		// Mars
-		Planet mars = {
-			glm::vec3(2.5f * positionScale, 0, 0),
-			0.005f * sizeScale,
-			0.1f * weightScale,
-			glm::vec4(1, 0.6, 0.6, 1)
-		};
-		RenderPlanet(renderer, mars);
+		//// Venus
+		//Planet venus = { 
+		//	glm::vec3(1.1f * positionScale, 0, 0), 
+		//	0.01f * sizeScale,
+		//	0.8f * weightScale, 
+		//	glm::vec4(0.9, 0.6, 0.2, 1)
+		//};
+		//RenderPlanet(renderer, venus);
 
-		// Jupiter
-		Planet jupiter = {
-			glm::vec3(7.5f * positionScale, 0, 0),
-			0.1f * sizeScale,
-			317.f * weightScale,
-			glm::vec4(0.9, 0.8, 0.7, 1)
-		};
-		RenderPlanet(renderer, jupiter);
 
-		// Saturn
-		Planet saturn = {
-			glm::vec3(14.0f * positionScale, 0, 0),
-			0.08f * sizeScale,
-			95.f * weightScale,
-			glm::vec4(0.5, 1, 0.4, 1)
-		};
-		RenderPlanet(renderer, saturn);
-		
-		// Uranus
-		Planet uranus = {
-			glm::vec3(29.0f * positionScale, 0, 0),
-			0.04f * sizeScale,
-			14.f * weightScale,
-			glm::vec4(0.5, 0.8, 1, 1)
-		};
-		RenderPlanet(renderer, uranus);
+		//// Mars
+		//Planet mars = {
+		//	glm::vec3(2.5f * positionScale, 0, 0),
+		//	0.005f * sizeScale,
+		//	0.1f * weightScale,
+		//	glm::vec4(1, 0.6, 0.6, 1)
+		//};
+		//RenderPlanet(renderer, mars);
 
-		// Neptune
-		Planet neptune = {
-			glm::vec3(44.0f * positionScale, 0, 0),
-			0.04f * sizeScale,
-			17.f * weightScale,
-			glm::vec4(0.6, 0.3, 0.6, 1)
-		};
-		RenderPlanet(renderer, neptune);
+		//// Jupiter
+		//Planet jupiter = {
+		//	glm::vec3(7.5f * positionScale, 0, 0),
+		//	0.1f * sizeScale,
+		//	317.f * weightScale,
+		//	glm::vec4(0.9, 0.8, 0.7, 1)
+		//};
+		//RenderPlanet(renderer, jupiter);
+
+		//// Saturn
+		//Planet saturn = {
+		//	glm::vec3(14.0f * positionScale, 0, 0),
+		//	0.08f * sizeScale,
+		//	95.f * weightScale,
+		//	glm::vec4(0.5, 1, 0.4, 1)
+		//};
+		//RenderPlanet(renderer, saturn);
+		//
+		//// Uranus
+		//Planet uranus = {
+		//	glm::vec3(29.0f * positionScale, 0, 0),
+		//	0.04f * sizeScale,
+		//	14.f * weightScale,
+		//	glm::vec4(0.5, 0.8, 1, 1)
+		//};
+		//RenderPlanet(renderer, uranus);
+
+		//// Neptune
+		//Planet neptune = {
+		//	glm::vec3(44.0f * positionScale, 0, 0),
+		//	0.04f * sizeScale,
+		//	17.f * weightScale,
+		//	glm::vec4(0.6, 0.3, 0.6, 1)
+		//};
+		//RenderPlanet(renderer, neptune);
 	}
 
-	void SceneSolarSystem::OnImGuiRender() {}
+	void SceneSolarSystem::OnImGuiRender() {
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	}
 
 	void SceneSolarSystem::RenderPlanet(const Renderer& renderer, const Planet& planet)
 	{

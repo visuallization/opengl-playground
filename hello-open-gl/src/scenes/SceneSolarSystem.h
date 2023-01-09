@@ -8,9 +8,14 @@
 namespace scene {
 	struct Planet {
 		glm::vec3 position;
+
 		float scale;
-		float weight;
+		float mass;
+
 		glm::vec4 color;
+
+		glm::vec3 velocity;
+		glm::vec3 acceleration;
 	};
 
 	class SceneSolarSystem : public Scene {
@@ -29,6 +34,9 @@ namespace scene {
 		glm::mat4 m_Model;
 		glm::mat4 m_View;
 		glm::mat4 m_Projection;
+
+		Planet m_Sun;
+		Planet m_Earth;
 
 		Camera m_Camera;
 
