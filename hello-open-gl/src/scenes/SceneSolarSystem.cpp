@@ -28,17 +28,25 @@ namespace scene {
 
 	void SceneSolarSystem::OnRender() {
 		Renderer renderer;
+		// Sun
+		RenderPlanet(renderer, glm::vec3(0, 0, 0), 1.f, glm::vec4(1, 1, 0.6, 1));
+		// Earth
+		RenderPlanet(renderer, glm::vec3(2, 0, 0), 0.1f, glm::vec4(0, 0.6, 1, 1));
+	}
 
+	void SceneSolarSystem::OnImGuiRender() {}
+
+	void SceneSolarSystem::RenderPlanet(const Renderer& renderer, const glm::vec3& translation, const float scale, const glm::vec4& color)
+	{
 		// camera
 		m_View = m_Camera.GetViewMatrix();
-
 		// model
 		m_Model = glm::mat4(1.0f);
-
+		m_Model = glm::translate(m_Model, translation);
+		m_Model = glm::scale(m_Model, glm::vec3(scale, scale, scale));
 		// projection
 		m_Projection = glm::perspective(glm::radians(m_Camera.FieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);
 
-		// mesh
 		for (int i = 0; i < m_3DModel->Meshes.size(); i++) {
 			m_Shader->Bind();
 
@@ -48,7 +56,7 @@ namespace scene {
 				m_Shader->SetUniform1i("u_Texture", 0);
 				mesh.Textures[0].Texture->Bind();
 			}
-			m_Shader->SetUniformVec4f("u_Color", glm::vec4(1, 0, 0.6, 1));
+			m_Shader->SetUniformVec4f("u_Color", color);
 
 			m_Shader->SetUniformMat4f("u_Model", m_Model);
 			m_Shader->SetUniformMat4f("u_View", m_View);
@@ -60,5 +68,4 @@ namespace scene {
 		}
 	}
 
-	void SceneSolarSystem::OnImGuiRender() {}
 }

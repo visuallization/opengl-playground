@@ -24,6 +24,8 @@ namespace scene {
 		glm::mat4 m_Projection;
 
 		Camera m_Camera;
+
+		void RenderPlanet(const Renderer& renderer, const glm::vec3& translation, const float scale, const glm::vec4& color);
 	};
 }
 
