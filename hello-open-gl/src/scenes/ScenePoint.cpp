@@ -26,7 +26,7 @@ namespace scene {
 		GLCall(glEnable(GL_DEPTH_TEST));
 
 		// vertex position + vertex color
-		m_Vertices = ParsePTS("res/models/model.pts");
+		m_Vertices = ParsePTS("res/point-clouds/dinosaur.pts");
 
 		m_VAO = std::make_unique<VertexArray>();
 		m_VBO = std::make_unique<VertexBuffer>(&m_Vertices[0], m_Vertices.size() * sizeof(float));

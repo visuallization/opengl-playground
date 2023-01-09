@@ -24,6 +24,7 @@
 #include "scenes/SceneImGuiDemo.h"
 #include "scenes/SceneModel.h";
 #include "scenes/ScenePoint.h";
+#include "scenes/SceneSolarSystem.h";
 #include "scenes/SceneTexture2D.h";
 
 const unsigned int WINDOW_WIDTH = 1000;
@@ -91,6 +92,7 @@ int main(void)
         menu->RegisterScene<scene::SceneComputeDemo>("Compute Demo", window);
         menu->RegisterScene<scene::SceneComputeDemoOptimized>("Compute Demo Optimized", window);
         menu->RegisterScene<scene::SceneForestFire>("Forest Fire", window);
+        menu->RegisterScene<scene::SceneSolarSystem>("Solar System", window);
 
         float deltaTime = 0.0f;
         float lastFrame = 0.0f;
