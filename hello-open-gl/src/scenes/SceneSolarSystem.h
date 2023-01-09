@@ -37,6 +37,11 @@ namespace scene {
 
 		Planet m_Sun;
 		Planet m_Earth;
+		Planet m_Mercury;
+		Planet m_Venus;
+		Planet m_Mars;
+		Planet m_Jupiter;
+
 
 		Camera m_Camera;
 

@@ -19,7 +19,7 @@ namespace scene {
 		m_Shader = std::make_shared<Shader>("res/shaders/Model.shader");
 		m_3DModel = std::make_unique<Model>("res/models/world/world.obj");
 
-		float positionScale = 1.1f;
+		float positionScale = 1.f;
 		float sizeScale = 2.f;
 		float massScale = 0.0001f;
 
@@ -38,9 +38,43 @@ namespace scene {
 			1.f * massScale,
 			glm::vec4(0, 0.6, 1, 1)
 		};
+		m_Earth.velocity += (glm::vec3(0, 1, 0) * 0.01f) * glm::sqrt((GRAVITY * m_Sun.mass) / glm::distance(m_Earth.position, m_Sun.position));
 
-		float r = glm::distance(m_Earth.position, m_Sun.position);
-		m_Earth.velocity += (glm::vec3(0, 1, 0) * 0.01f) * glm::sqrt((GRAVITY * m_Sun.mass) / r);
+		// Mercury
+		m_Mercury = { 
+			glm::vec3(0.6f + 0.4f * positionScale, 0, 0),
+			0.0023f * sizeScale,
+			0.05f * massScale,
+			glm::vec4(1, 0.6, 0.3, 1)
+		};
+		m_Mercury.velocity += (glm::vec3(0, 1, 0) * 0.0023f) * glm::sqrt((GRAVITY * m_Sun.mass) / glm::distance(m_Mercury.position, m_Sun.position));
+
+		// Venus
+		m_Venus = { 
+			glm::vec3(1.1f * positionScale, 0, 0), 
+			0.009f * sizeScale,
+			0.8f * massScale, 
+			glm::vec4(0.9, 0.6, 0.2, 1)
+		};
+		m_Venus.velocity += (glm::vec3(0, 1, 0) * 0.009f) * glm::sqrt((GRAVITY * m_Sun.mass) / glm::distance(m_Venus.position, m_Sun.position));
+
+		// Mars
+		m_Mars = {
+			glm::vec3(2.5f * positionScale, 0, 0),
+			0.005f * sizeScale,
+			0.1f * massScale,
+			glm::vec4(1, 0.6, 0.6, 1)
+		};
+		m_Mars.velocity += (glm::vec3(0, 1, 0) * 0.0035f) * glm::sqrt((GRAVITY * m_Sun.mass) / glm::distance(m_Mars.position, m_Sun.position));
+
+		// Jupiter
+		m_Jupiter = {
+			glm::vec3(7.5f * positionScale, 0, 0),
+			0.1f * sizeScale,
+			317.f * massScale,
+			glm::vec4(0.9, 0.8, 0.7, 1)
+		};
+		m_Jupiter.velocity += (glm::vec3(0, 1, 0) * 0.18f) * glm::sqrt((GRAVITY * m_Sun.mass) / glm::distance(m_Jupiter.position, m_Sun.position));
 	}
 
 	SceneSolarSystem::~SceneSolarSystem() {
@@ -50,17 +84,50 @@ namespace scene {
 	void SceneSolarSystem::OnUpdate(float deltaTime) {
 		m_Camera.OnUpdate(deltaTime);
 
-		//glm::vec3 force = glm::vec3(0, m_Earth.mass * gravity, 0);
-		//m_Earth.acceleration = glm::vec3(force.x / m_Earth.mass, force.y / m_Earth.mass, force.z / m_Earth.mass);
-		float r = glm::distance(m_Earth.position, m_Sun.position);
-		glm::vec3 force = glm::normalize(m_Sun.position - m_Earth.position) * (GRAVITY * (m_Earth.mass * m_Sun.mass) / (r * r));
-		m_Earth.acceleration = force;
+		{
+			float r = glm::distance(m_Earth.position, m_Sun.position);
+			glm::vec3 force = glm::normalize(m_Sun.position - m_Earth.position) * (GRAVITY * (m_Earth.mass * m_Sun.mass) / (r * r));
+			m_Earth.acceleration = force;
 
-		m_Earth.velocity += m_Earth.acceleration * deltaTime;
-		m_Earth.position += m_Earth.velocity * deltaTime;
+			m_Earth.velocity += m_Earth.acceleration * deltaTime;
+			m_Earth.position += m_Earth.velocity * deltaTime;
+		}
 
-		//earth.acceleration = gravity * ((sun.mass * earth.mass) / (earth.position * earth.position));
-		//earth.velocity = (gravity * sun.mass) / (earth.position);
+		{
+			float r = glm::distance(m_Mercury.position, m_Sun.position);
+			glm::vec3 force = glm::normalize(m_Sun.position - m_Mercury.position) * (GRAVITY * (m_Mercury.mass * m_Sun.mass) / (r * r));
+			m_Mercury.acceleration = force;
+
+			m_Mercury.velocity += m_Mercury.acceleration * deltaTime;
+			m_Mercury.position += m_Mercury.velocity * deltaTime;
+		}
+
+		{
+			float r = glm::distance(m_Venus.position, m_Sun.position);
+			glm::vec3 force = glm::normalize(m_Sun.position - m_Venus.position) * (GRAVITY * (m_Venus.mass * m_Sun.mass) / (r * r));
+			m_Venus.acceleration = force;
+
+			m_Venus.velocity += m_Venus.acceleration * deltaTime;
+			m_Venus.position += m_Venus.velocity * deltaTime;
+		}
+
+		{
+			float r = glm::distance(m_Mars.position, m_Sun.position);
+			glm::vec3 force = glm::normalize(m_Sun.position - m_Mars.position) * (GRAVITY * (m_Mars.mass * m_Sun.mass) / (r * r));
+			m_Mars.acceleration = force;
+
+			m_Mars.velocity += m_Mars.acceleration * deltaTime;
+			m_Mars.position += m_Mars.velocity * deltaTime;
+		}
+
+		{
+			float r = glm::distance(m_Jupiter.position, m_Sun.position);
+			glm::vec3 force = glm::normalize(m_Sun.position - m_Jupiter.position) * (GRAVITY * (m_Jupiter.mass * m_Sun.mass) / (r * r));
+			m_Jupiter.acceleration = force;
+
+			m_Jupiter.velocity += m_Jupiter.acceleration * deltaTime;
+			m_Jupiter.position += m_Jupiter.velocity * deltaTime;
+		}
 	}
 
 	void SceneSolarSystem::OnRender() {
@@ -68,45 +135,10 @@ namespace scene {
 
 		RenderPlanet(renderer, m_Sun);
 		RenderPlanet(renderer, m_Earth);
-
-
-
-		//// Mercury
-		//Planet mercury = { 
-		//	glm::vec3(0.6f + 0.4f * positionScale, 0, 0),
-		//	0.003f * sizeScale,
-		//	0.05f * weightScale,
-		//	glm::vec4(1, 0.6, 0.3, 1)
-		//};
-		//RenderPlanet(renderer, mercury);
-
-		//// Venus
-		//Planet venus = { 
-		//	glm::vec3(1.1f * positionScale, 0, 0), 
-		//	0.01f * sizeScale,
-		//	0.8f * weightScale, 
-		//	glm::vec4(0.9, 0.6, 0.2, 1)
-		//};
-		//RenderPlanet(renderer, venus);
-
-
-		//// Mars
-		//Planet mars = {
-		//	glm::vec3(2.5f * positionScale, 0, 0),
-		//	0.005f * sizeScale,
-		//	0.1f * weightScale,
-		//	glm::vec4(1, 0.6, 0.6, 1)
-		//};
-		//RenderPlanet(renderer, mars);
-
-		//// Jupiter
-		//Planet jupiter = {
-		//	glm::vec3(7.5f * positionScale, 0, 0),
-		//	0.1f * sizeScale,
-		//	317.f * weightScale,
-		//	glm::vec4(0.9, 0.8, 0.7, 1)
-		//};
-		//RenderPlanet(renderer, jupiter);
+		RenderPlanet(renderer, m_Mercury);
+		RenderPlanet(renderer, m_Venus);
+		RenderPlanet(renderer, m_Mars);
+		RenderPlanet(renderer, m_Jupiter);
 
 		//// Saturn
 		//Planet saturn = {
