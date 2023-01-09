@@ -36,7 +36,7 @@ namespace scene {
 		Planet sun = { 
 			glm::vec3(0, 0, 0),
 			1.f,
-			1.f,
+			333000.f * weightScale,
 			glm::vec4(1, 1, 0.6, 1)
 		};
 		RenderPlanet(renderer, sun);
@@ -45,7 +45,7 @@ namespace scene {
 		Planet mercury = { 
 			glm::vec3(0.6f + 0.4f * positionScale, 0, 0),
 			0.003f * sizeScale,
-			1.f * weightScale,
+			0.05f * weightScale,
 			glm::vec4(1, 0.6, 0.3, 1)
 		};
 		RenderPlanet(renderer, mercury);
@@ -54,7 +54,7 @@ namespace scene {
 		Planet venus = { 
 			glm::vec3(1.1f * positionScale, 0, 0), 
 			0.01f * sizeScale,
-			1.f * weightScale, 
+			0.8f * weightScale, 
 			glm::vec4(0.9, 0.6, 0.2, 1)
 		};
 		RenderPlanet(renderer, venus);
@@ -72,7 +72,7 @@ namespace scene {
 		Planet mars = {
 			glm::vec3(2.5f * positionScale, 0, 0),
 			0.005f * sizeScale,
-			1.f * weightScale,
+			0.1f * weightScale,
 			glm::vec4(1, 0.6, 0.6, 1)
 		};
 		RenderPlanet(renderer, mars);
@@ -81,7 +81,7 @@ namespace scene {
 		Planet jupiter = {
 			glm::vec3(7.5f * positionScale, 0, 0),
 			0.1f * sizeScale,
-			1.f * weightScale,
+			317.f * weightScale,
 			glm::vec4(0.9, 0.8, 0.7, 1)
 		};
 		RenderPlanet(renderer, jupiter);
@@ -90,7 +90,7 @@ namespace scene {
 		Planet saturn = {
 			glm::vec3(14.0f * positionScale, 0, 0),
 			0.08f * sizeScale,
-			1.f * weightScale,
+			95.f * weightScale,
 			glm::vec4(0.5, 1, 0.4, 1)
 		};
 		RenderPlanet(renderer, saturn);
@@ -99,7 +99,7 @@ namespace scene {
 		Planet uranus = {
 			glm::vec3(29.0f * positionScale, 0, 0),
 			0.04f * sizeScale,
-			1.f * weightScale,
+			14.f * weightScale,
 			glm::vec4(0.5, 0.8, 1, 1)
 		};
 		RenderPlanet(renderer, uranus);
@@ -108,7 +108,7 @@ namespace scene {
 		Planet neptune = {
 			glm::vec3(44.0f * positionScale, 0, 0),
 			0.04f * sizeScale,
-			1.f * weightScale,
+			17.f * weightScale,
 			glm::vec4(0.6, 0.3, 0.6, 1)
 		};
 		RenderPlanet(renderer, neptune);
