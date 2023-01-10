@@ -1,5 +1,7 @@
 #pragma once
 
+#include <list>
+
 #include "Camera.h"
 #include "Model.h"
 #include "Scene.h"
@@ -35,13 +37,10 @@ namespace scene {
 		glm::mat4 m_View;
 		glm::mat4 m_Projection;
 
-		Planet m_Sun;
-		Planet m_Earth;
-		Planet m_Mercury;
-		Planet m_Venus;
-		Planet m_Mars;
-		Planet m_Jupiter;
+		float m_TimeMultiplier;
 
+		Planet m_Sun;
+		std::list<Planet> m_Planets;
 
 		Camera m_Camera;
 
