@@ -6,7 +6,7 @@
 #include "Model.h"
 
 namespace scene {
-	const float GRAVITY = 100;
+	const float GRAVITY = 100.f;
 
 	SceneSolarSystem::SceneSolarSystem(GLFWwindow*& window) :
 		Scene(window),
@@ -21,7 +21,7 @@ namespace scene {
 		m_3DModel = std::make_unique<Model>("res/models/world/world.obj");
 
 		float positionScale = 1.f;
-		float sizeScale = 2.f;
+		float sizeScale = 4.f;
 		float massScale = 0.0001f;
 
 		// Sun

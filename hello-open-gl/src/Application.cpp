@@ -15,6 +15,7 @@
 
 #include "Renderer.h"
 
+#include "scenes/SceneBreakOut.h"
 #include "scenes/SceneClearColor.h";
 #include "scenes/SceneComputeDemo.h"
 #include "scenes/SceneComputeDemoOptimized.h";
@@ -82,6 +83,7 @@ int main(void)
         scene::SceneMenu* menu = new scene::SceneMenu(currentScene);
         currentScene = menu;
 
+        menu->RegisterScene<scene::SceneBreakOut>("Break Out", window);
         menu->RegisterScene<scene::SceneClearColor>("Clear Color", window);
         menu->RegisterScene<scene::SceneTexture2D>("2D Texture",  window);
         menu->RegisterScene<scene::SceneCube>("3D Cube", window);

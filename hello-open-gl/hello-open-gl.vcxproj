@@ -90,8 +90,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\scenes\SceneBreakOut.cpp" />
     <ClCompile Include="src\scenes\SceneComputeDemo.cpp" />
     <ClCompile Include="src\scenes\SceneComputeDemoOptimized.cpp" />
     <ClCompile Include="src\scenes\SceneForestFire.cpp" />
@@ -273,8 +275,10 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\scenes\SceneBreakOut.h" />
     <ClInclude Include="src\scenes\SceneComputeDemo.h" />
     <ClInclude Include="src\scenes\SceneComputeDemoOptimized.h" />
     <ClInclude Include="src\scenes\SceneForestFire.h" />

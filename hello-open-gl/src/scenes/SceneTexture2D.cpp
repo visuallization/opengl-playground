@@ -1,3 +1,4 @@
+#include "ResourceManager.h"
 #include "SceneTexture2D.h"
 
 #include "glm/gtc/matrix_transform.hpp"
@@ -41,14 +42,15 @@ namespace scene {
 
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
-		m_Shader = std::make_unique<Shader>("res/shaders/Basic.shader");
-		m_Shader->Bind();
+		Shader* shader = ResourceManager::LoadShader("res/shaders/Basic.shader", "basic");
+		shader->Bind();
 
-		m_Texture = std::make_unique<Texture>("res/textures/emoji.png");
-		m_Shader->SetUniform1i("u_Texture", 0);
+		Texture* texture = ResourceManager::LoadTexture("res/textures/emoji.png", "emoji");
+		shader->SetUniform1i("u_Texture", 0);
 	}
 
 	SceneTexture2D::~SceneTexture2D() {
+		ResourceManager::Clear();
 		GLCall(glDisable(GL_BLEND));
 	}
 
@@ -58,27 +60,30 @@ namespace scene {
 
 	void SceneTexture2D::OnRender() {
 		Renderer renderer;
-		m_Texture->Bind();
+		Texture* texture = ResourceManager::GetTexture("emoji");
+		texture->Bind();
 
+		Shader* shader = ResourceManager::GetShader("basic");
 
 		{
 			// model: this simulates the object's transforms
 			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationA);
 			glm::mat4 mvp = m_Projection * m_View * model;
 
-			m_Shader->Bind();
+			shader->Bind();
+
 			// set uniforms per draw (not individual vertices)
-			m_Shader->SetUniformMat4f("u_MVP", mvp);
-			renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
+			shader->SetUniformMat4f("u_MVP", mvp);
+			renderer.Draw(*m_VAO, *m_IBO, *shader);
 		}
 
 		{
 			glm::mat4 model = glm::translate(glm::mat4(1.0f), m_TranslationB);
 			glm::mat4 mvp = m_Projection * m_View * model;
 
-			m_Shader->Bind();
-			m_Shader->SetUniformMat4f("u_MVP", mvp);
-			renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
+			shader->Bind();
+			shader->SetUniformMat4f("u_MVP", mvp);
+			renderer.Draw(*m_VAO, *m_IBO, *shader);
 		}
 	}
 
