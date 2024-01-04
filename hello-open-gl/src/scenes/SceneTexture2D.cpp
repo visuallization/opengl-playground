@@ -50,8 +50,8 @@ namespace scene {
 	}
 
 	SceneTexture2D::~SceneTexture2D() {
-		ResourceManager::Clear();
 		GLCall(glDisable(GL_BLEND));
+		ResourceManager::Clear();
 	}
 
 	void SceneTexture2D::OnUpdate(float deltaTime) {

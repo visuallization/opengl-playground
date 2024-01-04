@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.h"
+#include "SpriteRenderer.h"
 
 namespace scene {
 	enum GameState {
@@ -17,5 +18,8 @@ namespace scene {
 		void OnUpdate(float deltaTime) override;
 		void OnRender() override;
 		void OnImGuiRender() override;
+
+	private:
+		SpriteRenderer* m_SpriteRenderer;
 	};
 }
