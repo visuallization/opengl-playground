@@ -22,11 +22,14 @@ Texture* ResourceManager::LoadTexture(const char* filePath, std::string name) {
 };
 
 void ResourceManager::Clear() {
-	for (const auto& iter : Shaders) {
-		delete iter.second;
+	for (const auto& pair : Shaders) {
+		delete pair.second;
 	}
 
-	for (const auto& iter : Textures) {
-		delete iter.second;
+	for (const auto& pair : Textures) {
+		delete pair.second;
 	}
+
+	Shaders.clear();
+	Textures.clear();
 };
