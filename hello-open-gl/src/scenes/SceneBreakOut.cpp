@@ -10,10 +10,6 @@
 namespace scene {
 	SceneBreakOut::SceneBreakOut(GLFWwindow*& window) : Scene::Scene(window)
 	{
-		// Handle transparent textures
-		//GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-		//GLCall(glEnable(GL_BLEND));
-
 		Shader* shader = ResourceManager::LoadShader("res/shaders/Sprite.shader", "sprite");
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
 
@@ -28,7 +24,6 @@ namespace scene {
 
 	SceneBreakOut::~SceneBreakOut()
 	{
-		//GLCall(glDisable(GL_BLEND));
 		ResourceManager::Clear();
 	}
 

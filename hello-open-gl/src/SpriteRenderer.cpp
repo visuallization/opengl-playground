@@ -5,8 +5,17 @@
 #include "VertexBufferLayout.h"
 
 SpriteRenderer::SpriteRenderer(Shader* shader) {
+	// Handle transparent textures
+	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+	GLCall(glEnable(GL_BLEND));
+
 	m_Shader = shader;
 	initRenderData();
+}
+
+SpriteRenderer::~SpriteRenderer() {
+	// Disable blending
+	GLCall(glDisable(GL_BLEND));
 }
 
 void SpriteRenderer::initRenderData() {
@@ -30,10 +39,8 @@ void SpriteRenderer::initRenderData() {
 	m_VBO = std::make_unique<VertexBuffer>(vertices, 4 * 4 * sizeof(float));
 
 	VertexBufferLayout layout;
-	// add positions
-	layout.Push<float>(2);
-	// add texture coordinates
-	layout.Push<float>(2);
+	// add positions + texture coordinates
+	layout.Push<float>(4);
 	m_VAO->AddBuffer(*m_VBO, layout);
 
 	m_IBO = std::make_unique<IndexBuffer>(indices, 6);
