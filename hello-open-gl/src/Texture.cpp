@@ -2,9 +2,11 @@
 
 #include "stb_image/stb_image.h"
 
-Texture::Texture(const unsigned int width, const unsigned int height, unsigned int unit)
+Texture::Texture(const unsigned int width, const unsigned int height, unsigned int unit, bool flip)
 	: m_RendererID(0), m_FilePath(""), m_LocalBuffer(nullptr), m_Width(width), m_Height(height), m_BitsPerPixel(0)
 {
+	stbi_set_flip_vertically_on_load(flip);
+
 	GLCall(glGenTextures(1, &m_RendererID));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
@@ -24,10 +26,10 @@ Texture::Texture(const unsigned int width, const unsigned int height, unsigned i
 	Unbind();
 }
 
-Texture::Texture(const std::string& path)
+Texture::Texture(const std::string& path, bool flip)
 	: m_RendererID(0), m_FilePath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BitsPerPixel(0)
 {
-	stbi_set_flip_vertically_on_load(1);
+	stbi_set_flip_vertically_on_load(flip);
 	m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BitsPerPixel, 4);
 
 	GLCall(glGenTextures(1, &m_RendererID));

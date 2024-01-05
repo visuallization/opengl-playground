@@ -104,7 +104,7 @@ std::vector<MeshTexture> Model::loadMaterialTextures(const aiMaterial* material,
 
 		if (createNewTexture) {
 			MeshTexture texture;
-			texture.Texture = std::make_shared<Texture>(m_Directory + path.C_Str());
+			texture.Texture = std::make_shared<Texture>(m_Directory + path.C_Str(), true);
 			texture.Path = path.C_Str();
 
 			textures.push_back(texture);
