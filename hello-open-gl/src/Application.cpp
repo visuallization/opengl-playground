@@ -31,6 +31,12 @@
 const unsigned int WINDOW_WIDTH = 1000;
 const unsigned int WINDOW_HEIGHT = 1000;
 
+// Utilize dedicated Nvidia card
+extern "C"
+{
+	__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
+}
+
 void HandleKeyboardInput(GLFWwindow* window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -63,7 +69,7 @@ int main(void)
 
     // synchronize with refresh rate
     // uncapped fps = 0, capped fps (60 fps) = 1
-    glfwSwapInterval(1);
+    glfwSwapInterval(0);
 
     if (glewInit() != GLEW_OK)
         std::cout << "Error initializing GLEW!" << std::endl;
