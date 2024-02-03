@@ -19,10 +19,9 @@ namespace scene {
 
 		m_SpriteRenderer = new SpriteRenderer(shader);
 
-		ResourceManager::LoadTexture("res/textures/emoji.png", "emoji");
-		ResourceManager::LoadTexture("res/textures/block.png", "block");
-		ResourceManager::LoadTexture("res/textures/block_solid.png", "block_solid");
-		ResourceManager::LoadTexture("res/textures/background.jpg", "background");
+		ResourceManager::LoadTexture("src/domains/breakout/textures/block.png", "block");
+		ResourceManager::LoadTexture("src/domains/breakout/textures/block_solid.png", "block_solid");
+		ResourceManager::LoadTexture("src/domains/breakout/textures/background.jpg", "background");
 
 		this->m_Levels.push_back(breakout::GameLevel("src/domains/breakout/levels/1.lvl", this->m_Width, this->m_Height / 2));
 		this->m_Levels.push_back(breakout::GameLevel("src/domains/breakout/levels/2.lvl", this->m_Width, this->m_Height / 2));

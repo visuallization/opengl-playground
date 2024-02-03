@@ -8,14 +8,6 @@
 namespace breakout {
 
 	GameLevel::GameLevel(const char* filePath, unsigned int width, unsigned int height) {
-		m_BrickColors = {
-			{ 1, glm::vec3(1) },
-			{ 2, glm::vec3(1, 0, 0) },
-			{ 3, glm::vec3(0, 1, 0) },
-			{ 4, glm::vec3(0, 0, 1) },
-			{ 5, glm::vec3(1, 1, 0) }
-		};
-
 		this->Load(filePath, width, height);
 	}
 
@@ -80,7 +72,7 @@ namespace breakout {
 					glm::vec2 position(tileWidth * x, tileHeight * y);
 					glm::vec2 size(tileWidth, tileHeight);
 					glm::vec3 color(0.8f, 0.8f, 0.7f);
-					GameObject brick(position, size, ResourceManager::GetTexture("block_solid"), 0, m_BrickColors[tile], false);
+					GameObject brick(position, size, ResourceManager::GetTexture("block_solid"), 0, BRICK_COLORS.at(tile), false);
 					this->Bricks.push_back(brick);
 				}
 				// Destroyable tiles
@@ -88,7 +80,7 @@ namespace breakout {
 					glm::vec2 position(tileWidth * x, tileHeight * y);
 					glm::vec2 size(tileWidth, tileHeight);
 					glm::vec3 color(1.0f);
-					GameObject brick(position, size, ResourceManager::GetTexture("block"), 0, m_BrickColors[tile], true);
+					GameObject brick(position, size, ResourceManager::GetTexture("block"), 0, BRICK_COLORS.at(tile), true);
 					this->Bricks.push_back(brick);
 				}
 			}

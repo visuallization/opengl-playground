@@ -7,6 +7,14 @@
 
 namespace breakout {
 
+	const std::map<unsigned int, glm::vec3> BRICK_COLORS = {
+		{ 1, glm::vec3(1, 1, 1) },
+		{ 2, glm::vec3(1, 0, 0) },
+		{ 3, glm::vec3(0, 1, 0) },
+		{ 4, glm::vec3(0, 0, 1) },
+		{ 5, glm::vec3(1, 1, 0) }
+	};
+
 	class GameLevel {
 	public:
 		std::vector<GameObject> Bricks;
@@ -18,8 +26,6 @@ namespace breakout {
 		bool IsCompleted();
 
 	private:
-		std::map<unsigned int, glm::vec3> m_BrickColors;
-
 		void Init(std::vector<std::vector<unsigned int>> tiles, unsigned int width, unsigned int height);
 	};
 
