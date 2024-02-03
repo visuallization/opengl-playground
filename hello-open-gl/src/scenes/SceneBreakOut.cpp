@@ -15,11 +15,21 @@ namespace scene {
 
 		shader->Bind();
 		shader->SetUniformMat4f("u_Projection", projection);
+		shader->SetUniform1i("u_Sprite", 0);
 
 		m_SpriteRenderer = new SpriteRenderer(shader);
 
 		ResourceManager::LoadTexture("res/textures/emoji.png", "emoji");
-		shader->SetUniform1i("u_Sprite", 0);
+		ResourceManager::LoadTexture("res/textures/block.png", "block");
+		ResourceManager::LoadTexture("res/textures/block_solid.png", "block_solid");
+		ResourceManager::LoadTexture("res/textures/background.jpg", "background");
+
+		this->m_Levels.push_back(breakout::GameLevel("src/domains/breakout/levels/1.lvl", this->m_Width, this->m_Height / 2));
+		this->m_Levels.push_back(breakout::GameLevel("src/domains/breakout/levels/2.lvl", this->m_Width, this->m_Height / 2));
+		this->m_Levels.push_back(breakout::GameLevel("src/domains/breakout/levels/3.lvl", this->m_Width, this->m_Height / 2));
+		this->m_Levels.push_back(breakout::GameLevel("src/domains/breakout/levels/4.lvl", this->m_Width, this->m_Height / 2));
+
+		this->m_CurrentLevel = 0;
 	}
 
 	SceneBreakOut::~SceneBreakOut()
@@ -34,11 +44,16 @@ namespace scene {
 
 	void SceneBreakOut::OnRender()
 	{
-		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("emoji"), glm::vec2(200.0f, 200.0f), glm::vec2(300.0f, 400.0f), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(this->m_Width, this->m_Height));
+		this->m_Levels[this->m_CurrentLevel].Draw(*m_SpriteRenderer);
 	}
 
 	void SceneBreakOut::OnImGuiRender()
 	{
-
+		ImGui::Text("Levels: "); ImGui::SameLine();
+		ImGui::RadioButton("1", &this->m_CurrentLevel, 0); ImGui::SameLine();
+		ImGui::RadioButton("2", &this->m_CurrentLevel, 1); ImGui::SameLine();
+		ImGui::RadioButton("3", &this->m_CurrentLevel, 2); ImGui::SameLine();
+		ImGui::RadioButton("4", &this->m_CurrentLevel, 3);
 	}
 }

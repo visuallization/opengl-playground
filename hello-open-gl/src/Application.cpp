@@ -28,8 +28,8 @@
 #include "scenes/SceneSolarSystem.h";
 #include "scenes/SceneTexture2D.h";
 
-const unsigned int WINDOW_WIDTH = 1000;
-const unsigned int WINDOW_HEIGHT = 1000;
+const unsigned int WINDOW_WIDTH = 800;
+const unsigned int WINDOW_HEIGHT = 600;
 
 // Utilize dedicated Nvidia card
 extern "C"

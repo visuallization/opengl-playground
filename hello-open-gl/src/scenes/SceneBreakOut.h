@@ -3,6 +3,8 @@
 #include "Scene.h"
 #include "SpriteRenderer.h"
 
+#include "domains/breakout/GameLevel.h"
+
 namespace scene {
 	enum GameState {
 		GAME_ACTIVE,
@@ -21,5 +23,7 @@ namespace scene {
 
 	private:
 		SpriteRenderer* m_SpriteRenderer;
+		std::vector<breakout::GameLevel> m_Levels;
+		int m_CurrentLevel = 0;
 	};
 }

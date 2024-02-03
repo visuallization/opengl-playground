@@ -90,6 +90,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\domains\breakout\GameLevel.cpp" />
+    <ClCompile Include="src\domains\breakout\GameObject.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -277,6 +279,8 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\domains\breakout\GameLevel.h" />
+    <ClInclude Include="src\domains\breakout\GameObject.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Mesh.h" />
