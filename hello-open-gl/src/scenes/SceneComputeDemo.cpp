@@ -34,9 +34,9 @@ namespace scene {
         
         m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
-        m_Shader = std::make_unique<Shader>("res/shaders/Simple.shader");
+        m_Shader = std::make_unique<Shader>("assets/shaders/Simple.shader");
 
-        m_ComputeShader = std::make_unique<Shader>("res/shaders/Compute.shader");
+        m_ComputeShader = std::make_unique<Shader>("assets/shaders/Compute.shader");
 
         m_Texture = std::make_unique<Texture>(m_Width, m_Height);
     }

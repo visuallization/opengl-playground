@@ -26,7 +26,7 @@ namespace scene {
 
 		m_VAO->AddBuffer(*m_VBO, layout);
 
-		m_Shader = std::make_unique<Shader>("res/shaders/GeometryDemo.shader");
+		m_Shader = std::make_unique<Shader>("assets/shaders/GeometryDemo.shader");
 	}
 
 	SceneGeometryDemo::~SceneGeometryDemo() {}

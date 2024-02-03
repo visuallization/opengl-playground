@@ -125,7 +125,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\Basic.shader" />
+    <None Include="assets\shaders\Basic.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -534,18 +534,17 @@
     <None Include="src\vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="res\shaders\Cube.shader" />
-    <None Include="res\shaders\Light.shader" />
-    <None Include="res\shaders\Point.shader" />
-    <None Include="..\..\notes\model-for-project\model.pts" />
-    <None Include="res\shaders\GeometryDemo.shader" />
-    <None Include="res\shaders\Model.shader" />
-    <None Include="res\shaders\Explosion.shader" />
-    <None Include="res\shaders\Compute.shader" />
-    <None Include="res\shaders\Simple.shader" />
-    <None Include="res\shaders\ComputeOptimized.shader" />
-    <None Include="res\shaders\ForestFire.shader" />
-    <None Include="res\shaders\Sprite.shader" />
+    <None Include="assets\shaders\Cube.shader" />
+    <None Include="assets\shaders\Light.shader" />
+    <None Include="assets\shaders\Point.shader" />
+    <None Include="assets\shaders\GeometryDemo.shader" />
+    <None Include="assets\shaders\Model.shader" />
+    <None Include="assets\shaders\Explosion.shader" />
+    <None Include="assets\shaders\Compute.shader" />
+    <None Include="assets\shaders\Simple.shader" />
+    <None Include="assets\shaders\ComputeOptimized.shader" />
+    <None Include="assets\shaders\ForestFire.shader" />
+    <None Include="assets\shaders\Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">

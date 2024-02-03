@@ -42,10 +42,10 @@ namespace scene {
 
 		m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
-		Shader* shader = ResourceManager::LoadShader("res/shaders/Basic.shader", "basic");
+		Shader* shader = ResourceManager::LoadShader("assets/shaders/Basic.shader", "basic");
 		shader->Bind();
 
-		Texture* texture = ResourceManager::LoadTexture("res/textures/emoji.png", "emoji");
+		Texture* texture = ResourceManager::LoadTexture("assets/textures/emoji.png", "emoji");
 		shader->SetUniform1i("u_Texture", 0);
 	}
 

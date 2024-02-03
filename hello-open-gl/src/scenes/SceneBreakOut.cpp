@@ -10,7 +10,7 @@
 namespace scene {
 	SceneBreakOut::SceneBreakOut(GLFWwindow*& window) : Scene::Scene(window)
 	{
-		Shader* shader = ResourceManager::LoadShader("res/shaders/Sprite.shader", "sprite");
+		Shader* shader = ResourceManager::LoadShader("assets/shaders/Sprite.shader", "sprite");
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
 
 		shader->Bind();

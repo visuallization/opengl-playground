@@ -71,14 +71,14 @@ namespace scene {
 		layout.Push<float>(3);
 		m_VAO->AddBuffer(*m_VBO, layout);
 
-		m_Shader = std::make_unique<Shader>("res/shaders/Cube.shader");
+		m_Shader = std::make_unique<Shader>("assets/shaders/Cube.shader");
 		m_Shader->Bind();
 		m_Shader->SetUniformVec4f("u_Color", m_Color);
 		m_Shader->SetUniformVec4f("u_LightColor", m_LightColor);
 		m_Shader->SetUniform1f("u_AmbientStrength", m_AmbientStrength);
 		m_Shader->Unbind();
 
-		m_LightShader = std::make_unique<Shader>("res/shaders/Light.shader");
+		m_LightShader = std::make_unique<Shader>("assets/shaders/Light.shader");
 		m_LightShader->Bind();
 		m_LightShader->SetUniformVec4f("u_Color", m_LightColor);
 		m_LightShader->Unbind();

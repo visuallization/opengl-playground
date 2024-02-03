@@ -15,11 +15,11 @@ namespace scene {
 		// Enable depth testing
 		GLCall(glEnable(GL_DEPTH_TEST));
 
-		m_ShaderModel = std::make_shared<Shader>("res/shaders/Model.shader");
-		m_ShaderExplosion = std::make_shared<Shader>("res/shaders/Explosion.shader");
+		m_ShaderModel = std::make_shared<Shader>("assets/shaders/Model.shader");
+		m_ShaderExplosion = std::make_shared<Shader>("assets/shaders/Explosion.shader");
 		m_Shader = m_ShaderModel;
 
-		m_3DModel = std::make_unique<Model>("res/models/backpack/backpack.obj");
+		m_3DModel = std::make_unique<Model>("assets/models/backpack/backpack.obj");
 	}
 
 	SceneModel::~SceneModel() {

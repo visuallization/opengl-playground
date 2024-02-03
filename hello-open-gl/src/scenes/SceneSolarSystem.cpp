@@ -17,8 +17,8 @@ namespace scene {
 		// Enable depth testing
 		GLCall(glEnable(GL_DEPTH_TEST));
 
-		m_Shader = std::make_shared<Shader>("res/shaders/Model.shader");
-		m_3DModel = std::make_unique<Model>("res/models/world/world.obj");
+		m_Shader = std::make_shared<Shader>("assets/shaders/Model.shader");
+		m_3DModel = std::make_unique<Model>("assets/models/world/world.obj");
 
 		float positionScale = 1.f;
 		float sizeScale = 4.f;
