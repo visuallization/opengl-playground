@@ -115,7 +115,7 @@
     <ClCompile Include="src\scenes\Scene.cpp" />
     <ClCompile Include="src\scenes\SceneClearColor.cpp" />
     <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Texture.cpp" />
