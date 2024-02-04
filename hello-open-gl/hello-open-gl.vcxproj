@@ -94,6 +94,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\domains\breakout\components\Ball.cpp" />
     <ClCompile Include="src\domains\breakout\GameLevel.cpp" />
     <ClCompile Include="src\domains\breakout\GameObject.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
@@ -282,6 +283,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\domains\breakout\components\Ball.h" />
     <ClInclude Include="src\domains\breakout\GameLevel.h" />
     <ClInclude Include="src\domains\breakout\GameObject.h" />
     <ClInclude Include="src\SpriteRenderer.h" />

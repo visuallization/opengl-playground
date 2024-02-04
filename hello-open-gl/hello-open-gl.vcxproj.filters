@@ -123,6 +123,9 @@
     <ClCompile Include="src\domains\breakout\GameLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\domains\breakout\components\Ball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\Basic.shader" />
@@ -1505,6 +1508,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\domains\breakout\GameLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\domains\breakout\components\Ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

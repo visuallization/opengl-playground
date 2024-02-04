@@ -5,6 +5,7 @@
 
 #include "domains/breakout/GameLevel.h"
 #include "domains/breakout/GameObject.h"
+#include "domains/breakout/components/Ball.h"
 
 using namespace breakout;
 
@@ -15,8 +16,11 @@ namespace scene {
 		GAME_WIN
 	};
 
-	const float PLAYER_VELOCITY = 500;
+	const float PLAYER_VELOCITY = 500.f;
 	const glm::vec2 PLAYER_SIZE(100, 20);
+
+	const glm::vec2 INITIAL_BALL_VELOCITY(100, -350);
+	const float BALL_RADIUS = 12.f;
 
 	class SceneBreakOut : public Scene {
 	public:
@@ -34,5 +38,6 @@ namespace scene {
 		std::vector<GameLevel> m_Levels;
 
 		GameObject* m_Player;
+		Ball* m_Ball;
 	};
 }

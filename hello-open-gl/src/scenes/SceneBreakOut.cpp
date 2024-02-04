@@ -1,8 +1,8 @@
 #include "SceneBreakOut.h"
 
 #include <GLFW/glfw3.h>
-#include "glm/gtc/matrix_transform.hpp"
-#include "imgui/imgui.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <imgui/imgui.h>
 
 #include "Renderer.h"
 #include "ResourceManager.h"
@@ -21,26 +21,34 @@ namespace scene {
 
 		m_SpriteRenderer = new SpriteRenderer(shader);
 
-		// Textures
-		ResourceManager::LoadTexture("src/domains/breakout/textures/background.jpg", "background");
-		ResourceManager::LoadTexture("src/domains/breakout/textures/block.png", "block");
-		ResourceManager::LoadTexture("src/domains/breakout/textures/block_solid.png", "block_solid");
-		ResourceManager::LoadTexture("src/domains/breakout/textures/paddle.png", "paddle");
+		// textures
+		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
+		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/ball.png", "ball");
+		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/block.png", "block");
+		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/block_solid.png", "block_solid");
+		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/paddle.png", "paddle");
 
-		// Levels
-		m_Levels.push_back(GameLevel("src/domains/breakout/levels/1.lvl", m_Width, m_Height / 2));
-		m_Levels.push_back(GameLevel("src/domains/breakout/levels/2.lvl", m_Width, m_Height / 2));
-		m_Levels.push_back(GameLevel("src/domains/breakout/levels/3.lvl", m_Width, m_Height / 2));
-		m_Levels.push_back(GameLevel("src/domains/breakout/levels/4.lvl", m_Width, m_Height / 2));
+		// levels
+		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/1.lvl", m_Width, m_Height / 2));
+		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/2.lvl", m_Width, m_Height / 2));
+		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/3.lvl", m_Width, m_Height / 2));
+		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/4.lvl", m_Width, m_Height / 2));
 
 		m_CurrentLevel = 0;
 
-		// Player
-		
+		// player
 		m_Player = new GameObject(
 			glm::vec2(m_Width / 2 - PLAYER_SIZE.x / 2, m_Height - PLAYER_SIZE.y),
 			PLAYER_SIZE,
 			ResourceManager::GetTexture("paddle")
+		);
+
+		// ball
+		m_Ball = new Ball(
+			m_Player->Position + glm::vec2(m_Player->Size.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2),
+			BALL_RADIUS,
+			INITIAL_BALL_VELOCITY,
+			ResourceManager::GetTexture("ball")
 		);
 	}
 
@@ -58,15 +66,30 @@ namespace scene {
 		if (glfwGetKey(m_Window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			if (m_Player->Position.x > 0) {
 				m_Player->Position.x -= velocity;
+
+				// move the ball with the player, if it is still stuck
+				if (m_Ball->IsStuck) {
+					m_Ball->Position.x -= velocity;
+				}
 			}
 		}
 
 		if (glfwGetKey(m_Window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			if (m_Player->Position.x < m_Width - m_Player->Size.x) {
 				m_Player->Position.x += velocity;
+
+				// move the ball with the player, if it is still stuck
+				if (m_Ball->IsStuck) {
+					m_Ball->Position.x += velocity;
+				}
 			}
 		}
 
+		if (glfwGetKey(m_Window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+			m_Ball->IsStuck = false;
+		}
+
+		m_Ball->Move(deltaTime, m_Width, m_Height);
 	}
 
 	void SceneBreakOut::OnRender()
@@ -74,6 +97,7 @@ namespace scene {
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 		m_Levels[m_CurrentLevel].Draw(*m_SpriteRenderer);
 		m_Player->Draw(*m_SpriteRenderer);
+		m_Ball->Draw(*m_SpriteRenderer);
 	}
 
 	void SceneBreakOut::OnImGuiRender()
