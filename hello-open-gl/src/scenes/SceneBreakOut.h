@@ -39,5 +39,7 @@ namespace scene {
 
 		GameObject* m_Player;
 		Ball* m_Ball;
+
+		void CheckCollisions();
 	};
 }

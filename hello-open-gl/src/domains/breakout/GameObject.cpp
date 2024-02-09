@@ -12,4 +12,23 @@ namespace breakout {
 		spriteRenderer.DrawSprite(this->Sprite, this->Position, this->Size, this->Rotation, this->Color);
 	}
 
+	bool GameObject::IsColliding(GameObject& other) {
+
+		bool collisonX = this->Position.x + this->Size.x >= other.Position.x && other.Position.x + other.Size.x >= this->Position.x;
+		if (!collisonX) {
+			return false;
+		}
+
+		bool collisionY = this->Position.y + this->Size.y >= other.Position.y && other.Position.y + other.Size.y >= this->Position.y;
+		if (!collisionY) {
+			return false;
+		}
+
+		return true;
+	}
+
+	void GameObject::Destroy() {
+		this->IsActive = false;
+	}
+
 }

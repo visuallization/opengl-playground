@@ -90,6 +90,8 @@ namespace scene {
 		}
 
 		m_Ball->Move(deltaTime, m_Width, m_Height);
+
+		CheckCollisions();
 	}
 
 	void SceneBreakOut::OnRender()
@@ -107,5 +109,18 @@ namespace scene {
 		ImGui::RadioButton("2", &m_CurrentLevel, 1); ImGui::SameLine();
 		ImGui::RadioButton("3", &m_CurrentLevel, 2); ImGui::SameLine();
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
+	}
+
+	void SceneBreakOut::CheckCollisions()
+	{
+		for (GameObject& brick : m_Levels[m_CurrentLevel].Bricks) {
+			if (brick.IsActive) {
+				if (brick.IsColliding(*m_Ball)) {
+					if (brick.IsDestroyable) {
+						brick.Destroy();
+					}
+				}
+			}
+		}
 	}
 }
