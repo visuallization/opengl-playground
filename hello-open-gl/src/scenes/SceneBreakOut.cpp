@@ -115,7 +115,7 @@ namespace scene {
 	{
 		for (Brick& brick : m_Levels[m_CurrentLevel].Bricks) {
 			if (brick.IsActive) {
-				if (brick.IsColliding(*m_Ball)) {
+				if (m_Ball->IsColliding(brick)) {
 					if (!brick.IsSolid) {
 						brick.Destroy();
 					}

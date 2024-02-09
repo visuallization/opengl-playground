@@ -12,6 +12,7 @@ namespace breakout {
 		spriteRenderer.DrawSprite(this->Sprite, this->Position, this->Size, this->Rotation, this->Color);
 	}
 
+	// AABB collision check
 	bool GameObject::IsColliding(GameObject& other) {
 
 		bool collisonX = this->Position.x + this->Size.x >= other.Position.x && other.Position.x + other.Size.x >= this->Position.x;
