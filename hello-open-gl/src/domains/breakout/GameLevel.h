@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 
-#include "GameObject.h"
+#include "./components/Brick.h"
 
 namespace breakout {
 
@@ -17,7 +17,7 @@ namespace breakout {
 
 	class GameLevel {
 	public:
-		std::vector<GameObject> Bricks;
+		std::vector<Brick> Bricks;
 
 		GameLevel(const char* filePath, unsigned int width, unsigned int height);
 

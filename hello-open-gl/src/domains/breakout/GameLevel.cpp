@@ -36,16 +36,16 @@ namespace breakout {
 	}
 
 	void GameLevel::Draw(SpriteRenderer& spriteRenderer) {
-		for (GameObject& tile : this->Bricks) {
-			if (tile.IsActive) {
-				tile.Draw(spriteRenderer);
+		for (Brick& brick : this->Bricks) {
+			if (brick.IsActive) {
+				brick.Draw(spriteRenderer);
 			}
 		}
 	}
 
 	bool GameLevel::IsCompleted() {
-		for (GameObject& tile : this->Bricks) {
-			if (tile.IsDestroyable && tile.IsActive) {
+		for (Brick& brick : this->Bricks) {
+			if (!brick.IsSolid && brick.IsActive) {
 				return false;
 			}
 		}
@@ -72,7 +72,7 @@ namespace breakout {
 					glm::vec2 position(tileWidth * x, tileHeight * y);
 					glm::vec2 size(tileWidth, tileHeight);
 					glm::vec3 color(0.8f, 0.8f, 0.7f);
-					GameObject brick(position, size, ResourceManager::GetTexture("block_solid"), 0, BRICK_COLORS.at(tile), false);
+					Brick brick(position, size, ResourceManager::GetTexture("block_solid"), true, BRICK_COLORS.at(tile));
 					this->Bricks.push_back(brick);
 				}
 				// Destroyable tiles
@@ -80,7 +80,7 @@ namespace breakout {
 					glm::vec2 position(tileWidth * x, tileHeight * y);
 					glm::vec2 size(tileWidth, tileHeight);
 					glm::vec3 color(1.0f);
-					GameObject brick(position, size, ResourceManager::GetTexture("block"), 0, BRICK_COLORS.at(tile), true);
+					Brick brick(position, size, ResourceManager::GetTexture("block"), false, BRICK_COLORS.at(tile));
 					this->Bricks.push_back(brick);
 				}
 			}

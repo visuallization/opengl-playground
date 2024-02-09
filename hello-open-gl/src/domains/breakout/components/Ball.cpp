@@ -5,7 +5,7 @@ namespace breakout {
 		: GameObject(), Radius(12.f), IsStuck(true) {}
 
 	Ball::Ball(glm::vec2 position, float radius, glm::vec2 velocity, Texture* sprite)
-		: GameObject(position, glm::vec2(radius * 2, radius * 2), sprite, 0, glm::vec3(1), false, velocity), Radius(radius), IsStuck(true) {}
+		: GameObject(position, glm::vec2(radius * 2, radius * 2), sprite, 0, glm::vec3(1), velocity), Radius(radius), IsStuck(true) {}
 
 	glm::vec2 Ball::Move(float deltaTime, unsigned int windowWidth, unsigned int windowHeight) {
 		if (!this->IsStuck) {

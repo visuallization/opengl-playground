@@ -95,6 +95,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\domains\breakout\components\Ball.cpp" />
+    <ClCompile Include="src\domains\breakout\components\Brick.cpp" />
     <ClCompile Include="src\domains\breakout\GameLevel.cpp" />
     <ClCompile Include="src\domains\breakout\GameObject.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
@@ -284,6 +285,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\domains\breakout\components\Ball.h" />
+    <ClInclude Include="src\domains\breakout\components\Brick.h" />
     <ClInclude Include="src\domains\breakout\GameLevel.h" />
     <ClInclude Include="src\domains\breakout\GameObject.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
