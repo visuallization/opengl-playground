@@ -2,10 +2,14 @@
 
 namespace breakout {
 	Ball::Ball()
-		: GameObject(), Radius(12.f), IsStuck(true) {}
+		: GameObject(), Radius(12.f), IsStuck(true) {
+		Collider = new CollisionShapeCircle(Position, Size, Radius);
+	}
 
 	Ball::Ball(glm::vec2 position, float radius, glm::vec2 velocity, Texture* sprite)
-		: GameObject(position, glm::vec2(radius * 2, radius * 2), sprite, 0, glm::vec3(1), velocity), Radius(radius), IsStuck(true) {}
+		: GameObject(position, glm::vec2(radius * 2, radius * 2), sprite, 0, glm::vec3(1), velocity), Radius(radius), IsStuck(true) {
+		Collider = new CollisionShapeCircle(Position, Size, Radius);
+	}
 
 	glm::vec2 Ball::Move(float deltaTime, unsigned int windowWidth, unsigned int windowHeight) {
 		if (!this->IsStuck) {
@@ -38,21 +42,5 @@ namespace breakout {
 		this->Position = position;
 		this->Velocity = velocity;
 		this->IsStuck = true;
-	}
-
-	// Circle - AABB collision check
-	bool Ball::IsColliding(GameObject& other) {
-		glm::vec2 center(this->Position + this->Radius);
-
-		glm::vec2 aabbHalf(other.Size.x / 2.f, other.Size.y / 2.f);
-		glm::vec2 aabbCenter(other.Position.x + aabbHalf.x, other.Position.y + aabbHalf.y);
-
-		glm::vec2 difference = center - aabbCenter;
-		glm::vec2 clamped = glm::clamp(difference, -aabbHalf, aabbHalf);
-
-		glm::vec2 closest = aabbCenter + clamped;
-		difference = closest - center;
-
-		return glm::length(difference) < this->Radius;
 	}
 }

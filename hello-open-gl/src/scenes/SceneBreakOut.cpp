@@ -8,6 +8,8 @@
 #include "ResourceManager.h"
 #include "Shader.h"
 
+#include "domains/breakout/Physics.h"
+
 namespace scene {
 
 	SceneBreakOut::SceneBreakOut(GLFWwindow*& window) : Scene::Scene(window)
@@ -90,6 +92,7 @@ namespace scene {
 		}
 
 		m_Ball->Move(deltaTime, m_Width, m_Height);
+		m_Ball->Collider->Position = m_Ball->Position;
 
 		CheckCollisions();
 	}
@@ -115,7 +118,7 @@ namespace scene {
 	{
 		for (Brick& brick : m_Levels[m_CurrentLevel].Bricks) {
 			if (brick.IsActive) {
-				if (m_Ball->IsColliding(brick)) {
+				if (Physics::IsColliding(*m_Ball->Collider, *brick.Collider)) {
 					if (!brick.IsSolid) {
 						brick.Destroy();
 					}

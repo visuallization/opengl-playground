@@ -94,10 +94,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\domains\breakout\CollisionShapeCircle.cpp" />
+    <ClCompile Include="src\domains\breakout\CollisionShapeRectangle.cpp" />
     <ClCompile Include="src\domains\breakout\components\Ball.cpp" />
     <ClCompile Include="src\domains\breakout\components\Brick.cpp" />
     <ClCompile Include="src\domains\breakout\GameLevel.cpp" />
     <ClCompile Include="src\domains\breakout\GameObject.cpp" />
+    <ClCompile Include="src\domains\breakout\Physics.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -284,10 +287,13 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\domains\breakout\CollisionShapeCircle.h" />
+    <ClInclude Include="src\domains\breakout\CollisionShapeRectangle.h" />
     <ClInclude Include="src\domains\breakout\components\Ball.h" />
     <ClInclude Include="src\domains\breakout\components\Brick.h" />
     <ClInclude Include="src\domains\breakout\GameLevel.h" />
     <ClInclude Include="src\domains\breakout\GameObject.h" />
+    <ClInclude Include="src\domains\breakout\Physics.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Mesh.h" />

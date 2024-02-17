@@ -129,6 +129,12 @@
     <ClCompile Include="src\domains\breakout\components\Brick.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\domains\breakout\CollisionShapeRectangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domains\breakout\CollisionShapeCircle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\Basic.shader" />
@@ -1517,6 +1523,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\domains\breakout\components\Brick.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\domains\breakout\CollisionShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\domains\breakout\CollisionShapeRectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\domains\breakout\CollisionShapeCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

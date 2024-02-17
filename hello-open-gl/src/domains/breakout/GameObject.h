@@ -5,6 +5,8 @@
 #include "Texture.h"
 #include "SpriteRenderer.h"
 
+#include "CollisionShapeRectangle.h"
+
 namespace breakout {
 
 	class GameObject {
@@ -20,11 +22,11 @@ namespace breakout {
 		bool IsActive;
 
 		Texture* Sprite;
+		CollisionShapeRectangle* Collider;
 
 		GameObject();
 		GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation = 0, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
 
-		virtual bool IsColliding(GameObject& other);
 		virtual void Draw(SpriteRenderer& spriteRenderer);
 		void Destroy();
 	};

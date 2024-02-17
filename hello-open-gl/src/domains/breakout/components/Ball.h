@@ -5,6 +5,7 @@
 #include "Texture.h"
 
 #include "../GameObject.h"
+#include "../CollisionShapeCircle.h"
 
 namespace breakout {
 	class Ball : public GameObject {
@@ -12,11 +13,12 @@ namespace breakout {
 		float Radius;
 		bool IsStuck;
 
+		CollisionShapeCircle* Collider;
+
 		Ball();
 		Ball(glm::vec2 position, float radius, glm::vec2 velocity, Texture* sprite);
 
 		glm::vec2 Move(float deltaTime, unsigned int windowWidth, unsigned int windowHeight);
 		void Reset(glm::vec2 position, glm::vec2 velocity);
-		bool IsColliding(GameObject& other) override;
 	};
 }
