@@ -17,11 +17,11 @@ namespace breakout {
 	}
 
 	void GameObject::Draw(SpriteRenderer& spriteRenderer) {
-		spriteRenderer.DrawSprite(this->Sprite, this->m_Position, this->Size, this->Rotation, this->Color);
+		spriteRenderer.DrawSprite(Sprite, m_Position, Size, Rotation, Color);
 	}
 
 	void GameObject::Destroy() {
-		this->IsActive = false;
+		IsActive = false;
 	}
 
 	glm::vec2 GameObject::GetPosition() {

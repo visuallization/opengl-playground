@@ -12,26 +12,26 @@ namespace breakout {
 	}
 
 	glm::vec2 Ball::Move(float deltaTime, unsigned int windowWidth, unsigned int windowHeight) {
-		if (!this->IsStuck) {
-			UpdatePosition(this->Velocity * deltaTime);
+		if (!IsStuck) {
+			UpdatePosition(Velocity * deltaTime);
 
 			// check bounds
-			if (this->GetPosition().x <= 0.0f) {
-				this->Velocity.x *= -1;
+			if (GetPosition().x <= 0.0f) {
+				Velocity.x *= -1;
 				SetPosition(glm::vec2(0, GetPosition().y));
 			}
-			else if (this->GetPosition().x + this->Size.x >= windowWidth) {
-				this->Velocity.x *= -1;
-				SetPosition(glm::vec2(windowWidth - this->Size.x, GetPosition().y));
+			else if (GetPosition().x + Size.x >= windowWidth) {
+				Velocity.x *= -1;
+				SetPosition(glm::vec2(windowWidth - Size.x, GetPosition().y));
 			}
 
-			if (this->GetPosition().y <= 0.0f) {
-				this->Velocity.y *= -1;
+			if (GetPosition().y <= 0.0f) {
+				Velocity.y *= -1;
 				SetPosition(glm::vec2(GetPosition().x, 0));
 			}
-			else if (this->GetPosition().y + this->Size.y >= windowHeight) {
-				this->Velocity.y *= -1;
-				SetPosition(glm::vec2(GetPosition().x, windowHeight - this->Size.y));
+			else if (GetPosition().y + Size.y >= windowHeight) {
+				Velocity.y *= -1;
+				SetPosition(glm::vec2(GetPosition().x, windowHeight - Size.y));
 			}
 		}
 
@@ -40,8 +40,8 @@ namespace breakout {
 
 	void Ball::Reset(glm::vec2 position, glm::vec2 velocity) {
 		SetPosition(position);
-		this->Velocity = velocity;
-		this->IsStuck = true;
+		Velocity = velocity;
+		IsStuck = true;
 	}
 
 	CollisionShapeCircle* Ball::GetCollider() {

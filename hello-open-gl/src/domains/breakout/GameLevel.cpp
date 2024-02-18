@@ -8,11 +8,11 @@
 namespace breakout {
 
 	GameLevel::GameLevel(const char* filePath, unsigned int width, unsigned int height) {
-		this->Load(filePath, width, height);
+		Load(filePath, width, height);
 	}
 
 	void GameLevel::Load(const char* filePath, unsigned int width, unsigned int height) {
-		this->Bricks.clear();
+		Bricks.clear();
 
 		unsigned int tile;
 		std::string line;
@@ -30,13 +30,13 @@ namespace breakout {
 			}
 
 			if (tiles.size() > 0) {
-				this->Init(tiles, width, height);
+				Init(tiles, width, height);
 			}
 		}
 	}
 
 	void GameLevel::Draw(SpriteRenderer& spriteRenderer) {
-		for (Brick& brick : this->Bricks) {
+		for (Brick& brick : Bricks) {
 			if (brick.IsActive) {
 				brick.Draw(spriteRenderer);
 			}
@@ -44,7 +44,7 @@ namespace breakout {
 	}
 
 	bool GameLevel::IsCompleted() {
-		for (Brick& brick : this->Bricks) {
+		for (Brick& brick : Bricks) {
 			if (!brick.IsSolid && brick.IsActive) {
 				return false;
 			}
@@ -72,14 +72,14 @@ namespace breakout {
 					glm::vec2 position(tileWidth * x, tileHeight * y);
 					glm::vec2 size(tileWidth, tileHeight);
 					Brick brick(position, size, ResourceManager::GetTexture("block_solid"), true, BRICK_COLORS.at(tile));
-					this->Bricks.push_back(brick);
+					Bricks.push_back(brick);
 				}
 				// Destroyable tiles
 				else if (tile > 1) {
 					glm::vec2 position(tileWidth * x, tileHeight * y);
 					glm::vec2 size(tileWidth, tileHeight);
 					Brick brick(position, size, ResourceManager::GetTexture("block"), false, BRICK_COLORS.at(tile));
-					this->Bricks.push_back(brick);
+					Bricks.push_back(brick);
 				}
 			}
 		}
