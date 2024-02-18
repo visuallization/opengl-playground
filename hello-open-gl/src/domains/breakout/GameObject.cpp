@@ -16,8 +16,8 @@ namespace breakout {
 		m_Collider = new CollisionShapeRectangle(m_Position, Size);
 	}
 
-	void GameObject::Draw(SpriteRenderer& spriteRenderer) {
-		spriteRenderer.DrawSprite(Sprite, m_Position, Size, Rotation, Color);
+	void GameObject::Draw(SpriteRenderer& renderer) {
+		renderer.DrawSprite(Sprite, m_Position, Size, Rotation, Color);
 	}
 
 	void GameObject::Destroy() {

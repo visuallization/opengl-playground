@@ -112,6 +112,7 @@ namespace scene {
 		ImGui::RadioButton("2", &m_CurrentLevel, 1); ImGui::SameLine();
 		ImGui::RadioButton("3", &m_CurrentLevel, 2); ImGui::SameLine();
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
+		ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 	}
 
 	void SceneBreakOut::CheckCollisions()
