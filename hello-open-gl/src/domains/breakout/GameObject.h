@@ -12,7 +12,6 @@ namespace breakout {
 
 	class GameObject {
 	public:
-		glm::vec2 Position;
 		glm::vec2 Size;
 		glm::vec2 Velocity;
 
@@ -23,7 +22,6 @@ namespace breakout {
 		bool IsActive;
 
 		Texture* Sprite;
-		CollisionShape* Collider;
 
 		GameObject();
 		GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation = 0, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
@@ -31,7 +29,17 @@ namespace breakout {
 		virtual void Draw(SpriteRenderer& spriteRenderer);
 		void Destroy();
 
+		glm::vec2 GetPosition();
+		void SetPosition(glm::vec2 position);
+		void UpdatePosition(glm::vec2 delta);
+
 		CollisionShapeRectangle* GetCollider();
+
+	protected:
+		CollisionShape* m_Collider;
+
+	private:
+		glm::vec2 m_Position;
 	};
 
 }

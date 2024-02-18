@@ -47,7 +47,7 @@ namespace scene {
 
 		// ball
 		m_Ball = new Ball(
-			m_Player->Position + glm::vec2(m_Player->Size.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2),
+			m_Player->GetPosition() + glm::vec2(m_Player->Size.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2),
 			BALL_RADIUS,
 			INITIAL_BALL_VELOCITY,
 			ResourceManager::GetTexture("ball")
@@ -65,24 +65,25 @@ namespace scene {
 	{
 		float velocity = PLAYER_VELOCITY * deltaTime;
 
+
 		if (glfwGetKey(m_Window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-			if (m_Player->Position.x > 0) {
-				m_Player->Position.x -= velocity;
+			if (m_Player->GetPosition().x > 0) {
+				m_Player->UpdatePosition(glm::vec2(-velocity, 0));
 
 				// move the ball with the player, if it is still stuck
 				if (m_Ball->IsStuck) {
-					m_Ball->Position.x -= velocity;
+					m_Ball->UpdatePosition(glm::vec2(-velocity, 0));
 				}
 			}
 		}
 
 		if (glfwGetKey(m_Window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-			if (m_Player->Position.x < m_Width - m_Player->Size.x) {
-				m_Player->Position.x += velocity;
+			if (m_Player->GetPosition().x < m_Width - m_Player->Size.x) {
+				m_Player->UpdatePosition(glm::vec2(velocity, 0));
 
 				// move the ball with the player, if it is still stuck
 				if (m_Ball->IsStuck) {
-					m_Ball->Position.x += velocity;
+					m_Ball->UpdatePosition(glm::vec2(velocity, 0));
 				}
 			}
 		}
@@ -92,7 +93,6 @@ namespace scene {
 		}
 
 		m_Ball->Move(deltaTime, m_Width, m_Height);
-		m_Ball->Collider->Position = m_Ball->Position;
 
 		CheckCollisions();
 	}
