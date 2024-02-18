@@ -94,6 +94,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\domains\breakout\CollisionShape.cpp" />
     <ClCompile Include="src\domains\breakout\CollisionShapeCircle.cpp" />
     <ClCompile Include="src\domains\breakout\CollisionShapeRectangle.cpp" />
     <ClCompile Include="src\domains\breakout\components\Ball.cpp" />
@@ -287,6 +288,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\domains\breakout\CollisionShape.h" />
     <ClInclude Include="src\domains\breakout\CollisionShapeCircle.h" />
     <ClInclude Include="src\domains\breakout\CollisionShapeRectangle.h" />
     <ClInclude Include="src\domains\breakout\components\Ball.h" />

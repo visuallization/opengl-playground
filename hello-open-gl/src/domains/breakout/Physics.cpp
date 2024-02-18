@@ -7,6 +7,12 @@ namespace breakout {
 		return Physics::IsColliding(*one.Collider, *two.Collider);
 	}
 
+	bool Physics::IsColliding(CollisionShape& one, CollisionShape& two) {
+		CollisionShapeRectangle* rectangleOne = static_cast<CollisionShapeRectangle*>(&one);
+		CollisionShapeRectangle* rectangleTwo = static_cast<CollisionShapeRectangle*>(&two);
+		return Physics::IsColliding(*rectangleOne, *rectangleTwo);
+	}
+
 	bool Physics::IsColliding(const CollisionShapeRectangle& one, const CollisionShapeRectangle& two) {
 		bool collisonX = one.Position.x + one.Size.x >= two.Position.x && two.Position.x + two.Size.x >= one.Position.x;
 		if (!collisonX) {

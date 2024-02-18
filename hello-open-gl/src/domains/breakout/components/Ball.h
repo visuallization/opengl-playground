@@ -13,8 +13,6 @@ namespace breakout {
 		float Radius;
 		bool IsStuck;
 
-		CollisionShapeCircle* Collider;
-
 		Ball();
 		Ball(glm::vec2 position, float radius, glm::vec2 velocity, Texture* sprite);
 

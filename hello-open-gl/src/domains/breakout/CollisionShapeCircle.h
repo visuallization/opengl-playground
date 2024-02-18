@@ -1,12 +1,10 @@
 #pragma once
 
-#include "glm/gtc/matrix_transform.hpp"
+#include "./CollisionShape.h"
 
 namespace breakout {
-	class CollisionShapeCircle {
+	class CollisionShapeCircle: public CollisionShape {
 	public:
-		glm::vec2 Position;
-		glm::vec2 Size;
 		float Radius;
 
 		CollisionShapeCircle();
