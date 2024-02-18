@@ -18,5 +18,7 @@ namespace breakout {
 
 		glm::vec2 Move(float deltaTime, unsigned int windowWidth, unsigned int windowHeight);
 		void Reset(glm::vec2 position, glm::vec2 velocity);
+
+		CollisionShapeCircle* GetCollider();
 	};
 }

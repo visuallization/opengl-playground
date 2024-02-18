@@ -6,6 +6,7 @@
 #include "SpriteRenderer.h"
 
 #include "CollisionShape.h"
+#include "CollisionShapeRectangle.h"
 
 namespace breakout {
 
@@ -29,6 +30,8 @@ namespace breakout {
 
 		virtual void Draw(SpriteRenderer& spriteRenderer);
 		void Destroy();
+
+		CollisionShapeRectangle* GetCollider();
 	};
 
 }

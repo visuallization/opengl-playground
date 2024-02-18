@@ -24,4 +24,8 @@ namespace breakout {
 		this->IsActive = false;
 	}
 
+	CollisionShapeRectangle* GameObject::GetCollider() {
+		return static_cast<CollisionShapeRectangle*>(Collider);
+	}
+
 }

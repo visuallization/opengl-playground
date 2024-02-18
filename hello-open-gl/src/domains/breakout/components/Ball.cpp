@@ -43,4 +43,8 @@ namespace breakout {
 		this->Velocity = velocity;
 		this->IsStuck = true;
 	}
+
+	CollisionShapeCircle* Ball::GetCollider() {
+		return static_cast<CollisionShapeCircle*>(Collider);
+	}
 }
