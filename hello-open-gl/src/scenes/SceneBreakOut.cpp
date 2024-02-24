@@ -14,14 +14,20 @@ namespace scene {
 
 	SceneBreakOut::SceneBreakOut(GLFWwindow*& window) : Scene::Scene(window)
 	{
-		Shader* shader = ResourceManager::LoadShader("assets/shaders/Sprite.shader", "sprite");
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
-
+		
+		Shader* shader = ResourceManager::LoadShader("assets/shaders/Sprite.shader", "sprite");
 		shader->Bind();
 		shader->SetUniformMat4f("u_Projection", projection);
 		shader->SetUniform1i("u_Sprite", 0);
+		shader->Unbind();
 
-		m_SpriteRenderer = new SpriteRenderer(shader);
+		Shader* rectangleShader = ResourceManager::LoadShader("assets/shaders/Rectangle.shader", "rectangle");
+		rectangleShader->Bind();
+		rectangleShader->SetUniformMat4f("u_Projection", projection);
+		rectangleShader->Unbind();
+
+		m_SpriteRenderer = new SpriteRenderer(shader, rectangleShader);
 
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");

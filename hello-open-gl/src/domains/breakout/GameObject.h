@@ -26,7 +26,7 @@ namespace breakout {
 		GameObject();
 		GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation = 0, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
 
-		virtual void Draw(SpriteRenderer& renderer);
+		virtual void Draw(SpriteRenderer& renderer, bool debug = false);
 		void Destroy();
 
 		glm::vec2 GetPosition();

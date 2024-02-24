@@ -16,7 +16,7 @@ bool GLLogCall(const char* function, const char* file, int line) {
 }
 
 void Renderer::Clear() const {
-    GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+    GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 }
 
 void Renderer::SetClearColor(float r, float g, float b, float a) const {

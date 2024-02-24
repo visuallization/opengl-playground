@@ -12,13 +12,17 @@
 
 class SpriteRenderer {
 public:
-	SpriteRenderer(Shader* shader);
+	SpriteRenderer(Shader* shader, Shader* rectangleShader);
 	~SpriteRenderer();
 
-	void DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size = glm::vec2(10.0f, 10.0f), float rotate  = 0.0f, glm::vec3 color = glm::vec3(1.0f));
+	void DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size = glm::vec2(10.0f, 10.0f), float rotate = 0.0f, glm::vec3 color = glm::vec3(1.0f));
+	void DrawRectangle(glm::vec2 position, glm::vec2 size, float rotate = 0.0f);
 
 private:
 	Shader* m_Shader;
+	Shader* m_CircleShader;
+	Shader* m_RectangleShader;
+
 	std::unique_ptr<IndexBuffer> m_IBO;
 	std::unique_ptr<VertexArray> m_VAO;
 	std::unique_ptr<VertexBuffer> m_VBO;

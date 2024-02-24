@@ -135,6 +135,12 @@
     <ClCompile Include="src\domains\breakout\CollisionShapeCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\domains\breakout\CollisionShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domains\breakout\Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\Basic.shader" />
@@ -557,6 +563,8 @@
     <None Include="assets\shaders\ComputeOptimized.shader" />
     <None Include="assets\shaders\ForestFire.shader" />
     <None Include="assets\shaders\Sprite.shader" />
+    <None Include="assets\shaders\Circle.shader" />
+    <None Include="assets\shaders\Rectangle.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1532,6 +1540,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\domains\breakout\CollisionShapeCircle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\domains\breakout\Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

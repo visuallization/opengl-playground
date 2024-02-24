@@ -38,7 +38,7 @@ namespace breakout {
 	void GameLevel::Draw(SpriteRenderer& renderer) {
 		for (Brick& brick : Bricks) {
 			if (brick.IsActive) {
-				brick.Draw(renderer);
+				brick.Draw(renderer, true);
 			}
 		}
 	}

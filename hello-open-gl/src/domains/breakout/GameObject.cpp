@@ -5,19 +5,23 @@
 namespace breakout {
 
 	GameObject::GameObject()
-		: m_Position(0.0f, 0.0f), Size(1.0f, 1.0f), Velocity(0.0f), Color(1.0f), Rotation(0.0f), Sprite(), IsActive(true) 
+		: m_Position(0.0f, 0.0f), Size(1.0f, 1.0f), Velocity(0.0f), Color(1.0f), Rotation(0.0f), Sprite(), IsActive(true)
 	{
 		m_Collider = new CollisionShapeRectangle(m_Position, Size);
 	}
 
 	GameObject::GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation, glm::vec3 color, glm::vec2 velocity) 
-		: m_Position(position), Size(size), Velocity(velocity), Color(color), Rotation(rotation), Sprite(sprite), IsActive(true) 
+		: m_Position(position), Size(size), Velocity(velocity), Color(color), Rotation(rotation), Sprite(sprite), IsActive(true)
 	{
 		m_Collider = new CollisionShapeRectangle(m_Position, Size);
 	}
 
-	void GameObject::Draw(SpriteRenderer& renderer) {
+	void GameObject::Draw(SpriteRenderer& renderer, bool debug) {
 		renderer.DrawSprite(Sprite, m_Position, Size, Rotation, Color);
+
+		if (debug) {
+			renderer.DrawRectangle(m_Collider->Position, m_Collider->Size);
+		}
 	}
 
 	void GameObject::Destroy() {
