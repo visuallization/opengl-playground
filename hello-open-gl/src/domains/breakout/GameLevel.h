@@ -22,7 +22,7 @@ namespace breakout {
 		GameLevel(const char* filePath, unsigned int width, unsigned int height);
 
 		void Load(const char* filePath, unsigned int width, unsigned int height);
-		void Draw(SpriteRenderer& renderer);
+		void Draw(SpriteRenderer& renderer, bool debug = false);
 		bool IsCompleted();
 
 	private:

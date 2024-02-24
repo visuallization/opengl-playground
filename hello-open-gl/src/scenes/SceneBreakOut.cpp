@@ -106,9 +106,9 @@ namespace scene {
 	void SceneBreakOut::OnRender()
 	{
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
-		m_Levels[m_CurrentLevel].Draw(*m_SpriteRenderer);
-		m_Player->Draw(*m_SpriteRenderer);
-		m_Ball->Draw(*m_SpriteRenderer);
+		m_Levels[m_CurrentLevel].Draw(*m_SpriteRenderer, true);
+		m_Player->Draw(*m_SpriteRenderer, true);
+		m_Ball->Draw(*m_SpriteRenderer, true);
 	}
 
 	void SceneBreakOut::OnImGuiRender()

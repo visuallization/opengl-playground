@@ -95,8 +95,10 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 	// Translate
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 
+	float scale = 0.9f;
 	// Rotate
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+	model = glm::scale(model, glm::vec3(scale, scale, scale));
 	model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
@@ -116,15 +118,14 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 
-	glm::vec3 scale = glm::vec3(1.2f, 1.2f, 1.2f);
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
-	model = glm::scale(model, scale);
+	model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
 
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
 	m_RectangleShader->SetUniformMat4f("u_Model", model);
-	m_RectangleShader->SetUniformVec4f("u_Color", glm::vec4(0.0, 1.0, 0.0, 1.0));
+	m_RectangleShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
 
 	renderer.Draw(*m_VAO, *m_IBO, *m_RectangleShader);
 
