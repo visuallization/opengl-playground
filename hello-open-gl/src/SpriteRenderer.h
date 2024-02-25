@@ -12,7 +12,7 @@
 
 class SpriteRenderer {
 public:
-	SpriteRenderer(Shader* shader, Shader* rectangleShader);
+	SpriteRenderer(Shader* shader, Shader* colorShader);
 	~SpriteRenderer();
 
 	void DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size = glm::vec2(10.0f, 10.0f), float rotate = 0.0f, glm::vec3 color = glm::vec3(1.0f));
@@ -20,8 +20,7 @@ public:
 
 private:
 	Shader* m_Shader;
-	Shader* m_CircleShader;
-	Shader* m_RectangleShader;
+	Shader* m_ColorShader;
 
 	std::unique_ptr<IndexBuffer> m_IBO;
 	std::unique_ptr<VertexArray> m_VAO;

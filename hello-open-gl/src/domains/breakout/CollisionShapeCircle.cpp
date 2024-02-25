@@ -9,4 +9,8 @@ namespace breakout {
 	glm::vec2 CollisionShapeCircle::GetCenter() const {
 		return glm::vec2(Position + Radius);
 	}
+
+	void CollisionShapeCircle::Draw(SpriteRenderer& renderer) {
+		renderer.DrawRectangle(Position, Size);
+	}
 }

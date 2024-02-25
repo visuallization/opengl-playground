@@ -14,4 +14,8 @@ namespace breakout {
 		glm::vec2 AABBHalf = GetAABBHalf();
 		return glm::vec2(Position.x + AABBHalf.x, Position.y + AABBHalf.y);
 	}
+
+	void CollisionShapeRectangle::Draw(SpriteRenderer& renderer) {
+		renderer.DrawRectangle(Position, Size);
+	}
 }

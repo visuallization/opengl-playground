@@ -10,6 +10,8 @@ namespace breakout {
 		CollisionShapeCircle();
 		CollisionShapeCircle(glm::vec2 position, glm::vec2 size, float radius);
 
+		void Draw(SpriteRenderer& renderer) override;
+
 		glm::vec2 GetCenter() const;
 	};
 }

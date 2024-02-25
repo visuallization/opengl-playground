@@ -149,7 +149,7 @@
     <None Include="assets\shaders\GeometryDemo.shader" />
     <None Include="assets\shaders\Model.shader" />
     <None Include="assets\shaders\Point.shader" />
-    <None Include="assets\shaders\Rectangle.shader" />
+    <None Include="assets\shaders\Color.shader" />
     <None Include="assets\shaders\Simple.shader" />
     <None Include="assets\shaders\Sprite.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />

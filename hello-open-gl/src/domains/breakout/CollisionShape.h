@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "SpriteRenderer.h"
+
 namespace breakout {
 	class CollisionShape {
 	public:
@@ -11,6 +13,6 @@ namespace breakout {
 		CollisionShape();
 		CollisionShape(glm::vec2 position, glm::vec2 size);
 
-		virtual ~CollisionShape();
+		virtual void Draw(SpriteRenderer& renderer) = 0;
 	};
 }

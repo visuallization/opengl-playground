@@ -20,7 +20,7 @@ namespace breakout {
 		renderer.DrawSprite(Sprite, m_Position, Size, Rotation, Color);
 
 		if (debug) {
-			renderer.DrawRectangle(m_Collider->Position, m_Collider->Size);
+			m_Collider->Draw(renderer);
 		}
 	}
 

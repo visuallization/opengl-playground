@@ -564,7 +564,7 @@
     <None Include="assets\shaders\ForestFire.shader" />
     <None Include="assets\shaders\Sprite.shader" />
     <None Include="assets\shaders\Circle.shader" />
-    <None Include="assets\shaders\Rectangle.shader" />
+    <None Include="assets\shaders\Color.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">

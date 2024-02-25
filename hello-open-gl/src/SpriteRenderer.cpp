@@ -5,7 +5,7 @@
 #include "SpriteRenderer.h"
 #include "VertexBufferLayout.h"
 
-SpriteRenderer::SpriteRenderer(Shader* shader, Shader* rectangleShader) {
+SpriteRenderer::SpriteRenderer(Shader* shader, Shader* colorShader) {
 	// Handle transparent textures
 	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	GLCall(glEnable(GL_BLEND));
@@ -16,7 +16,7 @@ SpriteRenderer::SpriteRenderer(Shader* shader, Shader* rectangleShader) {
 	GLCall(glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE));
 
 	m_Shader = shader;
-	m_RectangleShader = rectangleShader;
+	m_ColorShader = colorShader;
 
 	initRenderData();
 }
@@ -88,7 +88,7 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	Renderer renderer;
 
-	m_RectangleShader->Bind();
+	m_ColorShader->Bind();
 
 	glm::mat4 model = glm::mat4(1.0f);
 
@@ -105,10 +105,10 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 	// Scale
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
-	m_RectangleShader->SetUniformMat4f("u_Model", model);
-	m_RectangleShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 0.0));
+	m_ColorShader->SetUniformMat4f("u_Model", model);
+	m_ColorShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 0.0));
 
-	renderer.Draw(*m_VAO, *m_IBO, *m_RectangleShader);
+	renderer.Draw(*m_VAO, *m_IBO, *m_ColorShader);
 
 	// BORDER
 	GLCall(glStencilFunc(GL_NOTEQUAL, 1, 0xFF));
@@ -124,12 +124,12 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
-	m_RectangleShader->SetUniformMat4f("u_Model", model);
-	m_RectangleShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
+	m_ColorShader->SetUniformMat4f("u_Model", model);
+	m_ColorShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
 
-	renderer.Draw(*m_VAO, *m_IBO, *m_RectangleShader);
+	renderer.Draw(*m_VAO, *m_IBO, *m_ColorShader);
 
-	m_RectangleShader->Unbind();
+	m_ColorShader->Unbind();
 
 	GLCall(glStencilMask(0xFF));
 	GLCall(glStencilFunc(GL_ALWAYS, 0, 0xFF));
