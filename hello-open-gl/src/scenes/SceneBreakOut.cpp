@@ -22,12 +22,12 @@ namespace scene {
 		shader->SetUniform1i("u_Sprite", 0);
 		shader->Unbind();
 
-		Shader* colorShader = ResourceManager::LoadShader("assets/shaders/Color.shader", "rectangle");
-		colorShader->Bind();
-		colorShader->SetUniformMat4f("u_Projection", projection);
-		colorShader->Unbind();
+		Shader* debugShader = ResourceManager::LoadShader("assets/shaders/Color.shader", "debug");
+		debugShader->Bind();
+		debugShader->SetUniformMat4f("u_Projection", projection);
+		debugShader->Unbind();
 
-		m_SpriteRenderer = new SpriteRenderer(shader, colorShader);
+		m_SpriteRenderer = new SpriteRenderer(shader, debugShader);
 
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");

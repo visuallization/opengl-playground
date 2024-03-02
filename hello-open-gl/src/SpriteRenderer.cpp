@@ -5,7 +5,7 @@
 #include "SpriteRenderer.h"
 #include "VertexBufferLayout.h"
 
-SpriteRenderer::SpriteRenderer(Shader* shader, Shader* colorShader) {
+SpriteRenderer::SpriteRenderer(Shader* shader, Shader* debugShader) {
 	// Handle transparent textures
 	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	GLCall(glEnable(GL_BLEND));
@@ -16,7 +16,7 @@ SpriteRenderer::SpriteRenderer(Shader* shader, Shader* colorShader) {
 	GLCall(glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE));
 
 	m_Shader = shader;
-	m_ColorShader = colorShader;
+	m_DebugShader = debugShader;
 
 	initRenderData();
 }
@@ -54,7 +54,50 @@ void SpriteRenderer::initRenderData() {
 	m_VAO->AddBuffer(*m_VBO, layout);
 
 	m_IBO = std::make_unique<IndexBuffer>(indices, 6);
+
+	// CIRCLE
+	std::pair<std::vector<float>, std::vector<unsigned int>> circle = buildCircle(0.5f);
+
+	m_CircleVAO = std::make_unique<VertexArray>();
+	m_CircleVBO = std::make_unique<VertexBuffer>(circle.first.data(), circle.first.size() * sizeof(float));
+
+	VertexBufferLayout circleLayout;
+	// add positions
+	circleLayout.Push<float>(2);
+	m_CircleVAO->AddBuffer(*m_CircleVBO, circleLayout);
+
+	m_CircleIBO = std::make_unique<IndexBuffer>(circle.second.data(), circle.second.size());
 };
+
+std::pair<std::vector<float>, std::vector<unsigned int>> SpriteRenderer::buildCircle(float radius, unsigned int vertexCount /* = 8*/) {
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
+
+	float angle = 360.f / vertexCount;
+	unsigned int triangleCount = vertexCount - 2;
+
+	for (int i = 0; i < vertexCount; i++) {
+		float currentAngle = angle * i;
+		float x = radius * cos(glm::radians(currentAngle));
+		float y = radius * sin(glm::radians(currentAngle));
+		// TODO: make it work with just x, y (update Color.shader)
+		//float z = 0.0f;
+		//float w = 0.0f;
+
+		vertices.push_back(x);
+		vertices.push_back(y);
+		//vertices.push_back(z);
+		//vertices.push_back(w);
+	}
+
+	for (int i = 0; i < triangleCount; i++) {
+		indices.push_back(0);
+		indices.push_back(i + 1);
+		indices.push_back(i + 2);
+	}
+
+	return std::pair<std::vector<float>, std::vector<unsigned int>>(vertices, indices);
+}
 
 void SpriteRenderer::DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size /* = glm::vec2(10.0f, 10.0f) */, float rotate /* = 0.0f */, glm::vec3 color /* = glm::vec3(1.0f) */) {
 	Renderer renderer;
@@ -88,7 +131,7 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	Renderer renderer;
 
-	m_ColorShader->Bind();
+	m_DebugShader->Bind();
 
 	glm::mat4 model = glm::mat4(1.0f);
 
@@ -105,10 +148,10 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 	// Scale
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
-	m_ColorShader->SetUniformMat4f("u_Model", model);
-	m_ColorShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 0.0));
+	m_DebugShader->SetUniformMat4f("u_Model", model);
+	m_DebugShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 0.0));
 
-	renderer.Draw(*m_VAO, *m_IBO, *m_ColorShader);
+	renderer.Draw(*m_VAO, *m_IBO, *m_DebugShader);
 
 	// BORDER
 	GLCall(glStencilFunc(GL_NOTEQUAL, 1, 0xFF));
@@ -124,13 +167,36 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
-	m_ColorShader->SetUniformMat4f("u_Model", model);
-	m_ColorShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
+	m_DebugShader->SetUniformMat4f("u_Model", model);
+	m_DebugShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
 
-	renderer.Draw(*m_VAO, *m_IBO, *m_ColorShader);
+	renderer.Draw(*m_VAO, *m_IBO, *m_DebugShader);
 
-	m_ColorShader->Unbind();
+	m_DebugShader->Unbind();
 
 	GLCall(glStencilMask(0xFF));
 	GLCall(glStencilFunc(GL_ALWAYS, 0, 0xFF));
+}
+
+void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 scale) {
+	Renderer renderer;
+
+	m_DebugShader->Bind();
+
+	glm::mat4 model = glm::mat4(1.0f);
+
+	// Translate
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+	// Center
+	model = glm::translate(model, glm::vec3(0.5f * scale.x, 0.5f * scale.y, 0.0f));
+
+	// Scale
+	model = glm::scale(model, glm::vec3(scale, 1.0f));
+
+	m_DebugShader->SetUniformMat4f("u_Model", model);
+	m_DebugShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
+
+	renderer.Draw(*m_CircleVAO, *m_CircleIBO, *m_DebugShader);
+
+	m_DebugShader->Unbind();
 }

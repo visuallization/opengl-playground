@@ -11,6 +11,6 @@ namespace breakout {
 	}
 
 	void CollisionShapeCircle::Draw(SpriteRenderer& renderer) {
-		renderer.DrawRectangle(Position, Size);
+		renderer.DrawCircle(Position, Size);
 	}
 }
