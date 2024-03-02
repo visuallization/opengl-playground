@@ -56,7 +56,7 @@ void SpriteRenderer::initRenderData() {
 	m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
 	// CIRCLE
-	std::pair<std::vector<float>, std::vector<unsigned int>> circle = buildCircle(0.5f);
+	std::pair<std::vector<float>, std::vector<unsigned int>> circle = buildCircle(0.5f, 24);
 
 	m_CircleVAO = std::make_unique<VertexArray>();
 	m_CircleVBO = std::make_unique<VertexBuffer>(circle.first.data(), circle.first.size() * sizeof(float));
@@ -80,14 +80,9 @@ std::pair<std::vector<float>, std::vector<unsigned int>> SpriteRenderer::buildCi
 		float currentAngle = angle * i;
 		float x = radius * cos(glm::radians(currentAngle));
 		float y = radius * sin(glm::radians(currentAngle));
-		// TODO: make it work with just x, y (update Color.shader)
-		//float z = 0.0f;
-		//float w = 0.0f;
 
 		vertices.push_back(x);
 		vertices.push_back(y);
-		//vertices.push_back(z);
-		//vertices.push_back(w);
 	}
 
 	for (int i = 0; i < triangleCount; i++) {
@@ -137,14 +132,12 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	// Translate
 	model = glm::translate(model, glm::vec3(position, 0.0f));
-
 	float scale = 0.9f;
 	// Rotate
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	model = glm::scale(model, glm::vec3(scale, scale, scale));
 	model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-
 	// Scale
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
@@ -153,18 +146,19 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 
 	renderer.Draw(*m_VAO, *m_IBO, *m_DebugShader);
 
-	// BORDER
+	// DRAW BORDER
 	GLCall(glStencilFunc(GL_NOTEQUAL, 1, 0xFF));
 	GLCall(glStencilMask(0x00));
 
 	model = glm::mat4(1.0f);
 
+	// Translate
 	model = glm::translate(model, glm::vec3(position, 0.0f));
-
+	// Rotate
 	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-
+	// Scale
 	model = glm::scale(model, glm::vec3(size, 1.0f));
 
 	m_DebugShader->SetUniformMat4f("u_Model", model);
@@ -178,7 +172,11 @@ void SpriteRenderer::DrawRectangle(glm::vec2 position, glm::vec2 size, float rot
 	GLCall(glStencilFunc(GL_ALWAYS, 0, 0xFF));
 }
 
-void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 scale) {
+void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 size) {
+	// UPDATE STENCIL BUFFER
+	GLCall(glStencilFunc(GL_ALWAYS, 1, 0xFF));
+	GLCall(glStencilMask(0xFF));
+
 	Renderer renderer;
 
 	m_DebugShader->Bind();
@@ -188,10 +186,29 @@ void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 scale) {
 	// Translate
 	model = glm::translate(model, glm::vec3(position, 0.0f));
 	// Center
-	model = glm::translate(model, glm::vec3(0.5f * scale.x, 0.5f * scale.y, 0.0f));
-
+	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
 	// Scale
-	model = glm::scale(model, glm::vec3(scale, 1.0f));
+	float scale = 0.8f;
+	model = glm::scale(model, glm::vec3(scale, scale, scale));
+	model = glm::scale(model, glm::vec3(size, 1.0f));
+
+	m_DebugShader->SetUniformMat4f("u_Model", model);
+	m_DebugShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 0.0));
+
+	renderer.Draw(*m_CircleVAO, *m_CircleIBO, *m_DebugShader);
+
+	// DRAW BORDER
+	GLCall(glStencilFunc(GL_NOTEQUAL, 1, 0xFF));
+	GLCall(glStencilMask(0x00));
+
+	model = glm::mat4(1.0f);
+
+	// Translate
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+	// Center
+	model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
+	// Scale
+	model = glm::scale(model, glm::vec3(size, 1.0f));
 
 	m_DebugShader->SetUniformMat4f("u_Model", model);
 	m_DebugShader->SetUniformVec4f("u_Color", glm::vec4(1.0, 0.0, 0.0, 1.0));
@@ -199,4 +216,7 @@ void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 scale) {
 	renderer.Draw(*m_CircleVAO, *m_CircleIBO, *m_DebugShader);
 
 	m_DebugShader->Unbind();
+
+	GLCall(glStencilMask(0xFF));
+	GLCall(glStencilFunc(GL_ALWAYS, 0, 0xFF));
 }
