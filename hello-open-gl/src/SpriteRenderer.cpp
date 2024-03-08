@@ -56,22 +56,21 @@ void SpriteRenderer::initRenderData() {
 	m_IBO = std::make_unique<IndexBuffer>(indices, 6);
 
 	// CIRCLE
-	std::pair<std::vector<float>, std::vector<unsigned int>> circle = buildCircle(0.5f, 24);
+	RenderData circle = buildCircle(0.5f, 24);
 
 	m_CircleVAO = std::make_unique<VertexArray>();
-	m_CircleVBO = std::make_unique<VertexBuffer>(circle.first.data(), circle.first.size() * sizeof(float));
+	m_CircleVBO = std::make_unique<VertexBuffer>(circle.vertices.data(), circle.vertices.size() * sizeof(float));
 
 	VertexBufferLayout circleLayout;
 	// add positions
 	circleLayout.Push<float>(2);
 	m_CircleVAO->AddBuffer(*m_CircleVBO, circleLayout);
 
-	m_CircleIBO = std::make_unique<IndexBuffer>(circle.second.data(), circle.second.size());
+	m_CircleIBO = std::make_unique<IndexBuffer>(circle.indices.data(), circle.indices.size());
 };
 
-std::pair<std::vector<float>, std::vector<unsigned int>> SpriteRenderer::buildCircle(float radius, unsigned int vertexCount /* = 8*/) {
-	std::vector<float> vertices;
-	std::vector<unsigned int> indices;
+RenderData SpriteRenderer::buildCircle(float radius, unsigned int vertexCount /* = 8*/) {
+	RenderData data;
 
 	float angle = 360.f / vertexCount;
 	unsigned int triangleCount = vertexCount - 2;
@@ -81,17 +80,17 @@ std::pair<std::vector<float>, std::vector<unsigned int>> SpriteRenderer::buildCi
 		float x = radius * cos(glm::radians(currentAngle));
 		float y = radius * sin(glm::radians(currentAngle));
 
-		vertices.push_back(x);
-		vertices.push_back(y);
+		data.vertices.push_back(x);
+		data.vertices.push_back(y);
 	}
 
 	for (int i = 0; i < triangleCount; i++) {
-		indices.push_back(0);
-		indices.push_back(i + 1);
-		indices.push_back(i + 2);
+		data.indices.push_back(0);
+		data.indices.push_back(i + 1);
+		data.indices.push_back(i + 2);
 	}
 
-	return std::pair<std::vector<float>, std::vector<unsigned int>>(vertices, indices);
+	return data;
 }
 
 void SpriteRenderer::DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size /* = glm::vec2(10.0f, 10.0f) */, float rotate /* = 0.0f */, glm::vec3 color /* = glm::vec3(1.0f) */) {

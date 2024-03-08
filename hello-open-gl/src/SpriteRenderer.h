@@ -10,6 +10,11 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 
+struct RenderData {
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
+};
+
 class SpriteRenderer {
 public:
 	SpriteRenderer(Shader* shader, Shader* debugShader);
@@ -32,6 +37,6 @@ private:
 	std::unique_ptr<VertexBuffer> m_CircleVBO;
 
 	void initRenderData();
-	std::pair<std::vector<float>, std::vector<unsigned int>> buildCircle(float radius, unsigned int vertexCount = 8);
+	RenderData buildCircle(float radius, unsigned int vertexCount = 8);
 };
 
