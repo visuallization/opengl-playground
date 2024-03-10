@@ -6,7 +6,7 @@
 #include "Shader.h"
 #include "VertexArray.h"
 
-// Assert: set breakpoint programmatically
+// Assert: set breakpoint dynamically
 #define ASSERT(x) if(!(x)) __debugbreak();
 // OpenGL Debug Macro
 #define GLCall(x) GLClearError();\

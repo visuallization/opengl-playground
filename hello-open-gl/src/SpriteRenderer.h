@@ -1,8 +1,7 @@
 #pragma once
 
 #include <memory>
-
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
 
 #include "IndexBuffer.h"
 #include "Shader.h"
@@ -37,6 +36,7 @@ private:
 	std::unique_ptr<VertexBuffer> m_CircleVBO;
 
 	void initRenderData();
+
 	RenderData buildCircle(float radius, unsigned int vertexCount = 8);
 };
 

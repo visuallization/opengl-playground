@@ -17,7 +17,7 @@ namespace breakout {
 		return true;
 	}
 
-	bool Physics::IsColliding(const CollisionShapeCircle& one, const CollisionShapeRectangle& two) {
+	Collision Physics::IsColliding(const CollisionShapeCircle& one, const CollisionShapeRectangle& two) {
 		glm::vec2 center = one.GetCenter();
 
 		glm::vec2 AABBHalf = two.GetAABBHalf();
@@ -29,16 +29,41 @@ namespace breakout {
 		glm::vec2 closest = AABBCenter + clamped;
 		difference = closest - center;
 
-		return glm::length(difference) < one.Radius;
+		return glm::length(difference) < one.Radius
+			? Collision(true, getCollisionOrientation(difference), difference)
+			: Collision(false, Direction::UP, glm::vec2(0.0f, 0.0f));
 	}
 
-	bool Physics::IsColliding(const CollisionShapeRectangle& one, const CollisionShapeCircle& two) {
+	Collision Physics::IsColliding(const CollisionShapeRectangle& one, const CollisionShapeCircle& two) {
 		return Physics::IsColliding(two, one);
 	}
 
 	// TODO: Implement
-	bool Physics::IsColliding(const CollisionShapeCircle& one, const CollisionShapeCircle& two) {
+	Collision Physics::IsColliding(const CollisionShapeCircle& one, const CollisionShapeCircle& two) {
 		throw std::runtime_error("This collision check has not been implemented yet!");
+	}
+
+	Direction Physics::getCollisionOrientation(glm::vec2 target) {
+		glm::vec2 compass[] = {
+			glm::vec2(0.0f, 1.0f), // UP
+			glm::vec2(1.0f, 0.0f), // RIGHT
+			glm::vec2(0.0f, -1.0f), // DOWN
+			glm::vec2(-1.0f, 0.0f), // LEFT
+		};
+
+		float max = 0.0f;
+		unsigned int bestMatch = -1;
+
+		for (unsigned int i = 0; i < 4; i++) {
+			float dotProduct = glm::dot(glm::normalize(target), compass[i]);
+
+			if (dotProduct > max) {
+				bestMatch = i;
+				max = dotProduct;
+			}
+		}
+
+		return (Direction)bestMatch;
 	}
 
 }

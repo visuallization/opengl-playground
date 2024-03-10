@@ -125,9 +125,38 @@ namespace scene {
 	{
 		for (Brick& brick : m_Levels[m_CurrentLevel].Bricks) {
 			if (brick.IsActive) {
-				if (Physics::IsColliding(*m_Ball->GetCollider(), *brick.GetCollider())) {
+				Collision collision = Physics::IsColliding(*m_Ball->GetCollider(), *brick.GetCollider());
+				if (collision.IsActive) {
 					if (!brick.IsSolid) {
 						brick.Destroy();
+					}
+
+					// COLLISION RESOLUTION
+					// Horizontal collision
+					if (collision.Orientation == Direction::LEFT || collision.Orientation == Direction::RIGHT) {
+						m_Ball->Velocity.x *= -1;
+
+						float penetration = m_Ball->Radius - std::abs(collision.Penetration.x);
+						
+						if (collision.Orientation == Direction::LEFT) {
+							m_Ball->UpdatePosition(glm::vec2(penetration, 0));
+						}
+						else {
+							m_Ball->UpdatePosition(glm::vec2(-penetration, 0));
+						}
+					}
+					// Vertical collision
+					else {
+						m_Ball->Velocity.y *= -1;
+
+						float penetration = m_Ball->Radius - std::abs(collision.Penetration.y);
+
+						if (collision.Orientation == Direction::UP) {
+							m_Ball->UpdatePosition(glm::vec2(0, -penetration));
+						}
+						else {
+							m_Ball->UpdatePosition(glm::vec2(0, penetration));
+						}
 					}
 				}
 			}
