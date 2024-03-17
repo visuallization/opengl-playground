@@ -34,6 +34,7 @@ namespace scene {
 	private:
 		SpriteRenderer* m_SpriteRenderer;
 
+		bool m_Debug = false;
 		int m_CurrentLevel = 0;
 		std::vector<GameLevel> m_Levels;
 
