@@ -23,9 +23,14 @@ namespace breakout {
 
 		void Load(const char* filePath, unsigned int width, unsigned int height);
 		void Draw(SpriteRenderer& renderer, bool debug = false);
+		void Reset();
 		bool IsCompleted();
 
 	private:
+		const char* m_FilePath;
+		unsigned int m_Width;
+		unsigned int m_Height;
+
 		void Init(std::vector<std::vector<unsigned int>> tiles, unsigned int width, unsigned int height);
 	};
 

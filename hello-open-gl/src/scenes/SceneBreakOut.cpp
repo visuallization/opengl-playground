@@ -69,8 +69,13 @@ namespace scene {
 
 	void SceneBreakOut::OnUpdate(float deltaTime)
 	{
-		float velocity = PLAYER_VELOCITY * deltaTime;
+		// Game Over
+		if (m_Ball->GetPosition().y + m_Ball->Size.y >= this->m_Height) {
+			Reset();
+		}
 
+		// Movement
+		float velocity = PLAYER_VELOCITY * deltaTime;
 
 		if (glfwGetKey(m_Window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			if (m_Player->GetPosition().x > 0) {
@@ -121,8 +126,21 @@ namespace scene {
 		ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 	}
 
+	void SceneBreakOut::Reset() {
+		// Reset level
+		m_Levels[m_CurrentLevel].Reset();
+
+		// Reset player
+		m_Player->Size = PLAYER_SIZE;
+		m_Player->SetPosition(glm::vec2(m_Width / 2 - PLAYER_SIZE.x / 2, m_Height - PLAYER_SIZE.y));
+
+		// Reset ball
+		m_Ball->Reset(m_Player->GetPosition() + glm::vec2(m_Player->Size.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2), INITIAL_BALL_VELOCITY);
+	}
+
 	void SceneBreakOut::CheckCollisions()
 	{
+		// Bricks
 		for (Brick& brick : m_Levels[m_CurrentLevel].Bricks) {
 			if (brick.IsActive) {
 				Collision collision = Physics::IsColliding(*m_Ball->GetCollider(), *brick.GetCollider());
@@ -159,6 +177,23 @@ namespace scene {
 						}
 					}
 				}
+			}
+		}
+
+		// Player
+		if (!m_Ball->IsStuck) {
+			Collision collision = Physics::IsColliding(*m_Ball->GetCollider(), *m_Player->GetCollider());
+			if (collision.IsActive) {
+				float strength = 2.0f;
+				glm::vec2 oldVelocity = m_Ball->Velocity;
+
+				float center = m_Player->GetPosition().x + m_Player->Size.x / 2.0f;
+				float distance = m_Ball->GetPosition().x + m_Ball->Radius - center;
+				float percentage = distance / (m_Player->Size.x / 2.0f);
+
+				m_Ball->Velocity.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
+				m_Ball->Velocity.y = -1.0f * glm::abs(m_Ball->Velocity.y);
+				m_Ball->Velocity = glm::normalize(m_Ball->Velocity) * glm::length(oldVelocity);
 			}
 		}
 	}

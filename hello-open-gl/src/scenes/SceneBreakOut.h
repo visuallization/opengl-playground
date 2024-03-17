@@ -41,5 +41,6 @@ namespace scene {
 		Ball* m_Ball;
 
 		void CheckCollisions();
+		void Reset();
 	};
 }

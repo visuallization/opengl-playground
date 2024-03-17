@@ -8,6 +8,10 @@
 namespace breakout {
 
 	GameLevel::GameLevel(const char* filePath, unsigned int width, unsigned int height) {
+		m_FilePath = filePath;
+		m_Width = width;
+		m_Height = height;
+
 		Load(filePath, width, height);
 	}
 
@@ -33,6 +37,10 @@ namespace breakout {
 				Init(tiles, width, height);
 			}
 		}
+	}
+
+	void GameLevel::Reset() {
+		Load(m_FilePath, m_Width, m_Height);
 	}
 
 	void GameLevel::Draw(SpriteRenderer& renderer, bool debug /* = false */) {
