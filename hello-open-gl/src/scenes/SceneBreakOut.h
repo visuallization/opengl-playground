@@ -5,6 +5,7 @@
 
 #include "domains/breakout/GameLevel.h"
 #include "domains/breakout/GameObject.h"
+#include "domains/breakout/ParticleEmitter.h"
 #include "domains/breakout/components/Ball.h"
 
 using namespace breakout;
@@ -40,6 +41,7 @@ namespace scene {
 
 		GameObject* m_Player;
 		Ball* m_Ball;
+		ParticleEmitter* m_ParticleEmitter;
 
 		void CheckCollisions();
 		void Reset();
