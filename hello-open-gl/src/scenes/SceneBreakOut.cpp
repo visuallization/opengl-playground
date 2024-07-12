@@ -43,7 +43,7 @@ namespace scene {
 		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/4.lvl", m_Width, m_Height / 2));
 
 		m_CurrentLevel = 0;
-		m_Debug = true;
+		m_Debug = false;
 
 		// player
 		m_Player = new GameObject(

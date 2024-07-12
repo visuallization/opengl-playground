@@ -1,7 +1,6 @@
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include "Renderer.h"	
 #include "SpriteRenderer.h"
 #include "VertexBufferLayout.h"
 
@@ -12,7 +11,6 @@ SpriteRenderer::SpriteRenderer(Shader* shader, Shader* debugShader) {
 	
 	// Stencil testing
 	GLCall(glEnable(GL_STENCIL_TEST));
-	GLCall(glStencilFunc(GL_NOTEQUAL, 1, 0xFF));
 	GLCall(glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE));
 
 	m_Shader = shader;
