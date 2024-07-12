@@ -4,7 +4,14 @@ namespace breakout {
 	ParticleEmitter::ParticleEmitter(Texture* sprite, unsigned int amount, glm::vec4 color)
 		: m_Sprite(sprite), m_Amount(amount), m_LastUsedParticle(0), m_Color(color) {
 		for (unsigned int i = 0; i < this->m_Amount; i++) {
-			this->m_Particles.push_back(Particle());
+			this->m_Particles.push_back(Particle(color));
+		}
+	}
+
+	ParticleEmitter::ParticleEmitter(glm::vec2 position, Texture* sprite, unsigned int amount, glm::vec4 color)
+		: m_Sprite(sprite), m_Amount(amount), m_LastUsedParticle(0), m_Color(color) {
+		for (unsigned int i = 0; i < this->m_Amount; i++) {
+			this->m_Particles.push_back(Particle(position, color));
 		}
 	}
 

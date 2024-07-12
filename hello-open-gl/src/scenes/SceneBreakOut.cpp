@@ -62,6 +62,7 @@ namespace scene {
 
 		// particle emitter
 		m_ParticleEmitter = new ParticleEmitter(
+			m_Ball->GetPosition(),
 			ResourceManager::GetTexture("ball"),
 			500,
 			glm::vec4(0, 0, 1, 1)

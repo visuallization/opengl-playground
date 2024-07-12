@@ -14,6 +14,7 @@ namespace breakout {
 	class ParticleEmitter {
 	public:
 		ParticleEmitter(Texture* sprite, unsigned int amount, glm::vec4 color = glm::vec4(1.0f));
+		ParticleEmitter(glm::vec2 position, Texture* sprite, unsigned int amount, glm::vec4 color = glm::vec4(1.0f));
 
 		void Update(float deltaTime, GameObject& gameobject, unsigned int newParticles, glm::vec2 offset = glm::vec2(0.0f));
 		void Draw(SpriteRenderer& renderer);
