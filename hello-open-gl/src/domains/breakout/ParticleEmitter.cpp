@@ -1,8 +1,8 @@
 #include "./ParticleEmitter.h"
 
 namespace breakout {
-	ParticleEmitter::ParticleEmitter(Texture* sprite, unsigned int amount)
-		: m_Sprite(sprite), m_Amount(amount), m_LastUsedParticle(0) {
+	ParticleEmitter::ParticleEmitter(Texture* sprite, unsigned int amount, glm::vec4 color)
+		: m_Sprite(sprite), m_Amount(amount), m_LastUsedParticle(0), m_Color(color) {
 		for (unsigned int i = 0; i < this->m_Amount; i++) {
 			this->m_Particles.push_back(Particle());
 		}
@@ -60,9 +60,8 @@ namespace breakout {
 
 	void ParticleEmitter::respawnParticle(Particle& particle, GameObject& gameobject, glm::vec2 offset) {
 		float random = ((rand() % 100) - 50) / 10.0f;
-		float color = 0.5f + ((rand() % 100) / 100.0f);
 		particle.Position = gameobject.GetPosition() + random + offset;
-		particle.Color = glm::vec4(color, color, color, 1);
+		particle.Color = m_Color;
 		particle.Life = 1.0f;
 		particle.Velocity = gameobject.Velocity * 0.1f;
 	}
