@@ -10,7 +10,7 @@ namespace breakout {
 		m_Collider = new CollisionShapeRectangle(m_Position, Size);
 	}
 
-	GameObject::GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation, glm::vec3 color, glm::vec2 velocity) 
+	GameObject::GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation, glm::vec4 color, glm::vec2 velocity) 
 		: m_Position(position), Size(size), Velocity(velocity), Color(color), Rotation(rotation), Sprite(sprite), IsActive(true)
 	{
 		m_Collider = new CollisionShapeRectangle(m_Position, Size);

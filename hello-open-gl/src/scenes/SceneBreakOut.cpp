@@ -63,7 +63,7 @@ namespace scene {
 		// particle emitter
 		m_ParticleEmitter = new ParticleEmitter(
 			ResourceManager::GetTexture("ball"),
-			10
+			500
 		);
 	}
 
@@ -115,16 +115,16 @@ namespace scene {
 		CheckCollisions();
 
 		// Particles
-		m_ParticleEmitter->Update(deltaTime, *m_Ball, 2, glm::vec2(10.0f, 10.0f));
+		m_ParticleEmitter->Update(deltaTime, *m_Ball, 2, glm::vec2(5.f, 5.f));
 	}
 
 	void SceneBreakOut::OnRender()
 	{
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 		m_Levels[m_CurrentLevel].Draw(*m_SpriteRenderer, m_Debug);
+		m_ParticleEmitter->Draw(*m_SpriteRenderer);
 		m_Player->Draw(*m_SpriteRenderer, m_Debug);
 		m_Ball->Draw(*m_SpriteRenderer, m_Debug);
-		m_ParticleEmitter->Draw(*m_SpriteRenderer);
 	}
 
 	void SceneBreakOut::OnImGuiRender()

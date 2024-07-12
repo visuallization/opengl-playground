@@ -7,7 +7,7 @@ namespace breakout {
 	}
 
 	Ball::Ball(glm::vec2 position, float radius, glm::vec2 velocity, Texture* sprite)
-		: GameObject(position, glm::vec2(radius * 2, radius * 2), sprite, 0, glm::vec3(1), velocity), Radius(radius), IsStuck(true) {
+		: GameObject(position, glm::vec2(radius * 2, radius * 2), sprite, 0, glm::vec4(1), velocity), Radius(radius), IsStuck(true) {
 		m_Collider = new CollisionShapeCircle(GetPosition(), Size, Radius);
 	}
 

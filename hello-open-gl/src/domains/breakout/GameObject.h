@@ -15,7 +15,7 @@ namespace breakout {
 		glm::vec2 Size;
 		glm::vec2 Velocity;
 
-		glm::vec3 Color;
+		glm::vec4 Color;
 
 		float Rotation;
 
@@ -24,7 +24,7 @@ namespace breakout {
 		Texture* Sprite;
 
 		GameObject();
-		GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation = 0, glm::vec3 color = glm::vec3(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
+		GameObject(glm::vec2 position, glm::vec2 size, Texture* sprite, float rotation = 0, glm::vec4 color = glm::vec4(1.0f), glm::vec2 velocity = glm::vec2(0.0f, 0.0f));
 
 		virtual void Draw(SpriteRenderer& renderer, bool debug = false);
 		void Destroy();

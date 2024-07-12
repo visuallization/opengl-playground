@@ -10,7 +10,7 @@ namespace breakout {
 	class Brick : public GameObject {
 	public:
 		Brick();
-		Brick(glm::vec2 position, glm::vec2 size, Texture* sprite, bool IsSolid = false, glm::vec3 color = glm::vec3(1.0f), float rotation = 0);
+		Brick(glm::vec2 position, glm::vec2 size, Texture* sprite, bool IsSolid = false, glm::vec4 color = glm::vec4(1.0f), float rotation = 0);
 
 		bool IsSolid;
 	};

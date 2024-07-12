@@ -7,12 +7,12 @@
 
 namespace breakout {
 
-	const std::map<unsigned int, glm::vec3> BRICK_COLORS = {
-		{ 1, glm::vec3(1, 1, 1) },
-		{ 2, glm::vec3(1, 0, 0) },
-		{ 3, glm::vec3(0, 1, 0) },
-		{ 4, glm::vec3(0, 0, 1) },
-		{ 5, glm::vec3(1, 1, 0) }
+	const std::map<unsigned int, glm::vec4> BRICK_COLORS = {
+		{ 1, glm::vec4(1, 1, 1, 1) },
+		{ 2, glm::vec4(1, 0, 0, 1) },
+		{ 3, glm::vec4(0, 1, 0, 1) },
+		{ 4, glm::vec4(0, 0, 1, 1) },
+		{ 5, glm::vec4(1, 1, 0, 1) }
 	};
 
 	class GameLevel {

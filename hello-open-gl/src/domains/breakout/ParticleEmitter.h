@@ -21,10 +21,11 @@ namespace breakout {
 	private:
 		std::vector<Particle> m_Particles;
 		unsigned int m_Amount;
-		unsigned int m_FirstUnusedParticle;
+		unsigned int m_LastUsedParticle;
 
 		Texture* m_Sprite;
 
+		unsigned int firstUnusedParticle();
 		void respawnParticle(Particle& particle, GameObject& gameobject, glm::vec2 offset = glm::vec2(0.0f));
 	};
 }

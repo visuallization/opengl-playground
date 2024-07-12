@@ -22,8 +22,8 @@ in vec2 v_TexCoord;
 out vec4 color;
 
 uniform sampler2D u_Sprite;
-uniform vec3 u_SpriteColor;
+uniform vec4 u_SpriteColor;
 
 void main() {
-	color = vec4(u_SpriteColor, 1.0) * texture(u_Sprite, v_TexCoord);
+	color = u_SpriteColor * texture(u_Sprite, v_TexCoord);
 };
