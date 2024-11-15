@@ -104,6 +104,7 @@
     <ClCompile Include="src\domains\breakout\GameObject.cpp" />
     <ClCompile Include="src\domains\breakout\ParticleEmitter.cpp" />
     <ClCompile Include="src\domains\breakout\Physics.cpp" />
+    <ClCompile Include="src\FrameBuffer.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -302,6 +303,7 @@
     <ClInclude Include="src\domains\breakout\Particle.h" />
     <ClInclude Include="src\domains\breakout\ParticleEmitter.h" />
     <ClInclude Include="src\domains\breakout\Physics.h" />
+    <ClInclude Include="src\FrameBuffer.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Mesh.h" />
