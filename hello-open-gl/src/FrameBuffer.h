@@ -1,5 +1,8 @@
 #pragma once
 
+#include "RenderBuffer.h"
+#include "Texture.h"
+
 class FrameBuffer {
 public:
 	FrameBuffer();
@@ -9,7 +12,9 @@ public:
 	void Unbind() const;
 
 	void AttachTexture(unsigned int id) const;
+	void AttachTexture(Texture* texture) const;
 	void AttachRenderBuffer(unsigned int id) const;
+	void AttachRenderBuffer(RenderBuffer* renderBuffer) const;
 
 	bool IsComplete();
 

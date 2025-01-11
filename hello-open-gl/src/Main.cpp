@@ -21,6 +21,7 @@
 #include "scenes/SceneComputeDemoOptimized.h";
 #include "scenes/SceneCube.h";
 #include "scenes/SceneForestFire.h"
+#include "scenes/SceneFrameBuffer.h"
 #include "scenes/SceneGeometryDemo.h";
 #include "scenes/SceneImGuiDemo.h"
 #include "scenes/SceneModel.h";
@@ -90,6 +91,7 @@ int main(void)
         currentScene = menu;
 
         menu->RegisterScene<scene::SceneBreakOut>("Break Out", window);
+        menu->RegisterScene<scene::SceneFrameBuffer>("FrameBuffer", window);
         menu->RegisterScene<scene::SceneClearColor>("Clear Color", window);
         menu->RegisterScene<scene::SceneTexture2D>("2D Texture",  window);
         menu->RegisterScene<scene::SceneCube>("3D Cube", window);
@@ -113,7 +115,7 @@ int main(void)
             lastFrame = currentFrame;
 
             renderer.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            renderer.Clear();
+            //renderer.Clear();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();

@@ -105,6 +105,8 @@
     <ClCompile Include="src\domains\breakout\ParticleEmitter.cpp" />
     <ClCompile Include="src\domains\breakout\Physics.cpp" />
     <ClCompile Include="src\FrameBuffer.cpp" />
+    <ClCompile Include="src\RenderBuffer.cpp" />
+    <ClCompile Include="src\scenes\SceneFrameBuffer.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
@@ -304,6 +306,8 @@
     <ClInclude Include="src\domains\breakout\ParticleEmitter.h" />
     <ClInclude Include="src\domains\breakout\Physics.h" />
     <ClInclude Include="src\FrameBuffer.h" />
+    <ClInclude Include="src\RenderBuffer.h" />
+    <ClInclude Include="src\scenes\SceneFrameBuffer.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Mesh.h" />

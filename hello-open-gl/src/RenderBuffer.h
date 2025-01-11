@@ -8,6 +8,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
+	unsigned int GetID() const;
+
 private:
 	unsigned int m_RendererID;
 };

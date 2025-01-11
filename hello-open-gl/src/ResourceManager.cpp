@@ -21,6 +21,11 @@ Texture* ResourceManager::LoadTexture(const char* filePath, std::string name) {
 	return Textures[name];
 };
 
+Texture* ResourceManager::LoadTexture(const unsigned int width, const unsigned int height, std::string name) {
+	Textures[name] = new Texture(width, height);
+	return Textures[name];
+}
+
 void ResourceManager::Clear() {
 	for (const auto& pair : Shaders) {
 		delete pair.second;

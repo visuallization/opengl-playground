@@ -21,3 +21,7 @@ void RenderBuffer::Bind() const{
 void RenderBuffer::Unbind() const {
 	GLCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 }
+
+unsigned int RenderBuffer::GetID() const {
+	return this->m_RendererID;
+}
