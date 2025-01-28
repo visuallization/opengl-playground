@@ -115,7 +115,7 @@ int main(void)
             lastFrame = currentFrame;
 
             renderer.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            //renderer.Clear();
+            renderer.Clear();
 
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
