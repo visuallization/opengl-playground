@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Camera.h"
 #include "FrameBuffer.h"
 #include "Model.h"
 #include "Scene.h"
+#include "SpriteRenderer.h"
 
 namespace scene {
 	class SceneFrameBuffer : public Scene {
@@ -10,6 +12,7 @@ namespace scene {
 		SceneFrameBuffer(GLFWwindow*& window);
 		~SceneFrameBuffer();
 		void OnRender() override;
+		void OnUpdate(float deltaTime) override;
 		void OnImGuiRender() override;
 
 	private:
@@ -19,6 +22,10 @@ namespace scene {
 		std::shared_ptr<Shader> m_Shader;
 
 		std::unique_ptr<Model> m_Model;
+
+		SpriteRenderer* m_SpriteRenderer;
+
+		Camera m_Camera;
 
 		bool m_Wireframe;
 	};

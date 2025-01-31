@@ -7,7 +7,8 @@
 
 namespace scene {
 	SceneFrameBuffer::SceneFrameBuffer(GLFWwindow*& window) :
-		Scene::Scene(window)
+		Scene::Scene(window),
+		m_Camera(window, glm::vec3(0.0f, 0.0f, 10.0f))
 	{
 		GLCall(glEnable(GL_DEPTH_TEST));
 
@@ -19,6 +20,12 @@ namespace scene {
 
 		// Check with how many channels you initialize the empty texture (for color you probably only need 8 bit)
 		Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
+		// Instantiate empty texture which we can add to the SpriteRenderer because we only need an empty quad
+		ResourceManager::LoadTexture(1, 1, "empty");
+		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
+
+		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
+		m_SpriteRenderer = new SpriteRenderer(projection);
 
 		m_FBO->AttachTexture(texture);
 		m_FBO->AttachRenderBuffer(m_RBO->GetID());
@@ -41,6 +48,10 @@ namespace scene {
 		ImGui::Checkbox("Wireframe", &m_Wireframe);
 	}
 
+	void SceneFrameBuffer::OnUpdate(float deltaTime) {
+		m_Camera.OnUpdate(deltaTime);
+	}
+
 	void SceneFrameBuffer::OnRender() {
 		if (m_Wireframe) {
 			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
@@ -49,6 +60,10 @@ namespace scene {
 		}
 
 		Renderer renderer;
+
+		glm::mat4 model = glm::mat4(1.0f);
+		glm::mat4 view = m_Camera.GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(m_Camera.FieldOfView), (float)m_Width / (float)m_Height, 0.1f, 100.f);
 
 		for (int i = 0; i < m_Model->Meshes.size(); i++) {
 			m_Shader->Bind();
@@ -60,13 +75,15 @@ namespace scene {
 				mesh.Textures[0].Texture->Bind();
 			}
 
-			m_Shader->SetUniformMat4f("u_Model", glm::mat4(1.0f));
-			m_Shader->SetUniformMat4f("u_View", glm::mat4(1.0f));
-			m_Shader->SetUniformMat4f("u_Projection", glm::mat4(1.0f));
+			m_Shader->SetUniformMat4f("u_Model", model);
+			m_Shader->SetUniformMat4f("u_View", view);
+			m_Shader->SetUniformMat4f("u_Projection", projection);
 
 			renderer.Draw(*mesh.VAO, *mesh.IBO, *m_Shader);
 
 			m_Shader->Unbind();
 		}
+
+		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 	}
 }
