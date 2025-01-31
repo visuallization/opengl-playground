@@ -16,6 +16,7 @@ struct RenderData {
 
 class SpriteRenderer {
 public:
+	SpriteRenderer(glm::mat4 projection);
 	SpriteRenderer(Shader* shader, Shader* debugShader);
 	~SpriteRenderer();
 

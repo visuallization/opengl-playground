@@ -1,8 +1,32 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Renderer.h"	
+#include "ResourceManager.h"
 #include "SpriteRenderer.h"
 #include "VertexBufferLayout.h"
+
+SpriteRenderer::SpriteRenderer(glm::mat4 projection) {
+	// Handle transparent textures
+	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+	GLCall(glEnable(GL_BLEND));
+
+	// Stencil testing
+	GLCall(glEnable(GL_STENCIL_TEST));
+	GLCall(glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE));
+
+	m_Shader = ResourceManager::LoadShader("assets/shaders/Sprite.shader", "sprite");
+	m_Shader->Bind();
+	m_Shader->SetUniformMat4f("u_Projection", projection);
+	m_Shader->SetUniform1i("u_Sprite", 0);
+	m_Shader->Unbind();
+
+	m_DebugShader = ResourceManager::LoadShader("assets/shaders/Color.shader", "debug");
+	m_DebugShader->Bind();
+	m_DebugShader->SetUniformMat4f("u_Projection", projection);
+	m_DebugShader->Unbind();
+
+	initRenderData();
+}
 
 SpriteRenderer::SpriteRenderer(Shader* shader, Shader* debugShader) {
 	// Handle transparent textures

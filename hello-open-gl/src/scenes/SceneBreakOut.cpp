@@ -15,19 +15,7 @@ namespace scene {
 	SceneBreakOut::SceneBreakOut(GLFWwindow*& window) : Scene::Scene(window)
 	{
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
-		
-		Shader* shader = ResourceManager::LoadShader("assets/shaders/Sprite.shader", "sprite");
-		shader->Bind();
-		shader->SetUniformMat4f("u_Projection", projection);
-		shader->SetUniform1i("u_Sprite", 0);
-		shader->Unbind();
-
-		Shader* debugShader = ResourceManager::LoadShader("assets/shaders/Color.shader", "debug");
-		debugShader->Bind();
-		debugShader->SetUniformMat4f("u_Projection", projection);
-		debugShader->Unbind();
-
-		m_SpriteRenderer = new SpriteRenderer(shader, debugShader);
+		m_SpriteRenderer = new SpriteRenderer(projection);
 
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
