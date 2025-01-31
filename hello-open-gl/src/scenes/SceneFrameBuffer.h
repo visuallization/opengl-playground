@@ -13,7 +13,6 @@ namespace scene {
 		~SceneFrameBuffer();
 		void OnRender() override;
 		void OnUpdate(float deltaTime) override;
-		void OnImGuiRender() override;
 
 	private:
 		std::unique_ptr<FrameBuffer> m_FBO;

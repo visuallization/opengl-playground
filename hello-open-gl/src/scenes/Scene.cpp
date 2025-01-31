@@ -1,7 +1,20 @@
 #include "Scene.h"
+#include "Renderer.h"
 #include "imgui/imgui.h"
 
 namespace scene {
+	void Scene::OnImGuiRender() {
+		ImGui::Checkbox("Wireframe", &m_ShowWireframe);
+	}
+
+	void Scene::OnRender() {
+		if (m_ShowWireframe) {
+			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
+		} else {
+			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
+		}
+	}
+
 	SceneMenu::SceneMenu(Scene*& currentScene): m_CurrentScene(currentScene) {
 
 	}

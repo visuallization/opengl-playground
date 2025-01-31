@@ -19,13 +19,14 @@ namespace scene {
 		virtual ~Scene() {}
 		
 		virtual void OnUpdate(float deltaTime) {}
-		virtual void OnRender() {}
-		virtual void OnImGuiRender() {}
+		virtual void OnRender();
+		virtual void OnImGuiRender();
 
 	protected:
 		GLFWwindow* m_Window;
 		int m_Width;
 		int m_Height;
+		bool m_ShowWireframe;
 	};
 
 	class SceneMenu : public Scene {

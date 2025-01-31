@@ -44,21 +44,12 @@ namespace scene {
 		GLCall(glDisable(GL_DEPTH_TEST));
 	}
 
-	void SceneFrameBuffer::OnImGuiRender() {
-		ImGui::Checkbox("Wireframe", &m_Wireframe);
-	}
-
 	void SceneFrameBuffer::OnUpdate(float deltaTime) {
 		m_Camera.OnUpdate(deltaTime);
 	}
 
 	void SceneFrameBuffer::OnRender() {
-		if (m_Wireframe) {
-			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
-		} else {
-			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
-		}
-
+		Scene::OnRender();
 		Renderer renderer;
 
 		glm::mat4 model = glm::mat4(1.0f);
