@@ -10,7 +10,7 @@ private:
 	int m_Width, m_Height, m_BitsPerPixel;
 
 public:
-	Texture(const unsigned int width, const unsigned int height, unsigned int unit = 0, bool flip = false);
+	Texture(const unsigned int width, const unsigned int height, unsigned int unit = 0);
 	Texture(const std::string& path, bool flip = false);
 	~Texture();
 

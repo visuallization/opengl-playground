@@ -19,7 +19,7 @@ public:
 
 	// textures
 	static Texture* GetTexture(std::string name);
-	static Texture* LoadTexture(const char* filePath, std::string name);
+	static Texture* LoadTexture(const char* filePath, std::string name, bool flip = false);
 	static Texture* LoadTexture(const unsigned int width, const unsigned int height, std::string name);
 
 	// deallocate all loaded resources

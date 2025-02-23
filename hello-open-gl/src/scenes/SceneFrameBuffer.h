@@ -15,6 +15,8 @@ namespace scene {
 		void OnUpdate(float deltaTime) override;
 
 	private:
+		void Clear();
+
 		std::unique_ptr<FrameBuffer> m_FBO;
 		std::unique_ptr<RenderBuffer> m_RBO;
 

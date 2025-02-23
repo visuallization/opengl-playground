@@ -16,8 +16,8 @@ Texture* ResourceManager::GetTexture(std::string name) {
 	return Textures[name];
 };
 
-Texture* ResourceManager::LoadTexture(const char* filePath, std::string name) {
-	Textures[name] = new Texture(filePath);	
+Texture* ResourceManager::LoadTexture(const char* filePath, std::string name, bool flip) {
+	Textures[name] = new Texture(filePath, flip);	
 	return Textures[name];
 };
 

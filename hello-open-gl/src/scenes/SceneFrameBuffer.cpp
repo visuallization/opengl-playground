@@ -18,11 +18,7 @@ namespace scene {
 		m_FBO = std::make_unique<FrameBuffer>();
 		m_RBO = std::make_unique<RenderBuffer>(this->m_Width, this->m_Height);
 
-		// Check with how many channels you initialize the empty texture (for color you probably only need 8 bit)
 		Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
-		// Instantiate empty texture which we can add to the SpriteRenderer because we only need an empty quad
-		ResourceManager::LoadTexture(1, 1, "empty");
-		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
 
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
 		m_SpriteRenderer = new SpriteRenderer(projection);
@@ -50,6 +46,12 @@ namespace scene {
 
 	void SceneFrameBuffer::OnRender() {
 		Scene::OnRender();
+
+		// first render pass
+		m_FBO->Bind();
+        // make sure we clear the framebuffer's content
+        this->Clear();
+
 		Renderer renderer;
 
 		glm::mat4 model = glm::mat4(1.0f);
@@ -75,6 +77,15 @@ namespace scene {
 			m_Shader->Unbind();
 		}
 
-		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
+		// second render pass
+		m_FBO->Unbind();
+		this->Clear();
+
+		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("FrameBufferTexture"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
+	}
+
+	void SceneFrameBuffer::Clear() {
+		GLCall(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
+        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 	}
 }
