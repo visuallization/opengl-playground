@@ -26,7 +26,5 @@ namespace scene {
 		SpriteRenderer* m_SpriteRenderer;
 
 		Camera m_Camera;
-
-		bool m_Wireframe;
 	};
 }

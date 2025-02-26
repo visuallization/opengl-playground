@@ -4,11 +4,12 @@
 
 namespace scene {
 	void Scene::OnImGuiRender() {
-		ImGui::Checkbox("Wireframe", &m_ShowWireframe);
+		ImGui::Checkbox("Draw wireframe", &m_Debug);
+		ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 	}
 
 	void Scene::OnRender() {
-		if (m_ShowWireframe) {
+		if (m_Debug) {
 			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
 		} else {
 			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));

@@ -81,6 +81,7 @@ namespace scene {
 		m_FBO->Unbind();
 		renderer.Clear();
 
+		m_SpriteRenderer->Debug(Scene::m_Debug);
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("FrameBufferTexture"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 	}
 }

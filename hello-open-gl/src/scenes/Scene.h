@@ -26,7 +26,7 @@ namespace scene {
 		GLFWwindow* m_Window;
 		int m_Width;
 		int m_Height;
-		bool m_ShowWireframe;
+		bool m_Debug;
 	};
 
 	class SceneMenu : public Scene {

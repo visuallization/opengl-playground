@@ -23,7 +23,12 @@ out vec4 color;
 
 uniform sampler2D u_Sprite;
 uniform vec4 u_SpriteColor;
+uniform bool u_UseColorOnly;
 
 void main() {
-	color = u_SpriteColor * texture(u_Sprite, v_TexCoord);
-};
+	if (u_UseColorOnly) {
+		color = u_SpriteColor;
+	} else {
+		color = u_SpriteColor * texture(u_Sprite, v_TexCoord);
+	}
+}

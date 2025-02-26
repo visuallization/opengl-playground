@@ -123,7 +123,7 @@ RenderData SpriteRenderer::buildCircle(float radius, unsigned int vertexCount /*
 	return data;
 }
 
-void SpriteRenderer::DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size /* = glm::vec2(10.0f, 10.0f) */, float rotate /* = 0.0f */, glm::vec4 color /* = glm::vec3(1.0f) */) {
+void SpriteRenderer::DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec4 color) {
 	Renderer renderer;
 
 	texture->Bind();
@@ -141,6 +141,7 @@ void SpriteRenderer::DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 
 
 	m_Shader->SetUniformMat4f("u_Model", model);
 	m_Shader->SetUniformVec4f("u_SpriteColor", color);
+	m_Shader->SetUniform1i("u_UseColorOnly", m_Debug);
 
 	renderer.Draw(*m_VAO, *m_IBO, *m_Shader);
 
@@ -253,4 +254,8 @@ void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 size) {
 void SpriteRenderer::Clear() {
 	Renderer renderer;
 	renderer.Clear();
+}
+
+void SpriteRenderer::Debug(bool debug) {
+	m_Debug = debug;
 }

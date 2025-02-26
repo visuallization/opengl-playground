@@ -114,7 +114,7 @@ int main(void)
             deltaTime = currentFrame - lastFrame;
             lastFrame = currentFrame;
 
-            renderer.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            renderer.SetClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             renderer.Clear();
 
             ImGui_ImplOpenGL3_NewFrame();

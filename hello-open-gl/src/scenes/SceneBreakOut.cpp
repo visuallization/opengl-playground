@@ -31,7 +31,6 @@ namespace scene {
 		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/4.lvl", m_Width, m_Height / 2));
 
 		m_CurrentLevel = 0;
-		m_Debug = false;
 
 		// player
 		m_Player = new GameObject(
@@ -131,7 +130,8 @@ namespace scene {
 		// first render pass
 		m_FBO->Bind();
 		m_SpriteRenderer->Clear();
-
+		
+		m_SpriteRenderer->Debug(Scene::m_Debug);
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 		m_Levels[m_CurrentLevel].Draw(*m_SpriteRenderer, m_Debug);
 		m_ParticleEmitter->Draw(*m_SpriteRenderer);
@@ -147,17 +147,14 @@ namespace scene {
 
 	void SceneBreakOut::OnImGuiRender()
 	{
-		Scene::OnImGuiRender();
-
 		ImGui::Text("Levels: "); ImGui::SameLine();
 		ImGui::RadioButton("1", &m_CurrentLevel, 0); ImGui::SameLine();
 		ImGui::RadioButton("2", &m_CurrentLevel, 1); ImGui::SameLine();
 		ImGui::RadioButton("3", &m_CurrentLevel, 2); ImGui::SameLine();
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
 
-		ImGui::Checkbox("Debug", &m_Debug);
-
-		ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
+		ImGui::Checkbox("Draw collision shapes", &m_Debug);
+		Scene::OnImGuiRender();
 	}
 
 	void SceneBreakOut::Reset() {
