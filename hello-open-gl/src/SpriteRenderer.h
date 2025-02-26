@@ -16,13 +16,14 @@ struct RenderData {
 
 class SpriteRenderer {
 public:
-	SpriteRenderer(glm::mat4 projection);
-	SpriteRenderer(Shader* shader, Shader* debugShader);
+	SpriteRenderer(glm::mat4 projection, bool flipped = false);
+	SpriteRenderer(Shader* shader, Shader* debugShader, bool flipped = false);
 	~SpriteRenderer();
 
 	void DrawSprite(Texture* texture, glm::vec2 position, glm::vec2 size = glm::vec2(10.0f, 10.0f), float rotate = 0.0f, glm::vec4 color = glm::vec4(1.0f));
 	void DrawRectangle(glm::vec2 position, glm::vec2 size, float rotate = 0.0f);
 	void DrawCircle(glm::vec2 position, glm::vec2 size);
+	void Clear();
 
 private:
 	Shader* m_Shader;
@@ -36,7 +37,7 @@ private:
 	std::unique_ptr<VertexArray> m_CircleVAO;
 	std::unique_ptr<VertexBuffer> m_CircleVBO;
 
-	void initRenderData();
+	void initRenderData(bool flipped = false);
 
 	RenderData buildCircle(float radius, unsigned int vertexCount = 8);
 };

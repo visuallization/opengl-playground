@@ -15,7 +15,7 @@ namespace scene {
 	SceneBreakOut::SceneBreakOut(GLFWwindow*& window) : Scene::Scene(window)
 	{
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
-		m_SpriteRenderer = new SpriteRenderer(projection);
+		m_SpriteRenderer = new SpriteRenderer(projection, true);
 
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
@@ -55,6 +55,22 @@ namespace scene {
 			500,
 			glm::vec4(0, 0, 1, 1)
 		);
+
+		m_FBO = std::make_unique<FrameBuffer>();
+		m_RBO = std::make_unique<RenderBuffer>(this->m_Width, this->m_Height);
+
+		Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
+		m_FBO->AttachTexture(texture);
+		m_FBO->AttachRenderBuffer(m_RBO->GetID());
+
+		if (m_FBO->IsComplete()) {
+			std::cout << "FrameBuffer complete. Ready to render.";
+		}
+		else {
+			std::cout << "FrameBuffer incomplete";
+		}
+
+		m_FBO->Unbind();
 	}
 
 	SceneBreakOut::~SceneBreakOut()
@@ -110,15 +126,29 @@ namespace scene {
 
 	void SceneBreakOut::OnRender()
 	{
+		Scene::OnRender();
+
+		// first render pass
+		m_FBO->Bind();
+		m_SpriteRenderer->Clear();
+
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 		m_Levels[m_CurrentLevel].Draw(*m_SpriteRenderer, m_Debug);
 		m_ParticleEmitter->Draw(*m_SpriteRenderer);
 		m_Player->Draw(*m_SpriteRenderer, m_Debug);
 		m_Ball->Draw(*m_SpriteRenderer, m_Debug);
+
+		// second render pass
+		m_FBO->Unbind();
+		m_SpriteRenderer->Clear();
+
+		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("FrameBufferTexture"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
 	}
 
 	void SceneBreakOut::OnImGuiRender()
 	{
+		Scene::OnImGuiRender();
+
 		ImGui::Text("Levels: "); ImGui::SameLine();
 		ImGui::RadioButton("1", &m_CurrentLevel, 0); ImGui::SameLine();
 		ImGui::RadioButton("2", &m_CurrentLevel, 1); ImGui::SameLine();

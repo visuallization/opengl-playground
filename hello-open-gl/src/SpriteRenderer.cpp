@@ -5,7 +5,7 @@
 #include "SpriteRenderer.h"
 #include "VertexBufferLayout.h"
 
-SpriteRenderer::SpriteRenderer(glm::mat4 projection) {
+SpriteRenderer::SpriteRenderer(glm::mat4 projection, bool flipped /* = false */) {
 	// Handle transparent textures
 	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	GLCall(glEnable(GL_BLEND));
@@ -25,10 +25,10 @@ SpriteRenderer::SpriteRenderer(glm::mat4 projection) {
 	m_DebugShader->SetUniformMat4f("u_Projection", projection);
 	m_DebugShader->Unbind();
 
-	initRenderData();
+	initRenderData(flipped);
 }
 
-SpriteRenderer::SpriteRenderer(Shader* shader, Shader* debugShader) {
+SpriteRenderer::SpriteRenderer(Shader* shader, Shader* debugShader, bool flipped /* = false */) {
 	// Handle transparent textures
 	GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 	GLCall(glEnable(GL_BLEND));
@@ -40,7 +40,7 @@ SpriteRenderer::SpriteRenderer(Shader* shader, Shader* debugShader) {
 	m_Shader = shader;
 	m_DebugShader = debugShader;
 
-	initRenderData();
+	initRenderData(flipped);
 }
 
 SpriteRenderer::~SpriteRenderer() {
@@ -50,7 +50,7 @@ SpriteRenderer::~SpriteRenderer() {
 	GLCall(glDisable(GL_STENCIL_TEST))
 }
 
-void SpriteRenderer::initRenderData() {
+void SpriteRenderer::initRenderData(bool flipped) {
 	// QUAD
 	// positions + texture coordinates
 	float vertices[] = {
@@ -61,6 +61,14 @@ void SpriteRenderer::initRenderData() {
 		0.0f, 1.0f, 0.0f, 1.0f  // 3
 	};
 
+	float flippedVertices[] = {
+		// position	// texture coordinates
+		0.0f, 0.0f, 0.0f, 1.0f, // 0
+		1.0f, 0.0f, 1.0f, 1.0f, // 1
+		1.0f, 1.0f, 1.0f, 0.0f, // 2
+		0.0f, 1.0f, 0.0f, 0.0f  // 3
+	};
+
 	// utilize indices to reuse vertices
 	unsigned int indices[] = {
 		0, 1, 2,
@@ -68,7 +76,7 @@ void SpriteRenderer::initRenderData() {
 	};
 
 	m_VAO = std::make_unique<VertexArray>();
-	m_VBO = std::make_unique<VertexBuffer>(vertices, 4 * 4 * sizeof(float));
+	m_VBO = std::make_unique<VertexBuffer>(flipped ? flippedVertices : vertices, 4 * 4 * sizeof(float));
 
 	VertexBufferLayout layout;
 	// add positions + texture coordinates
@@ -240,4 +248,9 @@ void SpriteRenderer::DrawCircle(glm::vec2 position, glm::vec2 size) {
 
 	GLCall(glStencilMask(0xFF));
 	GLCall(glStencilFunc(GL_ALWAYS, 0, 0xFF));
+}
+
+void SpriteRenderer::Clear() {
+	Renderer renderer;
+	renderer.Clear();
 }

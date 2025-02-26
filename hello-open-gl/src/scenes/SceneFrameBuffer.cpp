@@ -20,7 +20,7 @@ namespace scene {
 
 		Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
 
-		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
+		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, 0.0f, (float)m_Height, -1.0f, 1.0f);
 		m_SpriteRenderer = new SpriteRenderer(projection);
 
 		m_FBO->AttachTexture(texture);
@@ -50,9 +50,9 @@ namespace scene {
 		// first render pass
 		m_FBO->Bind();
         // make sure we clear the framebuffer's content
-        this->Clear();
-
+		
 		Renderer renderer;
+        renderer.Clear();
 
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = m_Camera.GetViewMatrix();
@@ -79,13 +79,8 @@ namespace scene {
 
 		// second render pass
 		m_FBO->Unbind();
-		this->Clear();
+		renderer.Clear();
 
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("FrameBufferTexture"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
-	}
-
-	void SceneFrameBuffer::Clear() {
-		GLCall(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
-        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 	}
 }

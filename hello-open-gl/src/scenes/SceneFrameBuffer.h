@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "FrameBuffer.h"
+#include "RenderBuffer.h"
 #include "Model.h"
 #include "Scene.h"
 #include "SpriteRenderer.h"
@@ -15,8 +16,6 @@ namespace scene {
 		void OnUpdate(float deltaTime) override;
 
 	private:
-		void Clear();
-
 		std::unique_ptr<FrameBuffer> m_FBO;
 		std::unique_ptr<RenderBuffer> m_RBO;
 

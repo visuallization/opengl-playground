@@ -2,6 +2,8 @@
 
 #include "Scene.h"
 #include "SpriteRenderer.h"
+#include "FrameBuffer.h"
+#include "RenderBuffer.h"
 
 #include "domains/breakout/GameLevel.h"
 #include "domains/breakout/GameObject.h"
@@ -34,6 +36,9 @@ namespace scene {
 
 	private:
 		SpriteRenderer* m_SpriteRenderer;
+
+		std::unique_ptr<FrameBuffer> m_FBO;
+		std::unique_ptr<RenderBuffer> m_RBO;
 
 		bool m_Debug = false;
 		int m_CurrentLevel = 0;
