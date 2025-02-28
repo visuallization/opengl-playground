@@ -259,3 +259,11 @@ void SpriteRenderer::Clear() {
 void SpriteRenderer::Debug(bool debug) {
 	m_Debug = debug;
 }
+
+void SpriteRenderer::SetShader(Shader* shader) {
+	m_Shader = shader;
+}
+
+void SpriteRenderer::SetDebugShader(Shader* shader) {
+	m_DebugShader = shader;
+}

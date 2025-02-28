@@ -24,6 +24,9 @@ public:
 	void DrawRectangle(glm::vec2 position, glm::vec2 size, float rotate = 0.0f);
 	void DrawCircle(glm::vec2 position, glm::vec2 size);
 
+	void SetShader(Shader* shader);
+	void SetDebugShader(Shader* shader);
+
 	void Debug(bool debug);
 	void Clear();
 

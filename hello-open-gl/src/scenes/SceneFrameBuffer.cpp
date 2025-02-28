@@ -21,7 +21,14 @@ namespace scene {
 		Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
 
 		glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, 0.0f, (float)m_Height, -1.0f, 1.0f);
+
+		m_PostProcessingShader = std::make_shared<Shader>("assets/shaders/Inverse.shader");
+		m_PostProcessingShader->Bind();
+		m_PostProcessingShader->SetUniformMat4f("u_Projection", projection);
+		m_PostProcessingShader->Unbind();
+
 		m_SpriteRenderer = new SpriteRenderer(projection);
+		m_SpriteRenderer->SetShader(m_PostProcessingShader.get());
 
 		m_FBO->AttachTexture(texture);
 		m_FBO->AttachRenderBuffer(m_RBO->GetID());

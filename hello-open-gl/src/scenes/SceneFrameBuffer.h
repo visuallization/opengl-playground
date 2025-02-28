@@ -20,6 +20,7 @@ namespace scene {
 		std::unique_ptr<RenderBuffer> m_RBO;
 
 		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<Shader> m_PostProcessingShader;
 
 		std::unique_ptr<Model> m_Model;
 
