@@ -256,7 +256,7 @@ void SpriteRenderer::Clear() {
 	renderer.Clear();
 }
 
-void SpriteRenderer::Debug(bool debug) {
+void SpriteRenderer::SetDebug(bool debug) {
 	m_Debug = debug;
 }
 

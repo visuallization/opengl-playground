@@ -26,8 +26,8 @@ public:
 
 	void SetShader(Shader* shader);
 	void SetDebugShader(Shader* shader);
+	void SetDebug(bool debug);
 
-	void Debug(bool debug);
 	void Clear();
 
 private:
