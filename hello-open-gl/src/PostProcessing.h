@@ -11,6 +11,9 @@ class PostProcessing {
 
         void Start();
         void Done();
+        void Activate();
+        void Deactivate();
+        void SetShader(Shader* shader);
 
     private:
         std::unique_ptr<FrameBuffer> m_FBO;

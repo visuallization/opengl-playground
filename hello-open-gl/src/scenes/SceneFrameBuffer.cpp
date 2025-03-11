@@ -13,9 +13,10 @@ namespace scene {
 	{
 		GLCall(glEnable(GL_DEPTH_TEST));
 
-		m_PostProcessing = std::make_unique<PostProcessing>(this->m_Width, this->m_Height);
 		m_Shader = std::make_shared<Shader>("assets/shaders/Model.shader");
 		m_Model = std::make_unique<Model>("assets/models/backpack/backpack.obj");
+
+		m_PostProcessing = std::make_unique<PostProcessing>(this->m_Width, this->m_Height);
 	}
 
 	SceneFrameBuffer::~SceneFrameBuffer() {
@@ -23,16 +24,24 @@ namespace scene {
 	}
 
 	void SceneFrameBuffer::OnImGuiRender() {
+		ImGui::Checkbox("Apply Post-Processing", &m_ApplyPostProcessing);
+
 		Scene::OnImGuiRender();
 	}
 
 	void SceneFrameBuffer::OnUpdate(float deltaTime) {
 		m_Camera.OnUpdate(deltaTime);
+
+		if (m_ApplyPostProcessing) {
+			m_PostProcessing->Activate();
+		} else {
+			m_PostProcessing->Deactivate();
+		}
 	}
 
 	void SceneFrameBuffer::OnRender() {
-		Renderer renderer;
 		Scene::OnRender();
+		Renderer renderer;
 
 		m_PostProcessing->Start();
 

@@ -17,8 +17,10 @@ namespace scene {
 	private:
 		std::shared_ptr<Shader> m_Shader;
 		std::unique_ptr<Model> m_Model;
-		std::unique_ptr<PostProcessing> m_PostProcessing;
-
+		
 		Camera m_Camera;
+		
+		std::unique_ptr<PostProcessing> m_PostProcessing;
+		bool m_ApplyPostProcessing = false;
 	};
 }

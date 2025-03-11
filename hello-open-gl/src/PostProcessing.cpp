@@ -6,8 +6,12 @@
 #include "ResourceManager.h"
 
 PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height(height) {
-    Shader* shader = ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
-	Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
+    ResourceManager::LoadShader("assets/shaders/Sprite.shader", "Default");
+    ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
+    ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
+
+    Shader* shader = ResourceManager::GetShader("Inverse");
+	Texture* texture = ResourceManager::GetTexture("FrameBufferTexture");
 
 	glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
     
@@ -51,6 +55,24 @@ void PostProcessing::Done() {
     renderer.Clear();
 
     Draw();
+}
+
+void PostProcessing::Activate() {
+    SetShader(ResourceManager::GetShader("Inverse"));
+}
+
+void PostProcessing::Deactivate() {
+    SetShader(ResourceManager::GetShader("Default"));
+}
+
+void PostProcessing::SetShader(Shader* shader) {
+    glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
+
+    shader->Bind();
+	shader->SetUniformMat4f("u_Projection", projection);
+	shader->Unbind();
+
+    m_SpriteRenderer->SetShader(shader);
 }
 
 void PostProcessing::Draw() {
