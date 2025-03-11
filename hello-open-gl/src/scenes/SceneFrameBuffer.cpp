@@ -33,9 +33,9 @@ namespace scene {
 		m_Camera.OnUpdate(deltaTime);
 
 		if (m_ApplyPostProcessing) {
-			m_PostProcessing->Activate();
+			m_PostProcessing->Enable();
 		} else {
-			m_PostProcessing->Deactivate();
+			m_PostProcessing->Disable();
 		}
 	}
 

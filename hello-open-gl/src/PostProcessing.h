@@ -11,8 +11,8 @@ class PostProcessing {
 
         void Start();
         void Done();
-        void Activate();
-        void Deactivate();
+        void Enable();
+        void Disable();
         void SetShader(Shader* shader);
 
     private:
@@ -23,6 +23,8 @@ class PostProcessing {
 
         int m_Width;
         int m_Height;
+
+        bool m_Active;
 
         void Draw();
 };

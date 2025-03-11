@@ -5,7 +5,7 @@
 
 #include "ResourceManager.h"
 
-PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height(height) {
+PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height(height), m_Active(true) {
     ResourceManager::LoadShader("assets/shaders/Sprite.shader", "Default");
     ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
     ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
@@ -42,6 +42,10 @@ PostProcessing::~PostProcessing() {
 }
 
 void PostProcessing::Start() {
+    if (!m_Active) {
+        return;
+    }
+
     m_FBO->Bind();
 
     Renderer renderer;
@@ -49,6 +53,10 @@ void PostProcessing::Start() {
 }
 
 void PostProcessing::Done() {
+    if (!m_Active) {
+        return;
+    }
+
     m_FBO->Unbind();
 
     Renderer renderer;
@@ -57,12 +65,13 @@ void PostProcessing::Done() {
     Draw();
 }
 
-void PostProcessing::Activate() {
-    SetShader(ResourceManager::GetShader("Inverse"));
+void PostProcessing::Enable() {
+    m_Active = true;
 }
 
-void PostProcessing::Deactivate() {
-    SetShader(ResourceManager::GetShader("Default"));
+void PostProcessing::Disable() {
+    m_Active = false;
+    m_FBO->Unbind();
 }
 
 void PostProcessing::SetShader(Shader* shader) {

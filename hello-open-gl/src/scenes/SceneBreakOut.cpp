@@ -106,6 +106,12 @@ namespace scene {
 
 		// Particles
 		m_ParticleEmitter->Update(deltaTime, *m_Ball, 2, glm::vec2(5.f, 5.f));
+
+		if (m_ApplyPostProcessing) {
+			m_PostProcessing->Enable();
+		} else {
+			m_PostProcessing->Disable();
+		}
 	}
 
 	void SceneBreakOut::OnRender()
@@ -132,7 +138,9 @@ namespace scene {
 		ImGui::RadioButton("3", &m_CurrentLevel, 2); ImGui::SameLine();
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
 
+		ImGui::Checkbox("Apply Post-Processing", &m_ApplyPostProcessing);
 		ImGui::Checkbox("Draw collision shapes", &m_Debug);
+
 		Scene::OnImGuiRender();
 	}
 
