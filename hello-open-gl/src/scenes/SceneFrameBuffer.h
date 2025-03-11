@@ -12,6 +12,7 @@ namespace scene {
 		~SceneFrameBuffer();
 		void OnRender() override;
 		void OnUpdate(float deltaTime) override;
+		void OnImGuiRender() override;
 
 	private:
 		std::shared_ptr<Shader> m_Shader;

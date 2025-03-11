@@ -111,7 +111,8 @@ namespace scene {
 	void SceneBreakOut::OnRender()
 	{
 		Scene::OnRender();
-		m_PostProcessing->Bind();
+
+		m_PostProcessing->Start();
 
 		m_SpriteRenderer->SetDebug(Scene::m_Debug);
 		m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
@@ -120,8 +121,7 @@ namespace scene {
 		m_Player->Draw(*m_SpriteRenderer, m_Debug);
 		m_Ball->Draw(*m_SpriteRenderer, m_Debug);
 
-		m_PostProcessing->Unbind();
-		m_PostProcessing->Draw();
+		m_PostProcessing->Done();
 	}
 
 	void SceneBreakOut::OnImGuiRender()

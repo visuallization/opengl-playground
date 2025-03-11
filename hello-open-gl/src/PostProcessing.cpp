@@ -6,16 +6,17 @@
 #include "ResourceManager.h"
 
 PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height(height) {
+    Shader* shader = ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
 	Texture* texture = ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
+
 	glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
     
-	m_Shader = std::make_shared<Shader>("assets/shaders/Inverse.shader");
-    m_Shader->Bind();
-	m_Shader->SetUniformMat4f("u_Projection", projection);
-	m_Shader->Unbind();
+    shader->Bind();
+	shader->SetUniformMat4f("u_Projection", projection);
+	shader->Unbind();
 
     m_SpriteRenderer = new SpriteRenderer(projection, true);
-	m_SpriteRenderer->SetShader(m_Shader.get());
+	m_SpriteRenderer->SetShader(shader);
 
 	m_RBO = std::make_unique<RenderBuffer>(m_Width, m_Height);
 
@@ -36,18 +37,20 @@ PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height
 PostProcessing::~PostProcessing() {
 }
 
-void PostProcessing::Bind() {
+void PostProcessing::Start() {
     m_FBO->Bind();
 
     Renderer renderer;
     renderer.Clear();
 }
 
-void PostProcessing::Unbind() {
+void PostProcessing::Done() {
     m_FBO->Unbind();
 
     Renderer renderer;
     renderer.Clear();
+
+    Draw();
 }
 
 void PostProcessing::Draw() {

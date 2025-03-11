@@ -22,6 +22,10 @@ namespace scene {
 		GLCall(glDisable(GL_DEPTH_TEST));
 	}
 
+	void SceneFrameBuffer::OnImGuiRender() {
+		Scene::OnImGuiRender();
+	}
+
 	void SceneFrameBuffer::OnUpdate(float deltaTime) {
 		m_Camera.OnUpdate(deltaTime);
 	}
@@ -29,7 +33,8 @@ namespace scene {
 	void SceneFrameBuffer::OnRender() {
 		Renderer renderer;
 		Scene::OnRender();
-		m_PostProcessing->Bind();
+
+		m_PostProcessing->Start();
 
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = m_Camera.GetViewMatrix();
@@ -54,7 +59,6 @@ namespace scene {
 			m_Shader->Unbind();
 		}
 
-		m_PostProcessing->Unbind();
-		m_PostProcessing->Draw();
+		m_PostProcessing->Done();
 	}
 }
