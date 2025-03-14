@@ -18,6 +18,9 @@ namespace scene {
 		m_SpriteRenderer = new SpriteRenderer(projection);
 		m_PostProcessing = std::make_unique<PostProcessing>(this->m_Width, this->m_Height);
 
+		// shaders
+    	ResourceManager::LoadShader("assets/shaders/GreyScale.shader", "GreyScale");
+
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/ball.png", "ball");
@@ -139,7 +142,19 @@ namespace scene {
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
 
 		ImGui::Checkbox("Apply Post-Processing", &m_ApplyPostProcessing);
+		if (ImGui::Button("Inverse")) {
+			m_PostProcessing->SetShader("Inverse");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Grey scale")) {
+			m_PostProcessing->SetShader("GreyScale");
+		}
+
 		ImGui::Checkbox("Draw collision shapes", &m_Debug);
+
+		if (ImGui::Button("Reset Game")) {
+        	Reset();
+    	}
 
 		Scene::OnImGuiRender();
 	}

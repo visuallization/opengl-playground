@@ -14,6 +14,7 @@ class PostProcessing {
         void Enable();
         void Disable();
         void SetShader(Shader* shader);
+        void SetShader(std::string shaderName);
 
     private:
         std::unique_ptr<FrameBuffer> m_FBO;
@@ -27,4 +28,5 @@ class PostProcessing {
         bool m_Active;
 
         void Draw();
+        glm::mat4 GetProjectionMatrix();
 };

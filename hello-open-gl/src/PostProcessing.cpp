@@ -13,7 +13,7 @@ PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height
     Shader* shader = ResourceManager::GetShader("Inverse");
 	Texture* texture = ResourceManager::GetTexture("FrameBufferTexture");
 
-	glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
+	glm::mat4 projection = GetProjectionMatrix();
     
     shader->Bind();
 	shader->SetUniformMat4f("u_Projection", projection);
@@ -75,7 +75,7 @@ void PostProcessing::Disable() {
 }
 
 void PostProcessing::SetShader(Shader* shader) {
-    glm::mat4 projection = glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = GetProjectionMatrix();
 
     shader->Bind();
 	shader->SetUniformMat4f("u_Projection", projection);
@@ -84,6 +84,14 @@ void PostProcessing::SetShader(Shader* shader) {
     m_SpriteRenderer->SetShader(shader);
 }
 
+void PostProcessing::SetShader(std::string shaderName) {
+    SetShader(ResourceManager::GetShader(shaderName));
+}
+
 void PostProcessing::Draw() {
 	m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("FrameBufferTexture"), glm::vec2(0, 0), glm::vec2(m_Width, m_Height));
+}
+
+glm::mat4 PostProcessing::GetProjectionMatrix() {
+    return glm::ortho(0.0f, (float)m_Width, (float)m_Height, 0.0f, -1.0f, 1.0f);
 }

@@ -24,5 +24,7 @@ out vec4 color;
 uniform sampler2D u_Sprite;
 
 void main() {
-	color = vec4(vec3(1.0 - texture(u_Sprite, v_TexCoord)), 1.0);
+	color = texture(u_Sprite, v_TexCoord);
+	float average = (color.r + color.g + color.b) / 3.0;
+	color = vec4(average, average, average, 1.0);
 }
