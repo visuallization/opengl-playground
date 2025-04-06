@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Launch Debug",
-      "type": "cppvsdbg",
+      "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/hello-open-gl/builds/x64/Debug/hello-open-gl.exe",
       "args": [],

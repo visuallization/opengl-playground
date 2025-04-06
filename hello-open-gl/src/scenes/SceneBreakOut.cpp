@@ -19,7 +19,11 @@ namespace scene {
 		m_PostProcessing = std::make_unique<PostProcessing>(this->m_Width, this->m_Height);
 
 		// shaders
+    	ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
     	ResourceManager::LoadShader("assets/shaders/GreyScale.shader", "GreyScale");
+    	ResourceManager::LoadShader("assets/shaders/Sharpen.shader", "Sharpen");
+    	ResourceManager::LoadShader("assets/shaders/Blur.shader", "Blur");
+    	ResourceManager::LoadShader("assets/shaders/EdgeDetection.shader", "EdgeDetection");
 
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
@@ -148,6 +152,18 @@ namespace scene {
 		ImGui::SameLine();
 		if (ImGui::Button("Grey scale")) {
 			m_PostProcessing->SetShader("GreyScale");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Sharpen")) {
+			m_PostProcessing->SetShader("Sharpen");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Blur")) {
+			m_PostProcessing->SetShader("Blur");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Edge Detection")) {
+			m_PostProcessing->SetShader("EdgeDetection");
 		}
 
 		ImGui::Checkbox("Draw collision shapes", &m_Debug);
