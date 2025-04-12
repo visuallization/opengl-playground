@@ -19,6 +19,7 @@ namespace scene {
 		m_PostProcessing = std::make_unique<PostProcessing>(this->m_Width, this->m_Height);
 
 		// shaders
+		ResourceManager::LoadShader("assets/shaders/Breakout.shader", "Breakout");
     	ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
     	ResourceManager::LoadShader("assets/shaders/GreyScale.shader", "GreyScale");
     	ResourceManager::LoadShader("assets/shaders/Sharpen.shader", "Sharpen");
@@ -62,6 +63,8 @@ namespace scene {
 			500,
 			glm::vec4(0, 0, 1, 1)
 		);
+
+		m_PostProcessing->SetShader("Breakout");
 	}
 
 	SceneBreakOut::~SceneBreakOut()
@@ -73,6 +76,14 @@ namespace scene {
 
 	void SceneBreakOut::OnUpdate(float deltaTime)
 	{
+		// Shake
+		if (m_ShakeTime > 0) {
+			m_ShakeTime -= deltaTime;
+			if (m_ShakeTime <= 0) {
+				Shake(false);
+			}
+		}
+
 		// Game Over
 		if (m_Ball->GetPosition().y + m_Ball->Size.y >= this->m_Height) {
 			Reset();
@@ -121,8 +132,24 @@ namespace scene {
 		}
 	}
 
+	void SceneBreakOut::Shake(bool shake) {
+		if (shake) {
+			m_ShakeTime = 0.05f;
+		} else {
+			m_ShakeTime = 0.0f;
+		}
+
+		Shader* shader = ResourceManager::GetShader("Breakout");
+		shader->Bind();
+		shader->SetUniform1i("u_Shake", shake);
+	}
+
 	void SceneBreakOut::OnRender()
 	{
+		Shader* shader = ResourceManager::GetShader("Breakout");
+		shader->Bind();
+		shader->SetUniform1f("u_Time", glfwGetTime());
+
 		Scene::OnRender();
 
 		m_PostProcessing->Start();
@@ -146,6 +173,11 @@ namespace scene {
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
 
 		ImGui::Checkbox("Apply Post-Processing", &m_ApplyPostProcessing);
+
+		if (ImGui::Button("Breakout")) {
+			m_PostProcessing->SetShader("Breakout");
+		}
+		ImGui::SameLine();
 		if (ImGui::Button("Inverse")) {
 			m_PostProcessing->SetShader("Inverse");
 		}
@@ -196,6 +228,7 @@ namespace scene {
 				if (collision.IsActive) {
 					if (!brick.IsSolid) {
 						brick.Destroy();
+						Shake();
 					}
 
 					// COLLISION RESOLUTION

@@ -42,6 +42,7 @@ namespace scene {
 		bool m_Debug = false;
 		int m_CurrentLevel = 0;
 		std::vector<GameLevel> m_Levels;
+		float m_ShakeTime = 0.0f;
 
 		GameObject* m_Player;
 		Ball* m_Ball;
@@ -49,5 +50,6 @@ namespace scene {
 
 		void CheckCollisions();
 		void Reset();
+		void Shake(bool shake = true);
 	};
 }
