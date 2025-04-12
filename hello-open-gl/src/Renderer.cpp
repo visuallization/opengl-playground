@@ -42,3 +42,13 @@ void Renderer::DrawPoints(const VertexArray& va, const Shader& shader, unsigned 
     va.Bind();
     GLCall(glDrawArrays(GL_POINTS, 0, size));
 }
+
+void Renderer::BlitFrameBuffer(FrameBuffer* src, FrameBuffer* dst, unsigned int width, unsigned int height) const {
+    src->Read();
+    dst->Write();
+    GLCall(glBlitFramebuffer(0, 0, width, height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST));
+}
+
+void Renderer::BindDefaultFrameBuffer() const {
+    GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+}

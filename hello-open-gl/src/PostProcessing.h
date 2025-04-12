@@ -17,7 +17,11 @@ class PostProcessing {
         void SetShader(std::string shaderName);
 
     private:
+        // final framebuffer
         std::unique_ptr<FrameBuffer> m_FBO;
+        // multisampled framebuffer
+        std::unique_ptr<FrameBuffer> m_MSFBO;
+        // multisampled renderbuffer
         std::unique_ptr<RenderBuffer> m_RBO;
 
         SpriteRenderer* m_SpriteRenderer;

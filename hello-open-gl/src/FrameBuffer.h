@@ -10,11 +10,13 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+	void Read() const;
+	void Write() const;
 
 	void AttachTexture(unsigned int id) const;
 	void AttachTexture(Texture* texture) const;
-	void AttachRenderBuffer(unsigned int id) const;
-	void AttachRenderBuffer(RenderBuffer* renderBuffer) const;
+	void AttachRenderBuffer(unsigned int id, unsigned int attachment = GL_DEPTH_STENCIL_ATTACHMENT) const;
+	void AttachRenderBuffer(RenderBuffer* renderBuffer, unsigned int attachment = GL_DEPTH_STENCIL_ATTACHMENT) const;
 
 	bool IsComplete();
 

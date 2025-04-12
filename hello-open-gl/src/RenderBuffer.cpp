@@ -4,10 +4,14 @@
 #include "Renderer.h"
 
 
-RenderBuffer::RenderBuffer(const unsigned int width, const unsigned int height) {
+RenderBuffer::RenderBuffer(const unsigned int width, const unsigned int height, const unsigned int format, const unsigned int samples) {
 	GLCall(glGenRenderbuffers(1, &m_RendererID));
 	this->Bind();
-	GLCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height));
+	if (samples > 0) {
+		GLCall(glRenderbufferStorageMultisample(GL_RENDERBUFFER, samples, format, width, height));
+	} else {
+		GLCall(glRenderbufferStorage(GL_RENDERBUFFER, format, width, height));
+	}
 }
 
 RenderBuffer::~RenderBuffer() {

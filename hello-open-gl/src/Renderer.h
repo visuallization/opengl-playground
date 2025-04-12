@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 
+#include "FrameBuffer.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
 #include "VertexArray.h"
@@ -24,4 +25,6 @@ public:
     void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
     void DrawArrays(const VertexArray& va, const Shader& shader, unsigned int size = 0) const;
     void DrawPoints(const VertexArray& va, const Shader& shaer, unsigned int size = 0) const;
+    void BlitFrameBuffer(FrameBuffer* src, FrameBuffer* dst, unsigned int width, unsigned int height) const;
+    void BindDefaultFrameBuffer() const;
 };

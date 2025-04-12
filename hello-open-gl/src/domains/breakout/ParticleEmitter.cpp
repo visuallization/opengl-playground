@@ -1,4 +1,5 @@
-#include "./ParticleEmitter.h"
+#include "ParticleEmitter.h"
+#include "Renderer.h"
 
 namespace breakout {
 	ParticleEmitter::ParticleEmitter(Texture* sprite, unsigned int amount, glm::vec4 color)

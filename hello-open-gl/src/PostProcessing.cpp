@@ -1,4 +1,5 @@
 #include "PostProcessing.h"
+#include "Renderer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -22,11 +23,15 @@ PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height
     m_SpriteRenderer = new SpriteRenderer(projection, true);
 	m_SpriteRenderer->SetShader(shader);
 
-	m_RBO = std::make_unique<RenderBuffer>(m_Width, m_Height);
+    // initialize renderbuffer with a multisampled color buffer
+	m_RBO = std::make_unique<RenderBuffer>(m_Width, m_Height, GL_RGB, 4);
+
+    // initialize multisampled framebuffer
+    m_MSFBO = std::make_unique<FrameBuffer>();
+    m_MSFBO->AttachRenderBuffer(m_RBO->GetID(), GL_COLOR_ATTACHMENT0);
 
     m_FBO = std::make_unique<FrameBuffer>();
     m_FBO->AttachTexture(texture);
-	m_FBO->AttachRenderBuffer(m_RBO->GetID());
 
     if (m_FBO->IsComplete()) {
         std::cout << "FrameBuffer complete. Ready to render.";
@@ -46,7 +51,7 @@ void PostProcessing::Start() {
         return;
     }
 
-    m_FBO->Bind();
+    m_MSFBO->Bind();
 
     Renderer renderer;
     renderer.Clear();
@@ -57,10 +62,9 @@ void PostProcessing::Done() {
         return;
     }
 
-    m_FBO->Unbind();
-
     Renderer renderer;
-    renderer.Clear();
+    renderer.BlitFrameBuffer(m_MSFBO.get(), m_FBO.get(), m_Width, m_Height);
+    renderer.BindDefaultFrameBuffer();
 
     Draw();
 }
