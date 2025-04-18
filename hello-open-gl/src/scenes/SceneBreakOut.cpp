@@ -20,11 +20,6 @@ namespace scene {
 
 		// shaders
 		ResourceManager::LoadShader("assets/shaders/Breakout.shader", "Breakout");
-    	ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
-    	ResourceManager::LoadShader("assets/shaders/GreyScale.shader", "GreyScale");
-    	ResourceManager::LoadShader("assets/shaders/Sharpen.shader", "Sharpen");
-    	ResourceManager::LoadShader("assets/shaders/Blur.shader", "Blur");
-    	ResourceManager::LoadShader("assets/shaders/EdgeDetection.shader", "EdgeDetection");
 
 		// textures
 		ResourceManager::LoadTexture("src/domains/breakout/assets/textures/background.jpg", "background");
@@ -40,7 +35,6 @@ namespace scene {
 		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/4.lvl", m_Width, m_Height / 2));
 
 		m_CurrentLevel = 0;
-		m_ApplyPostProcessing = true;
 
 		// player
 		m_Player = new GameObject(
@@ -125,12 +119,6 @@ namespace scene {
 
 		// Particles
 		m_ParticleEmitter->Update(deltaTime, *m_Ball, 2, glm::vec2(5.f, 5.f));
-
-		if (m_ApplyPostProcessing) {
-			m_PostProcessing->Enable();
-		} else {
-			m_PostProcessing->Disable();
-		}
 	}
 
 	void SceneBreakOut::Shake(bool shake) {
@@ -184,32 +172,6 @@ namespace scene {
 		ImGui::RadioButton("2", &m_CurrentLevel, 1); ImGui::SameLine();
 		ImGui::RadioButton("3", &m_CurrentLevel, 2); ImGui::SameLine();
 		ImGui::RadioButton("4", &m_CurrentLevel, 3);
-
-		ImGui::Checkbox("Apply Post-Processing", &m_ApplyPostProcessing);
-
-		if (ImGui::Button("Breakout")) {
-			m_PostProcessing->SetShader("Breakout");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Inverse")) {
-			m_PostProcessing->SetShader("Inverse");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Grey scale")) {
-			m_PostProcessing->SetShader("GreyScale");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Sharpen")) {
-			m_PostProcessing->SetShader("Sharpen");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Blur")) {
-			m_PostProcessing->SetShader("Blur");
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Edge Detection")) {
-			m_PostProcessing->SetShader("EdgeDetection");
-		}
 
 		ImGui::Checkbox("Draw collision shapes", &m_Debug);
 

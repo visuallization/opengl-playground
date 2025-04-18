@@ -13,6 +13,12 @@ namespace scene {
 	{
 		GLCall(glEnable(GL_DEPTH_TEST));
 
+    	ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
+    	ResourceManager::LoadShader("assets/shaders/GreyScale.shader", "GreyScale");
+    	ResourceManager::LoadShader("assets/shaders/Sharpen.shader", "Sharpen");
+    	ResourceManager::LoadShader("assets/shaders/Blur.shader", "Blur");
+    	ResourceManager::LoadShader("assets/shaders/EdgeDetection.shader", "EdgeDetection");
+
 		m_Shader = std::make_shared<Shader>("assets/shaders/Model.shader");
 		m_Model = std::make_unique<Model>("assets/models/backpack/backpack.obj");
 
@@ -25,6 +31,25 @@ namespace scene {
 
 	void SceneFrameBuffer::OnImGuiRender() {
 		ImGui::Checkbox("Apply Post-Processing", &m_ApplyPostProcessing);
+		if (ImGui::Button("Inverse")) {
+			m_PostProcessing->SetShader("Inverse");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Grey scale")) {
+			m_PostProcessing->SetShader("GreyScale");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Sharpen")) {
+			m_PostProcessing->SetShader("Sharpen");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Blur")) {
+			m_PostProcessing->SetShader("Blur");
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Edge Detection")) {
+			m_PostProcessing->SetShader("EdgeDetection");
+		}
 
 		Scene::OnImGuiRender();
 	}

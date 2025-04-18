@@ -37,7 +37,6 @@ namespace scene {
 		SpriteRenderer* m_SpriteRenderer;
 
 		std::unique_ptr<PostProcessing> m_PostProcessing;
-		bool m_ApplyPostProcessing = false;
 
 		bool m_Debug = false;
 		int m_CurrentLevel = 0;
