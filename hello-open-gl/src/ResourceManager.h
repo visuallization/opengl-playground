@@ -20,7 +20,7 @@ public:
 	// textures
 	static Texture* GetTexture(std::string name);
 	static Texture* LoadTexture(const char* filePath, std::string name, bool flip = false);
-	static Texture* LoadTexture(const unsigned int width, const unsigned int height, std::string name);
+	static Texture* LoadTexture(const unsigned int width, const unsigned int height, std::string name, unsigned int unit = 0, unsigned int wrap = GL_CLAMP_TO_EDGE);
 
 	// deallocate all loaded resources
 	static void Clear();

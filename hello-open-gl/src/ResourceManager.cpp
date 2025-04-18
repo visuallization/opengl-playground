@@ -21,8 +21,8 @@ Texture* ResourceManager::LoadTexture(const char* filePath, std::string name, bo
 	return Textures[name];
 };
 
-Texture* ResourceManager::LoadTexture(const unsigned int width, const unsigned int height, std::string name) {
-	Textures[name] = new Texture(width, height);
+Texture* ResourceManager::LoadTexture(const unsigned int width, const unsigned int height, std::string name, unsigned int unit, unsigned int wrap) {
+	Textures[name] = new Texture(width, height, unit, wrap);
 	return Textures[name];
 }
 

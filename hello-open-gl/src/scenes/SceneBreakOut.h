@@ -51,5 +51,7 @@ namespace scene {
 		void CheckCollisions();
 		void Reset();
 		void Shake(bool shake = true);
+		void Confuse(bool confuse = true);
+		void Chaos(bool chaos = true);
 	};
 }

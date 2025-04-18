@@ -9,7 +9,7 @@
 PostProcessing::PostProcessing(int width, int height) : m_Width(width), m_Height(height), m_Active(true) {
     ResourceManager::LoadShader("assets/shaders/Sprite.shader", "Default");
     ResourceManager::LoadShader("assets/shaders/Inverse.shader", "Inverse");
-    ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture");
+    ResourceManager::LoadTexture(this->m_Width, this->m_Height, "FrameBufferTexture", 0, GL_REPEAT);
 
     Shader* shader = ResourceManager::GetShader("Inverse");
 	Texture* texture = ResourceManager::GetTexture("FrameBufferTexture");

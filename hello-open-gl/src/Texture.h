@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GL/glew.h>
 #include <string>
 
 class Texture {
@@ -10,7 +11,7 @@ private:
 	int m_Width, m_Height, m_BitsPerPixel;
 
 public:
-	Texture(const unsigned int width, const unsigned int height, unsigned int unit = 0);
+	Texture(const unsigned int width, const unsigned int height, unsigned int unit = 0, unsigned int wrap = GL_CLAMP_TO_EDGE);
 	Texture(const std::string& path, bool flip = false);
 	~Texture();
 

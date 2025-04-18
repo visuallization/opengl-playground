@@ -3,7 +3,7 @@
 
 #include "stb_image/stb_image.h"
 
-Texture::Texture(const unsigned int width, const unsigned int height, unsigned int unit)
+Texture::Texture(const unsigned int width, const unsigned int height, unsigned int unit, unsigned int wrap)
 	: m_RendererID(0), m_FilePath(""), m_LocalBuffer(nullptr), m_Width(width), m_Height(height), m_BitsPerPixel(0)
 {
 	GLCall(glGenTextures(1, &m_RendererID));
@@ -14,9 +14,9 @@ Texture::Texture(const unsigned int width, const unsigned int height, unsigned i
 	// The texture magnification function is used whenever the level-of-detail function determines that the texture should be magnified
 	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
 	// Clamp texture horizontally
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap));
 	// Clamp texture vertically
-	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+	GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap));
 
 	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL));
 

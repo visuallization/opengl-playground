@@ -40,6 +40,7 @@ namespace scene {
 		m_Levels.push_back(GameLevel("src/domains/breakout/assets/levels/4.lvl", m_Width, m_Height / 2));
 
 		m_CurrentLevel = 0;
+		m_ApplyPostProcessing = true;
 
 		// player
 		m_Player = new GameObject(
@@ -144,6 +145,18 @@ namespace scene {
 		shader->SetUniform1i("u_Shake", shake);
 	}
 
+	void SceneBreakOut::Confuse(bool confuse) {
+		Shader* shader = ResourceManager::GetShader("Breakout");
+		shader->Bind();
+		shader->SetUniform1i("u_Confuse", confuse);
+	}
+
+	void SceneBreakOut::Chaos(bool chaos) {
+		Shader* shader = ResourceManager::GetShader("Breakout");
+		shader->Bind();
+		shader->SetUniform1i("u_Chaos", chaos);
+	}
+
 	void SceneBreakOut::OnRender()
 	{
 		Shader* shader = ResourceManager::GetShader("Breakout");
@@ -226,9 +239,10 @@ namespace scene {
 			if (brick.IsActive) {
 				Collision collision = Physics::IsColliding(*m_Ball->GetCollider(), *brick.GetCollider());
 				if (collision.IsActive) {
+					Shake();
+
 					if (!brick.IsSolid) {
 						brick.Destroy();
-						Shake();
 					}
 
 					// COLLISION RESOLUTION
